@@ -1,0 +1,29 @@
+.Footer {
+    background-color: gray;
+    bottom: 0;
+    width: 100%;
+    height: 100px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+.Footer button {
+    border-color:   transparent;
+    width: 150px;
+    white-space: nowrap;
+    background-color: transparent;
+    font-size: 15px;
+    cursor: pointer;
+}
+.Footer button:hover {
+    color:red;
+}
+.Footer_Top, .Footer_Bottom {
+    display: flex;
+    gap: 20px;
+}
+.Footer_Bottom button {
+    color: lightgray;
+}
