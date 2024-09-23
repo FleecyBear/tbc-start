@@ -25,3 +25,17 @@ Main {
     font-size: 15;
     color: gray;
   }
+  @media (max-width: 600px) {
+    .Main_Images img {
+        height: 100px;
+        width: auto;
+    }
+
+    .Main_Text_First {
+        font-size: 30px; 
+    }
+
+    .Main_Text_Last {
+        font-size: 12px; 
+    }
+}
