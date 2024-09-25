@@ -70,6 +70,11 @@ color:red;
     .Header_Right {
         margin-right: 30px; 
 }
+ .Header button {
+        height: 40px; 
+        width: 40px;
+    }
+}
 @media (max-width: 600px) {
     .Header {
     justify-content: center; 
@@ -100,5 +105,4 @@ color:red;
     .Login_Button {
         font-size: 15px; 
     }
-}
 }

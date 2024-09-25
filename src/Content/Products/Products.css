@@ -1,19 +1,26 @@
 .Main_Grid {
-    margin-top: 30px;
+    display: grid; 
+    grid-template-columns: repeat(3, 1fr); 
+    gap: 100px;
+    justify-items: center; 
+    align-items: center; 
+    background-color: pink;
+    padding: 10px;
+    max-width: 900px;
+    margin: 20px;
 }
 
 .Main_Grid img {
-   height: 100px;
+   height: 150px;
    width: auto;
    display: block; 
    margin: 0 auto; 
 }
 
 .Main_Grid .description {
-    font-size: 12px;
+    font-size: 20px;
     color: #333;
-    margin-top: 20px;
-    max-width: 100px;
+    
     display: -webkit-box; 
     -webkit-box-orient: vertical; 
     -webkit-line-clamp: 4; 
@@ -22,14 +29,30 @@
 }
 
 .Main_Grid button {
-    margin-top: 20px;
-    background-color: #007aff;
+    background-color: purple;
     color: white;
     border: none;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    font-size: 20px;
 }
 
 .Main_Grid button:hover {
-    background-color: #005bb5;
+    background-color:blueviolet;
 }
+@media (max-width: 1024px){
+    .Main_Grid{
+        gap:30px;
+    }
+    .Main_Grid img {
+        height: 100px;
+        width: auto;
+    }
+    .Main_Grid .description {
+        font-size: 12px;
+    }
+    .Main_Grid button {
+        font-size: 12px;
+    }
+  }
+
