@@ -1,0 +1,45 @@
+.Main_Grid {
+    display: grid; 
+    grid-template-columns: repeat(3, 1fr); 
+    gap: 100px;
+    justify-items: center; 
+    align-items: center; 
+    background-color: pink;
+    padding: 10px;
+    max-width: 900px;
+    margin: 20px;
+}
+
+.Main_Grid img {
+   height: 150px;
+   width: auto;
+   display: block; 
+   margin: 0 auto; 
+}
+
+.Main_Grid .description {
+    font-size: 20px;
+    color: #333;
+    
+    display: -webkit-box; 
+    -webkit-box-orient: vertical; 
+    -webkit-line-clamp: 4; 
+    overflow: hidden;
+    text-overflow: ellipsis; 
+}
+
+
+@media (max-width: 1024px){
+    .Main_Grid{
+        gap:30px;
+    }
+    .Main_Grid img {
+        height: 100px;
+        width: auto;
+    }
+    .Main_Grid .description {
+        font-size: 12px;
+    }
+
+  }
+
