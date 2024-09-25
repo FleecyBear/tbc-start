@@ -25,7 +25,7 @@
     margin-right: 30px;
 }
 .Home_Button {
-    background-image: url('/rlogo.png');
+    background-image: url('../../Images/rlogo.png');
     background-size: cover;
     background-position: center;
     border: none;
@@ -40,14 +40,14 @@
     background-color: lightyellow;
 }
 .Favorites_Button {
-    background-image: url('/favorites.png');
+    background-image: url('../../Images/favorites.png');
     background-size: cover;
     background-position: center;
     border: none;
     background-color: transparent;
 }
 .Cart_Button {
-    background-image: url('/cart.png');
+    background-image: url('../../Images/cart.png');
     background-size: cover;
     background-position: center;
     border: none;

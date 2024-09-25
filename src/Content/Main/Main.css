@@ -4,7 +4,7 @@ Main {
     background-color: lightpink;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
 }
 
@@ -12,17 +12,17 @@ Main {
     display: flex; 
     justify-content: center; 
     flex-direction: row;
-    gap: 10px; 
+    gap: 50px; 
   }
   .Main_Images img {
-    height: 200px;
+    height: 150px;
     width: auto;
   }
   .Main_Text_First {
-    font-size: 50px;
+    font-size: 24px;
   }
   .Main_Text_Last {
-    font-size: 15;
+    font-size: 15px;
     color: gray;
   }
   @media (max-width: 600px) {
