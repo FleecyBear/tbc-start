@@ -28,18 +28,7 @@
     text-overflow: ellipsis; 
 }
 
-.Main_Grid button {
-    background-color: purple;
-    color: white;
-    border: none;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    font-size: 20px;
-}
 
-.Main_Grid button:hover {
-    background-color:blueviolet;
-}
 @media (max-width: 1024px){
     .Main_Grid{
         gap:30px;
@@ -51,8 +40,6 @@
     .Main_Grid .description {
         font-size: 12px;
     }
-    .Main_Grid button {
-        font-size: 12px;
-    }
+
   }
 
