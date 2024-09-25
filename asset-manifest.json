@@ -1,21 +1,24 @@
 {
   "files": {
-    "main.css": "/tbc-start/static/css/main.81f4c6b1.css",
-    "main.js": "/tbc-start/static/js/main.60181d2d.js",
-    "static/js/453.ed3810f9.chunk.js": "/tbc-start/static/js/453.ed3810f9.chunk.js",
+    "main.css": "/tbc-start/static/css/main.5b3ed40a.css",
+    "main.js": "/tbc-start/static/js/main.6db8e510.js",
+    "static/js/453.32ec0147.chunk.js": "/tbc-start/static/js/453.32ec0147.chunk.js",
+    "static/media/item1.jpg": "/tbc-start/static/media/item1.148059b3bb37bdc03e12.jpg",
+    "static/media/item2.jpg": "/tbc-start/static/media/item2.749411f351af0c1feb85.jpg",
     "static/media/panda2.png": "/tbc-start/static/media/panda2.8e2a656a9f6ceb0f401f.png",
     "static/media/cart.png": "/tbc-start/static/media/cart.5f33377786e8766a1a8b.png",
     "static/media/panda3.png": "/tbc-start/static/media/panda3.43e93489c4e7fc43ad90.png",
+    "static/media/item3.jpg": "/tbc-start/static/media/item3.c686463315d02d7e1146.jpg",
     "static/media/rlogo.png": "/tbc-start/static/media/rlogo.d523da873db6416f2d2c.png",
     "static/media/panda1.png": "/tbc-start/static/media/panda1.87ae4f49b39a0dd87f2c.png",
     "static/media/favorites.png": "/tbc-start/static/media/favorites.5ea96bc65bb2b747dd16.png",
     "index.html": "/tbc-start/index.html",
-    "main.81f4c6b1.css.map": "/tbc-start/static/css/main.81f4c6b1.css.map",
-    "main.60181d2d.js.map": "/tbc-start/static/js/main.60181d2d.js.map",
-    "453.ed3810f9.chunk.js.map": "/tbc-start/static/js/453.ed3810f9.chunk.js.map"
+    "main.5b3ed40a.css.map": "/tbc-start/static/css/main.5b3ed40a.css.map",
+    "main.6db8e510.js.map": "/tbc-start/static/js/main.6db8e510.js.map",
+    "453.32ec0147.chunk.js.map": "/tbc-start/static/js/453.32ec0147.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.81f4c6b1.css",
-    "static/js/main.60181d2d.js"
+    "static/css/main.5b3ed40a.css",
+    "static/js/main.6db8e510.js"
   ]
 }
