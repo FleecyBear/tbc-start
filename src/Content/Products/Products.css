@@ -1,10 +1,5 @@
 .Main_Grid {
     margin-top: 30px;
-    display: grid;
-    grid-template-rows: 100px auto auto;
-    grid-auto-flow: row;
-    align-items: center;
-    justify-content: center;
 }
 
 .Main_Grid img {
