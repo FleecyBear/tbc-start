@@ -1,0 +1,40 @@
+.Main_Grid {
+    margin-top: 30px;
+    display: grid;
+    grid-template-rows: 100px auto auto;
+    grid-auto-flow: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.Main_Grid img {
+   height: 100px;
+   width: auto;
+   display: block; 
+   margin: 0 auto; 
+}
+
+.Main_Grid .description {
+    font-size: 12px;
+    color: #333;
+    margin-top: 20px;
+    max-width: 100px;
+    display: -webkit-box; 
+    -webkit-box-orient: vertical; 
+    -webkit-line-clamp: 4; 
+    overflow: hidden;
+    text-overflow: ellipsis; 
+}
+
+.Main_Grid button {
+    margin-top: 20px;
+    background-color: #007aff;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.Main_Grid button:hover {
+    background-color: #005bb5;
+}

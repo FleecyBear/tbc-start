@@ -1,4 +1,4 @@
-Main {
+.Main {
     width: 100%;
     height: 100%;
     background-color: lightpink;
@@ -13,19 +13,32 @@ Main {
     justify-content: center; 
     flex-direction: row;
     gap: 50px; 
-  }
-  .Main_Images img {
+}
+
+.Main_Images img {
     height: 150px;
     width: auto;
-  }
-  .Main_Text_First {
+}
+
+.Main_Text_First {
     font-size: 24px;
-  }
-  .Main_Text_Last {
+}
+
+.Main_Text_Last {
     font-size: 15px;
     color: gray;
-  }
-  @media (max-width: 600px) {
+}
+
+.Product_List {
+  display: grid; 
+  grid-template-columns: repeat(3, 1fr); 
+  gap: 100px;
+  justify-items: center; 
+  align-items: center; 
+}
+
+
+@media (max-width: 600px) {
     .Main_Images img {
         height: 100px;
         width: auto;
@@ -37,5 +50,9 @@ Main {
 
     .Main_Text_Last {
         font-size: 12px; 
+    }
+    
+    .Product_Item {
+        width: 100%; /* Full width on smaller screens */
     }
 }
