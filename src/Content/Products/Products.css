@@ -9,24 +9,28 @@
     max-width: 900px;
     margin: 20px;
 }
-
-.Main_Grid img {
-   height: 150px;
-   width: auto;
-   display: block; 
-   margin: 0 auto; 
-}
-
 .Main_Grid .description {
     font-size: 20px;
-    color: #333;
-    
+    color: black;
     display: -webkit-box; 
     -webkit-box-orient: vertical; 
     -webkit-line-clamp: 4; 
     overflow: hidden;
     text-overflow: ellipsis; 
 }
+
+.Title-Image img {
+    height: 150px; 
+    width: auto;
+}
+.Title-Image p {
+    font-size: 20px;
+    color: darkmagenta;
+    margin-top: 10px; 
+    font-weight: bold;
+    margin-bottom: 0;
+}
+
 
 
 @media (max-width: 1024px){
@@ -40,6 +44,8 @@
     .Main_Grid .description {
         font-size: 12px;
     }
-
+    .Title-Image p {
+        font-size: 14px;
+    }
   }
 

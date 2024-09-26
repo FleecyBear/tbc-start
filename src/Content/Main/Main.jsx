@@ -10,9 +10,20 @@ import Products from '../Products/Products';
 
 export default function Main() {
   const products = [
-    { image: item1, description: 'Bamboo Tube Panda Doll Plush Toy Cute Holding Bamboo Panda Doll Home Pillow' },
-    { image: item2, description: 'Bamboo Tube Panda Doll Plush Toy Cute Hiding In Bamboo Tree' },
-    { image: item3, description: 'Bear Panda Bubu and Dudu Fashion Cartoon Nightlight LED Night Cute Light Lamp' }
+    { image: item1, 
+      description: 'Bamboo Tube Panda Doll Plush Toy Cute Holding Bamboo Panda Doll Home Pillow',
+      title: 'Panda Toy 1'
+    },
+    { image: item2, 
+      description: 'Bamboo Tube Panda Doll Plush Toy Cute Hiding In Bamboo Tree',
+      title: 'Panda Toy 2'
+    },
+
+    { image: item3, 
+      description: 'Bear Panda Bubu and Dudu Fashion Cartoon Nightlight LED Night Cute Light Lamp', 
+       title: 'Panda Toy 3'
+    }
+
   ];
 
   return (
@@ -31,6 +42,7 @@ export default function Main() {
             key={index} 
             image={product.image} 
             description={product.description} 
+            title={product.title}
           />
         ))}
       </div>

@@ -1,11 +1,14 @@
 import React from 'react';
 import './Products.css';
 import AddToCartButton from '../Button/AddToCartButton';
-export default function Products({ image, description }) {
+export default function Products({ image, description, title }) {
   return (
     <div className="Main_Grid"> 
-      <img src={image} alt="Product" />
-      <div className="description">{description}</div>
+      <div className= "Title-Image">
+        <img src={image} alt="Product" />
+        <p>{title}</p>
+      </div>
+      <p className="description">{description}</p>
       <AddToCartButton/>
     </div>
   );
