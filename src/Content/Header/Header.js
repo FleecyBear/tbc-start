@@ -1,11 +1,14 @@
 import React from "react";
 import "./Header.css";
+import { Link } from 'react-router-dom';
 
 export default function Header() {
   return (
     <header className="Header">
       <div className="Header_Left">
-        <button className="Home_Button"></button>
+        <Link to="/">
+          <button className="Home_Button"></button>
+        </Link>
         <input type="text" className="Search_Button" placeholder="Search" />
       </div>
       

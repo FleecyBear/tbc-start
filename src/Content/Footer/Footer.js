@@ -1,12 +1,19 @@
 import React from 'react';
 import './Footer.css';
+import { Link } from 'react-router-dom'; 
 export default function Footer() {
   return (
     <footer className="Footer">
         <div className="Footer_Top">
-            <button>Contact</button>
-            <button>Social Media</button>
-            <button>About</button>
+            <Link to="/contact"> 
+                <button>Contact</button>
+            </Link>
+            <Link to="/assignment-3"> 
+            <button>Assignment 3</button>
+            </Link>
+            <Link to="/about">
+                <button>About</button>
+            </Link>
         </div>
 
         <div className="Footer_Bottom">
