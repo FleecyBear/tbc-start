@@ -1,18 +1,22 @@
-.add-to-cart-button {
-    background-color: purple;
+.button {
+    background-color: purple;        
     color: white;
     border: none;
+    border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s ease;
     font-size: 20px;
+    padding: 10px 20px;
+    margin: 10px 0;
 }
 
-.add-to-cart-button:hover {
+.button:hover {
     background-color: blueviolet;
 }
 
 @media (max-width: 1024px) {
-    .add-to-cart-button {
+    .button {
         font-size: 12px;
+        padding: 8px 15px;
     }
 }

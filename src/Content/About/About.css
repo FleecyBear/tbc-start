@@ -4,49 +4,55 @@
     background-color: lightpink;
     align-content: center;
 }
-  h1 {
+
+.about-title {
     text-align: center;
     color: darkblue;
     font-size: 26px;
-  }
-  
-  section {
+}
+
+.small-sections {
     border: 1px solid white;
     border-radius: 8px;
-  }
-  
-  h2 {
+    padding: 15px;
+}
+
+.small-title {
     color: blueviolet;
     border-bottom: 2px solid cyan;
     font-size: 24px;
-  }
-  
-  p {
+    padding-bottom: 10px;
+}
+
+.small-text {
     font-size: 16px;
-  }
-  @media (max-width: 1024px) {
-    h1 {
+}
+
+@media (max-width: 1024px) {
+    .about-title {
         font-size: 20px; 
     }
 
-    h2 {
+    .small-title {
         font-size: 18px; 
     }
 
-    p {
+    .small-text {
         font-size: 12px; 
     }
 }
+
 @media (max-width: 768px) {
-    h1 {
+    .about-title {
         font-size: 16px; 
     }
 
-    h2 {
+    .small-title {
         font-size: 14px; 
+        padding-bottom: 5px;
     }
 
-    p {
+    .small-text {
         font-size: 8px; 
     }
 }

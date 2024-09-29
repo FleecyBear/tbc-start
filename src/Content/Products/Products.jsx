@@ -1,7 +1,7 @@
 import React from 'react';
 import './Products.css';
-import AddToCartButton from '../Button/AddToCartButton';
-export default function Products({ image, description, title }) {
+import Button from '../Button/Button';
+export default function Products({ image, description, title, buttonText }) {
   return (
     <div className="Main_Grid"> 
       <div className= "Title-Image">
@@ -9,7 +9,7 @@ export default function Products({ image, description, title }) {
         <p>{title}</p>
       </div>
       <p className="description">{description}</p>
-      <AddToCartButton/>
+      <Button buttonText="Add To Cart" />
     </div>
   );
 }
