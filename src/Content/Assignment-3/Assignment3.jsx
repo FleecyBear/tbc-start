@@ -19,12 +19,18 @@ const obj = {
 
 export default function Assignment3() {
   const entries = Object.entries(obj).reduce((acc, [key, value], index) => {
-    acc.push({ key, value, position: index });
+    acc.push(
+      <tr key={index}>
+        <td>{key}</td>
+        <td>{value}</td>
+        <td>{index}</td>
+      </tr>
+    );
     return acc;
   }, []);
 
   return (
-    <div className = "Assignment-3-Main">
+    <div className ='Assignment-3-Main'>
       <table>
         <thead>
           <tr>
@@ -34,15 +40,9 @@ export default function Assignment3() {
           </tr>
         </thead>
         <tbody>
-          {entries.map((item) => (
-            <tr key={item.position}>
-              <td>{item.key}</td>
-              <td>{item.value}</td>
-              <td>{item.position}</td>
-            </tr>
-          ))}
+          {entries}
         </tbody>
       </table>
     </div>
-  )
+  );
 }
