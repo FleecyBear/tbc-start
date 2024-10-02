@@ -5,9 +5,11 @@ import Button from "../../Button/Button";
 export default function BlogItems({blogTitle, blogDescription, }) {
   return (
       <div className= "blogItemsContent">
-        <p>{blogTitle}</p>
+        <p className="blogItemsTitle">{blogTitle}</p>
         <p className="blogItemsDescription">{blogDescription}</p>
-        <Button className ="blogItemsButton"  buttonText="See more..." />
+        <div className ="blogItemsButton"> 
+        <Button buttonText="Continue reading..." />
+        </div>
       </div>
   )
 }

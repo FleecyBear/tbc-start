@@ -34,7 +34,7 @@ max-height: 250px;
 overflow: auto;
 }
 .Product_List::-webkit-scrollbar {
-  width: 8px;
+  width: 4px;
 }
 
 .Product_List::-webkit-scrollbar-thumb {
