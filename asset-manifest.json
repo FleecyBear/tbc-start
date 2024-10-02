@@ -1,11 +1,12 @@
 {
   "files": {
-    "main.css": "/tbc-start/static/css/main.e8028581.css",
-    "main.js": "/tbc-start/static/js/main.f96f5a68.js",
+    "main.css": "/tbc-start/static/css/main.6c3b66b9.css",
+    "main.js": "/tbc-start/static/js/main.9677074e.js",
     "static/js/453.32ec0147.chunk.js": "/tbc-start/static/js/453.32ec0147.chunk.js",
     "static/media/item1.jpg": "/tbc-start/static/media/item1.148059b3bb37bdc03e12.jpg",
     "static/media/item2.jpg": "/tbc-start/static/media/item2.749411f351af0c1feb85.jpg",
     "static/media/panda2.png": "/tbc-start/static/media/panda2.8e2a656a9f6ceb0f401f.png",
+    "static/media/nicolascage.jpg": "/tbc-start/static/media/nicolascage.2d9e2b8ac50456fc73a6.jpg",
     "static/media/cart.png": "/tbc-start/static/media/cart.5f33377786e8766a1a8b.png",
     "static/media/panda3.png": "/tbc-start/static/media/panda3.43e93489c4e7fc43ad90.png",
     "static/media/item3.jpg": "/tbc-start/static/media/item3.c686463315d02d7e1146.jpg",
@@ -14,12 +15,12 @@
     "static/media/panda1.png": "/tbc-start/static/media/panda1.87ae4f49b39a0dd87f2c.png",
     "static/media/favorites.png": "/tbc-start/static/media/favorites.5ea96bc65bb2b747dd16.png",
     "index.html": "/tbc-start/index.html",
-    "main.e8028581.css.map": "/tbc-start/static/css/main.e8028581.css.map",
-    "main.f96f5a68.js.map": "/tbc-start/static/js/main.f96f5a68.js.map",
+    "main.6c3b66b9.css.map": "/tbc-start/static/css/main.6c3b66b9.css.map",
+    "main.9677074e.js.map": "/tbc-start/static/js/main.9677074e.js.map",
     "453.32ec0147.chunk.js.map": "/tbc-start/static/js/453.32ec0147.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.e8028581.css",
-    "static/js/main.f96f5a68.js"
+    "static/css/main.6c3b66b9.css",
+    "static/js/main.9677074e.js"
   ]
 }
