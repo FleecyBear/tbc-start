@@ -1,0 +1,13 @@
+.blogItemsGrid {
+    
+}
+.blogItemsContent{
+background-color: aqua;
+}
+.blogItemsDescription {
+    display: -webkit-box; 
+    -webkit-box-orient: vertical; 
+    -webkit-line-clamp: 4; 
+    overflow: hidden;
+    text-overflow: ellipsis; 
+}
