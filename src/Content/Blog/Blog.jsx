@@ -33,7 +33,7 @@ export default function Blog() {
     <main className='BlogMain'>
             <div className="BlogPageWelcome">
                 <p className="BlogPageTitle">Blogs</p>
-                <p className="BlogPageTitleDescription">See blogs from other people</p>
+                <p className="BlogPageTitleDescription">Learn more about pandas</p>
             </div>
             <div className="BlogItems">
                 {blogItemsData.map((item, index) => (
