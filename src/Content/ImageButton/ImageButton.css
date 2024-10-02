@@ -1,0 +1,10 @@
+.ImageButton {
+    background-size: cover; 
+    background-position: center; 
+    border: none; 
+    background-color: transparent; 
+    height: 50px; 
+    width: 50px; 
+    cursor: pointer; 
+    display: inline-block; 
+}
