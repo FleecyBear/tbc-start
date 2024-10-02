@@ -22,7 +22,7 @@
 }
 .Footer_Top, .Footer_Bottom {
     display: flex;
-    gap: 300px;
+    gap: 100px;
 }
 .Footer_Bottom button {
     color: gray;

@@ -1,6 +1,6 @@
 import React from "react";
 import "./Header.css";
-import { Link } from 'react-router-dom';
+import { Link} from 'react-router-dom';
 
 export default function Header() {
   return (
@@ -15,6 +15,9 @@ export default function Header() {
       <div className="Header_Right">
         <button className="Favorites_Button"></button>
         <button className="Cart_Button"></button>
+        <Link to="/blog">
+          <button className="Blog_Button"></button>
+        </Link>
         <button className="Login_Button">Login</button>
       </div>
     </header>

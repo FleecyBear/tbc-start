@@ -13,6 +13,7 @@
     cursor: pointer;
     background-color: transparent;
 }
+
 .Header_Left, .Header_Right {
     display: flex;
     flex-direction: row;
@@ -26,6 +27,13 @@
 }
 .Home_Button {
     background-image: url('../../Images/rlogo.png');
+    background-size: cover;
+    background-position: center;
+    border: none;
+    background-color: transparent;
+}
+.Blog_Button {
+    background-image: url('../../Images/blog.png');
     background-size: cover;
     background-position: center;
     border: none;

@@ -11,6 +11,9 @@ export default function Footer() {
             <Link to="/assignment-3"> 
             <button>Assignment 3</button>
             </Link>
+            <Link to="/blog">
+                <button>Blog</button>
+            </Link>
             <Link to="/about">
                 <button>About</button>
             </Link>
