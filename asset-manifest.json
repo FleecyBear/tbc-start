@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/tbc-start/static/css/main.6c3b66b9.css",
-    "main.js": "/tbc-start/static/js/main.9677074e.js",
+    "main.css": "/tbc-start/static/css/main.c4af83ce.css",
+    "main.js": "/tbc-start/static/js/main.4830956d.js",
     "static/js/453.32ec0147.chunk.js": "/tbc-start/static/js/453.32ec0147.chunk.js",
     "static/media/item1.jpg": "/tbc-start/static/media/item1.148059b3bb37bdc03e12.jpg",
     "static/media/item2.jpg": "/tbc-start/static/media/item2.749411f351af0c1feb85.jpg",
@@ -15,12 +15,12 @@
     "static/media/panda1.png": "/tbc-start/static/media/panda1.87ae4f49b39a0dd87f2c.png",
     "static/media/favorites.png": "/tbc-start/static/media/favorites.5ea96bc65bb2b747dd16.png",
     "index.html": "/tbc-start/index.html",
-    "main.6c3b66b9.css.map": "/tbc-start/static/css/main.6c3b66b9.css.map",
-    "main.9677074e.js.map": "/tbc-start/static/js/main.9677074e.js.map",
+    "main.c4af83ce.css.map": "/tbc-start/static/css/main.c4af83ce.css.map",
+    "main.4830956d.js.map": "/tbc-start/static/js/main.4830956d.js.map",
     "453.32ec0147.chunk.js.map": "/tbc-start/static/js/453.32ec0147.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.6c3b66b9.css",
-    "static/js/main.9677074e.js"
+    "static/css/main.c4af83ce.css",
+    "static/js/main.4830956d.js"
   ]
 }
