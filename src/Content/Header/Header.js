@@ -30,7 +30,9 @@ export default function Header() {
           <ImageButton imageUrl={blog} className="Blog_Button" />
         </Link>
         {isLoggedIn ? (
-          <ImageButton imageUrl={profileImage} className="Profile_Button" />
+          <Link to="/profile">
+            <ImageButton imageUrl={profileImage} className="Profile_Button"/>
+          </Link>
         ) : (
           <button className="Login_Button" onClick={toggleLogin}>
             Login
