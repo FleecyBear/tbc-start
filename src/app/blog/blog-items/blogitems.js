@@ -1,6 +1,5 @@
-import React from 'react'
 import "./BlogItems.css"
-import CustomButton from "../../Button/Button";
+import CustomButton from "../../button/button.js";
 
 export default function BlogItems({blogTitle, blogDescription, }) {
   return (

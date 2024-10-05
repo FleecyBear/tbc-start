@@ -1,6 +1,5 @@
-import React from 'react';
 import './Products.css';
-import CustomButton from '../Button/Button';
+import CustomButton from '../button/button.js';
 export default function Products({ image, description, title, buttonText }) {
   return (
     <div className="Main_Grid"> 

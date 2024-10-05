@@ -1,4 +1,3 @@
-import React from 'react'
 import './Assignment3.css'
 
 const obj = {
