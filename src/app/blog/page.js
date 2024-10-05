@@ -1,6 +1,5 @@
-import React from 'react'
 import './Blog.css'
-import BlogItems from "./Blog-items/BlogItems";
+import BlogItems from "./blog-items/blogitems.js";
 
 export default function Blog() {
     const blogItemsData = [

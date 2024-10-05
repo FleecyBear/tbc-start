@@ -1,12 +1,11 @@
-import React from 'react';
-import './Main.css';
-import panda1 from '../../Images/panda1.png'; 
-import panda2 from '../../Images/panda2.png'; 
-import panda3 from '../../Images/panda3.png'; 
-import item1 from '../../Images/item1.jpg'
-import item2 from '../../Images/item2.jpg'
-import item3 from '../../Images/item3.jpg'
-import Products from '../Products/Products';
+import Products from './products/page';
+import './home.css';
+import panda1 from './images/panda1.png'; 
+import panda2 from './images/panda2.png'; 
+import panda3 from './images/panda3.png'; 
+import item1 from './images/item1.jpg'
+import item2 from './images/item2.jpg'
+import item3 from './images/item3.jpg'
 
 export default function Main() {
   const products = [
@@ -38,7 +37,7 @@ export default function Main() {
 
       <div className="Product_List">
         {products.map((product, index) => (
-          <Products 
+          <Products
             key={index} 
             image={product.image} 
             description={product.description} 

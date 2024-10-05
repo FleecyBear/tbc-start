@@ -1,13 +1,12 @@
-import React from 'react'
 import './Profile.css'
-import ProfileImage from "../../Images/nicolascage.jpg"
-import CustomButton from "../Button/Button"
+import ProfileImage from "../images/nicolascage.jpg"
+import CustomButton from "../button/button.js"
 
 export default function Profile() {
   return (
     <main className="profile_main">
     <div className="profile_main_left">
-      <img src={ProfileImage} className="profile_image" />
+      <img src={ProfileImage} className="profile_image" alt='image' />
       <div className="profile_info">
         <h2>Bear Cage</h2>
         <p className="profile_title">Protector of Bears</p>
