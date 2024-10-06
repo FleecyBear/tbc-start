@@ -32,7 +32,7 @@ export default function Blog() {
         "The panda twins were also given a worming treatment. Zoo and Tierpark Director Dr Andreas Knieriem wanted to personally make sure that the little ones were fit for their first outing. “We are very satisfied,” he reported. “The cubs are healthy, curious, and following their mother around well – they are more than ready for their first outing.” In preparation, the interior of the Panda Garden has been “cub-proofed”: Meng Meng’s large wooden climbing apparatus has been remodelled into three small climbing stations, and gaps have been filled so that the twins don’t get their paws stuck or slip down any cracks during their explorations. The pool has also been emptied, lined with a thick layer of soft pine mulch, and equipped with an entrance and exit. It will still be about two to four months before the little bears attempt to properly eat solid food, but they are already trying out their small sharp teeth on bamboo poles. ",
     },
   ];
-  const [blogList, setBlog] = useState();
+  const [blogList, setBlog] = useState([]);
   ///immediate Invoke function 
   useEffect(()=>{
     (async function getBlogPosts(){
