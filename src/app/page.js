@@ -67,13 +67,14 @@ export default function Main() {
       </div>
       <p className="Main_Text_Last">Custom-made pandas from Japan</p>
 
-      <div className="Product_List">
-        {products.map((product, index) => (
+      <div className="store">
+        {productList.map((product, index) => (
           <Products
             key={index}
-            image={product.image}
+            image={product.images}
             description={product.description}
             title={product.title}
+            price={product.price}
           />
         ))}
       </div>
