@@ -43,17 +43,22 @@ export default function ProductsPage() {
     })();
 },[])
   return (
-      <div className="Product_List">
-        {productList.map((product, index) => (
-          <Products
-            key={product.id}
-            image={product.images}
-            description={product.description}
-            title={product.title}
-            price={product.price}   
-            brand={product.brand}
-          />
-        ))}
+      <div className="Product_List">    
+        {
+          productList.map((product)=>{
+            console.log(product.id)
+              return(
+                <Products
+                id={product.id}
+                image={product.images}
+                description={product.description}
+                title={product.title}
+                price={product.price}   
+                brand={product.brand}
+              />
+            );
+          })
+        }
       </div>
   );
 }

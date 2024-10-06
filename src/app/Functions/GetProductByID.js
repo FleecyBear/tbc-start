@@ -1,5 +1,6 @@
 async function GetProductByID(id){
     try {
+        debugger
         const jsonData = await fetch(`https://dummyjson.com/products/${id}`);
         const data = await jsonData.json();
         return data 
