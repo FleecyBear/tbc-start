@@ -1,78 +1,96 @@
 .Contact-Main {
-    height: 100%;
-    width: 100%;
-    background-color: lightpink;
-    align-content: center;
+  height: 100%;
+  width: 100%;
+  background-color: lightpink;
+  align-content: center;
 }
 
 .main-title {
-    text-align: center;
-    color: darkblue;
-    font-size: 26px;
+  text-align: center;
+  color: darkblue;
+  font-size: 26px;
 }
 
 .contact-info {
-    border: 1px solid #e0e0e0;
-    border-radius: 8px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 30px;
+  max-width: 600px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .contact-information {
-    color: black;
-    font-size: 16px; 
+  color: black;
+  font-size: 16px;
 }
 
 .second-title {
-    color: blueviolet;
-    border-bottom: 2px solid cyan;
-    font-size: 24px;
-    padding-bottom: 10px;
+  color: blueviolet;
+  border-bottom: 2px solid cyan;
+  font-size: 24px;
+  padding-bottom: 10px;
+}
+
+.subscribe-form-wrapper {
+  border: 1px solid white;
+  border-radius: 8px;
+  padding: 15px;
+  margin: 15px 0;
+  padding: 30px;
+  max-width: 600px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .subscribe-form {
-    border: 1px solid white;
-    border-radius: 8px;
-    padding: 15px;
-    margin: 15px 0; 
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .subscribe-label {
-    display: block;
-    color: gray;
+  display: block;
+  color: gray;
 }
 
 .subscribe-input {
-    width: calc(100% - 10px);
-    border: none;
-    padding: 5px; 
+  width: calc(100% - 10px);
+  border: none;
+  padding: 5px;
+  border-radius: 5px;
+  padding: 8px;
 }
 
-
-
 @media (max-width: 1024px) {
-    .main-title {
-        font-size: 20px; 
-    }
+  .main-title {
+    font-size: 20px;
+  }
 
-    .second-title {
-        font-size: 18px; 
-    }
+  .second-title {
+    font-size: 18px;
+  }
 
-    .contact-information {
-        font-size: 14px; 
-    }
+  .contact-information {
+    font-size: 14px;
+  }
 }
 
 @media (max-width: 768px) {
-    .main-title {
-        font-size: 16px; 
-    }
+  .main-title {
+    font-size: 16px;
+  }
 
-    .second-title {
-        font-size: 14px; 
-        padding-bottom: 5px;
-    }
+  .second-title {
+    font-size: 14px;
+    padding-bottom: 5px;
+  }
 
-    .contact-information {
-        font-size: 12px; 
-    }
+  .contact-information {
+    font-size: 12px;
+  }
 }

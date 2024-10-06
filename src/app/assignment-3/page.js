@@ -1,19 +1,17 @@
-import './Assignment3.css'
+import "./Assignment3.css";
 
 const obj = {
+  id: "10002",
 
-  id: '10002',
+  name: "Eco-Friendly Water Bottle",
 
-  name: 'Eco-Friendly Water Bottle',
-
-  description: 'Stay hydrated with our durable, eco-friendly water bottle.',
+  description: "Stay hydrated with our durable, eco-friendly water bottle.",
 
   price: 14.99,
 
-  currency: 'USD',
+  currency: "USD",
 
-  imageURL: 'https://example.com/images/product-10002.jpg',
-
+  imageURL: "https://example.com/images/product-10002.jpg",
 };
 
 export default function Assignment3() {
@@ -29,7 +27,7 @@ export default function Assignment3() {
   }, []);
 
   return (
-    <div className ='Assignment-3-Main'>
+    <>
       <table>
         <thead>
           <tr>
@@ -38,10 +36,8 @@ export default function Assignment3() {
             <th>Position</th>
           </tr>
         </thead>
-        <tbody>
-          {entries}
-        </tbody>
+        <tbody>{entries}</tbody>
       </table>
-    </div>
+    </>
   );
 }

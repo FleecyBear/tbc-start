@@ -1,51 +1,53 @@
+.Product_List {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
 .Main_Grid {
-    display: grid; 
-    grid-template-columns: repeat(3, 1fr); 
-    gap: 100px;
-    justify-items: center; 
-    align-items: center; 
-    background-color: pink;
-    padding: 10px;
-    max-width: 900px;
-    margin: 20px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 100px;
+  justify-items: center;
+  align-items: center;
+  background-color: pink;
+  padding: 10px;
+  max-width: 900px;
 }
 .Main_Grid .description {
-    font-size: 20px;
-    color: black;
-    display: -webkit-box; 
-    -webkit-box-orient: vertical; 
-    -webkit-line-clamp: 4; 
-    overflow: hidden;
-    text-overflow: ellipsis; 
+  font-size: 20px;
+  color: black;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .Title-Image img {
-    height: 150px; 
-    width: auto;
+  height: 150px;
+  width: auto;
 }
 .Title-Image p {
-    font-size: 20px;
-    color: darkmagenta;
-    margin-top: 10px; 
-    font-weight: bold;
-    margin-bottom: 0;
+  font-size: 20px;
+  color: darkmagenta;
+  margin-top: 10px;
+  font-weight: bold;
+  margin-bottom: 0;
 }
 
-
-
-@media (max-width: 1024px){
-    .Main_Grid{
-        gap:30px;
-    }
-    .Main_Grid img {
-        height: 100px;
-        width: auto;
-    }
-    .Main_Grid .description {
-        font-size: 12px;
-    }
-    .Title-Image p {
-        font-size: 14px;
-    }
+@media (max-width: 1024px) {
+  .Main_Grid {
+    gap: 30px;
   }
-
+  .Main_Grid img {
+    height: 100px;
+    width: auto;
+  }
+  .Main_Grid .description {
+    font-size: 12px;
+  }
+  .Title-Image p {
+    font-size: 14px;
+  }
+}
