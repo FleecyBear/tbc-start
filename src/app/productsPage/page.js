@@ -3,7 +3,7 @@ import Image from "next/image";
 import Products from "../products/page.js";
 import "./productsPage.css";
 import { useEffect, useState } from "react";
-
+import { useRouter } from "next/router";
 export default function ProductsPage() {
   // const products = [
   //   {
@@ -34,8 +34,6 @@ export default function ProductsPage() {
         try {
             const jsonData = await fetch('https://dummyjson.com/products');
             const data = await jsonData.json();
-            console.log(data)
-            console.log(data.products)
             serProductList(data.products)
         } catch (error) {
           console.log(error)
@@ -46,7 +44,6 @@ export default function ProductsPage() {
       <div className="Product_List">    
         {
           productList.map((product)=>{
-            console.log(product.id)
               return(
                 <Products
                 id={product.id}
@@ -55,6 +52,7 @@ export default function ProductsPage() {
                 title={product.title}
                 price={product.price}   
                 brand={product.brand}
+                datta={product}
               />
             );
           })
