@@ -11,6 +11,9 @@ export default function Header() {
         <Link href="/" passHref>
           <ImageButton imageUrl="/images/rlogo.png" />
         </Link>
+        <Link href="/productsPage" passHref>
+          <button>Products</button>
+        </Link>
         <input type="text" className="Search_Button" placeholder="Search" />
       </div>
 
