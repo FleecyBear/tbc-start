@@ -5,30 +5,11 @@ import "./productsPage.css";
 import { useEffect, useState } from "react";
 
 export default function ProductsPage() {
-  // const products = [
-  //   {
-  //     image: "/images/item1.jpg",
-  //     description:
-  //       "Bamboo Tube Panda Doll Plush Toy Cute Holding Bamboo Panda Doll Home Pillow",
-  //     title: "Panda Toy 1",
-  //   },
-  //   {
-  //     image: "/images/item2.jpg",
-  //     description:
-  //       "Bamboo Tube Panda Doll Plush Toy Cute Hiding In Bamboo Tree",
-  //     title: "Panda Toy 2",
-  //   },
-  //   {
-  //     image: "/images/item3.jpg",
-  //     description:
-  //       "Bear Panda Bubu and Dudu Fashion Cartoon Nightlight LED Night Cute Light Lamp",
-  //     title: "Panda Toy 3",
-  //   },
-  // ];
+
   
   const [productList, serProductList] = useState([]);
   
-  ///immediate invoke function
+
   useEffect(()=>{
     (async function getproduct(){
         try {

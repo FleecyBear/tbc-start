@@ -1,11 +1,19 @@
-async function GetProductByID(id){
+async function GetProductByID(id) {
     try {
-        debugger
-        const jsonData = await fetch(`https://dummyjson.com/products/${id}`);
-        const data = await jsonData.json();
-        return data 
-
+      console.log(`Fetching data from /api/products/${id}`); 
+      const response = await fetch(`/api/products/${id}`);
+  
+      if (!response.ok) {
+        console.error(`Error fetching product: ${response.statusText}`); 
+        throw new Error("Network response was not ok");
+      }
+  
+      const data = await response.json();
+      console.log('Data fetched successfully:', data); 
+      return data; 
     } catch (error) {
-        console.log(error)
+      console.error("Failed to fetch product:", error);
+      return null;
     }
-}
+  }
+  
