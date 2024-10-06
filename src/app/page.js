@@ -43,7 +43,7 @@ export default function Main() {
     })();
   },[])
   return (
-    <>
+    <main className="home_main">
       <p className="Main_Text_First">Buy panda of your choice!</p>
       <div className="Main_Images">
         <Image
@@ -78,6 +78,6 @@ export default function Main() {
           />
         ))}
       </div>
-    </>
+    </main>
   );
 }
