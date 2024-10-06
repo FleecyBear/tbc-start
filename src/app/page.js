@@ -26,22 +26,22 @@ export default function Main() {
     },
   ];
   
-  const [productList, serProductList] = useState();
+  const [productList, serProductList] = useState([]);
   
   ///immediate invoke function
   useEffect(()=>{
     (async function getproduct(){
         try {
+          debugger
             const jsonData = await fetch('https://dummyjson.com/products');
             const data = await jsonData.json();
-            console.log(data)
             console.log(data.products)
             serProductList(data.products)
         } catch (error) {
           console.log(error)
         }
     })();
-},[])
+  },[])
   return (
     <>
       <p className="Main_Text_First">Buy panda of your choice!</p>
@@ -68,13 +68,13 @@ export default function Main() {
       <p className="Main_Text_Last">Custom-made pandas from Japan</p>
 
       <div className="store">
-        {productList.map((product, index) => (
+        {productList.map((product1, index) => (
           <Products
             key={index}
-            image={product.images}
-            description={product.description}
-            title={product.title}
-            price={product.price}
+            image={product1.images}
+            description={product1.description}
+            title={product1.title}
+            price={product1.price}
           />
         ))}
       </div>
