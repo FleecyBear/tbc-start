@@ -1,6 +1,8 @@
+"use client"
 import Image from "next/image";
 import Products from "./products/page";
 import "./home.css";
+import { useEffect, useState } from "react";
 
 export default function Main() {
   const products = [
@@ -23,7 +25,23 @@ export default function Main() {
       title: "Panda Toy 3",
     },
   ];
-
+  
+  const [productList, serProductList] = useState();
+  
+  ///immediate invoke function
+  useEffect(()=>{
+    (async function getproduct(){
+        try {
+            const jsonData = await fetch('https://dummyjson.com/products');
+            const data = await jsonData.json();
+            console.log(data)
+            console.log(data.products)
+            serProductList(data.products)
+        } catch (error) {
+          console.log(error)
+        }
+    })();
+},[])
   return (
     <>
       <p className="Main_Text_First">Buy panda of your choice!</p>
