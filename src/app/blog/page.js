@@ -33,7 +33,7 @@ export default function Blog() {
     },
   ];
   const [blogList, setBlog] = useState();
-  ///immediate invoke function
+  ///immediate Invoke function 
   useEffect(()=>{
     (async function getBlogPosts(){
         try {
