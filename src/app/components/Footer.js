@@ -1,29 +1,29 @@
-// import './Footer.css';
-// import { Link } from 'react-router-dom'; 
-// export default function Footer() {
-//   return (
-//     <footer className="Footer">
-//         <div className="Footer_Top">
-//             <Link to="/contact"> 
-//                 <button>Contact</button>
-//             </Link>
-//             <Link to="/assignment-3"> 
-//             <button>Assignment 3</button>
-//             </Link>
-//             <Link to="/blog">
-//                 <button>Blog</button>
-//             </Link>
-//             <Link to="/about">
-//                 <button>About</button>
-//             </Link>
-//         </div>
+import './Footer.css';
+import Link from 'next/link'; 
 
-//         <div className="Footer_Bottom">
-//             <button>Privacy Policy</button>
-//             <button>Terms of Service</button>
-//             <button>FAQ</button>
-//         </div>
+export default function Footer() {
+    return (
+        <footer className="Footer">
+            <div className="Footer_Top">
+                <Link href="/contact" passHref>
+                    <button>Contact</button>
+                </Link>
+                <Link href="/assignment-3" passHref>
+                    <button>Assignment 3</button>
+                </Link>
+                <Link href="/blog" passHref>
+                    <button>Blog</button>
+                </Link>
+                <Link href="/about" passHref>
+                    <button>About</button>
+                </Link>
+            </div>
 
-//     </footer>
-//   )
-// }
+            <div className="Footer_Bottom">
+                <button>Privacy Policy</button>
+                <button>Terms of Service</button>
+                <button>FAQ</button>
+            </div>
+        </footer>
+    );
+}

@@ -1,35 +1,43 @@
 import "./Header.css";
-// import { Link } from 'react-router-dom';
+import Image from 'next/image'; 
 import ImageButton from '../imagebutton/imagebutton.js';
-// import rlogo from "../../images/rlogo.png";
-import favorites from "../images/favorites.png";
-import cart from "../images/cart.png";
-// import blog from "../../images/blog.png";
-// import profileImage from "../../images/nicolascage.jpg";
 import Navigation from "./Navigation.js";
+import Link from 'next/link'; 
 
 export default function Header() {
-
   return (
     <header className="Header">
       <div className="Header_Left">
-        <Navigation />
-        {/* <Link to="/">
-          <ImageButton imageUrl={rlogo} className="Home_Button" />
-        </Link> */}
+      <Link href="/" passHref>
+          <ImageButton 
+            imageUrl="/images/rlogo.png" 
+          /> 
+        </Link>
         <input type="text" className="Search_Button" placeholder="Search" />
       </div>
 
       <div className="Header_Right">
-        <ImageButton imageUrl={favorites} className="Favorites_Button" />
-        <ImageButton imageUrl={cart} className="Cart_Button" />
-        {/* <Link to="/blog">
-          <ImageButton imageUrl={blog} className="Blog_Button" />
-        </Link> */}
-        {/* <Link to="/profile">
-            <ImageButton imageUrl={profileImage} className="Profile_Button" />
-          </Link>
-         */}
+       
+          <ImageButton 
+            imageUrl="/images/favorites.png" 
+          />
+       
+     
+          <ImageButton 
+            imageUrl="/images/cart.png" 
+          /> 
+    
+        <Link href="/blog" passHref>
+          <ImageButton 
+            imageUrl="/images/blog.png" 
+          /> 
+        </Link>
+        <Link href="/profile" passHref>
+          <ImageButton 
+            imageUrl="/images/nicolascage.jpg" 
+            className="Profile_Button" 
+          />
+        </Link>
       </div>
     </header>
   );

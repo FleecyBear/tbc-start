@@ -1,12 +1,12 @@
+import Image from 'next/image.js'
 import './Profile.css'
-import ProfileImage from "../images/nicolascage.jpg"
 import CustomButton from "../button/button.js"
 
 export default function Profile() {
   return (
     <main className="profile_main">
     <div className="profile_main_left">
-      <img src={ProfileImage} className="profile_image" alt='image' />
+      <img src={'/images/nicolascage.jpg'} className="profile_image" alt='image' />
       <div className="profile_info">
         <h2>Bear Cage</h2>
         <p className="profile_title">Protector of Bears</p>

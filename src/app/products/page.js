@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import './Products.css';
 import CustomButton from '../button/button.js';
 export default function Products({ image, description, title, buttonText }) {
