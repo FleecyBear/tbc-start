@@ -5,7 +5,7 @@ import "./home.css";
 export default function Main() {
   return (
     <main className="home_main">
-      <p className="Main_Text_First">Buy panda of your choice!</p>
+      <p className="Main_Text_First">Shop Your Favorite Items, All with a Panda Twist!</p>
       <div className="Main_Images">
         <Image
           src="/images/panda2.png"
@@ -26,7 +26,7 @@ export default function Main() {
           height={300}
         />
       </div>
-      <p className="Main_Text_Last">Custom-made pandas from Japan</p>
+      <p className="Main_Text_Last">Everything You Need, Wrapped in Panda Love!</p>
 
       </main>
   );
