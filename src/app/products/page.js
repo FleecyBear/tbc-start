@@ -1,12 +1,17 @@
 // import Image from 'next/image';
+'use client'
 import "./Products.css";
 import CustomButton from "../button/button.js";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
+
 export default function Products(props) {
-  var data = JSON.stringify(props.datta);
+
+  const router = useRouter();
+  function changePage(){
+    router.push(`/productsPage/${props.id}`)
+  }
   return (
-    <Link href={`/ditealProductPage?data=${data}`}>
-      <div key={props.id} className="Main_Grid">
+      <div key={props.id} onClick={changePage} className="Main_Grid">
           <div className="Title-Image">
             <img src={props.image} alt="Product" />
             <p>{props.title}</p>
@@ -16,6 +21,5 @@ export default function Products(props) {
           <p>{props.price}</p>
           <CustomButton buttonText="Add To Cart" />
       </div>
-    </Link>
   );
 }
