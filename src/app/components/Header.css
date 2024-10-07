@@ -28,6 +28,14 @@
   transition: background-size 0.3s ease;
 }
 
+.products-btn {
+  cursor: pointer;
+  padding: 5px 10px;
+
+  border: none;
+  border-radius: 5px;
+}
+
 .Search_Button {
   height: 30px;
   border: none;
@@ -36,6 +44,7 @@
   max-width: 200px;
   background-color: lightyellow;
   padding: 5px 10px;
+  border-radius: 5px;
 }
 
 @media (max-width: 1024px) {

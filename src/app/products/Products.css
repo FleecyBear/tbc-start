@@ -1,18 +1,58 @@
 .Product_List {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  column-gap: 50px;
+  row-gap: 50px;
+  padding: 0 30px;
+}
+
+.product-card {
   display: flex;
   flex-direction: column;
-  gap: 30px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  border: 1px solid #e0e0e0;
+  border-radius: 5px;
+  padding: 10px 20px;
+  background-color: pink;
+  cursor: pointer;
+}
+
+.product-title {
+  font-size: 20px;
+  color: darkmagenta;
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+.product-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.product-brand {
+  font-size: 16px;
+  color: darkmagenta;
+}
+
+.product-desc {
+  font-size: 14px;
+  margin-top: 10px;
 }
 
 .Main_Grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 100px;
   justify-items: center;
   align-items: center;
   background-color: pink;
   padding: 10px;
-  max-width: 900px;
+  max-width: 500px;
 }
 .Main_Grid .description {
   font-size: 20px;
@@ -20,20 +60,14 @@
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 4;
+  line-clamp: 4;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
 .Title-Image img {
   height: 150px;
-  width: auto;
-}
-.Title-Image p {
-  font-size: 20px;
-  color: darkmagenta;
-  margin-top: 10px;
-  font-weight: bold;
-  margin-bottom: 0;
+  overflow: hidden;
 }
 
 @media (max-width: 1024px) {
@@ -49,5 +83,19 @@
   }
   .Title-Image p {
     font-size: 14px;
+  }
+
+  .Product_List {
+    grid-template-columns: 1fr 1fr;
+    column-gap: 30px;
+    row-gap: 30px;
+  }
+}
+
+@media (max-width: 768px) {
+  .Product_List {
+    grid-template-columns: 1fr;
+    column-gap: 20px;
+    row-gap: 20px;
   }
 }
