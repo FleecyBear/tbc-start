@@ -1,6 +1,6 @@
 
 import '../ditealPage.css'
-
+import '../../global.css'
 // async function GetProductByID(id) {
 //     try {
 //         console.log(`Fetching data from https://dummyjson.com/products/${id}`);
@@ -59,7 +59,7 @@ import '../ditealPage.css'
 //     if (error) return <p>{error}</p>; 
     export async function generateStaticParams() {
         const res = await fetch('https://dummyjson.com/products')
-        const data = await res.json();
+        const data = await res.json();    
         return data.products.map((product)=>({
             id:product.id.toString()
         }))
@@ -79,7 +79,7 @@ import '../ditealPage.css'
                 {productData ? (
                     <div className='ditealProduct-Conteiner'>
                         <div>
-                            <img src={productData.images} alt={productData.title} />
+                            <img src={productData.images[0]} alt={productData.title} />
                         </div>
                         <div className='product-Info-Conteiner'>
                             <div className='prduct-Title'>
