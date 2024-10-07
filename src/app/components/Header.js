@@ -12,7 +12,7 @@ export default function Header() {
           <ImageButton imageUrl="/images/rlogo.png" />
         </Link>
         <Link href="/productsPage" passHref>
-          <button>Products</button>
+          <button className="products-btn">Products</button>
         </Link>
         <input type="text" className="Search_Button" placeholder="Search" />
       </div>
