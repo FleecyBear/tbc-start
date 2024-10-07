@@ -22,7 +22,7 @@ export default function Header() {
 
         <ImageButton imageUrl="/images/cart.png" />
 
-        <Link href="/blog" passHref>
+        <Link href="/BlogsPage" passHref>
           <ImageButton imageUrl="/images/blog.png" />
         </Link>
         <Link href="/profile" passHref>

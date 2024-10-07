@@ -1,17 +1,17 @@
 "use client";
 import "./BlogItems.css";
 import CustomButton from "../../button/button.js";
-import { useRouter } from 'next/navigation'; 
+import { useRouter } from "next/navigation";
 
 export default function BlogItems({ blogTitle, blogDescription, id }) {
-  const router = useRouter(); 
+  const router = useRouter();
 
   const handleClick = () => {
-    router.push(`/detailBlogPage/${id}`);
+    router.push(`/BlogsPage/${id}`);
   };
 
   return (
-    <div className="blogItemsContent" onClick={handleClick}> 
+    <div className="blogItemsContent" onClick={handleClick}>
       <p className="blogItemsTitle">{blogTitle}</p>
       <p className="blogItemsDescription">{blogDescription}</p>
       <div className="blogItemsButton">
