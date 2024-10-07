@@ -7,7 +7,7 @@ async function getAllProduct() {
 }
 
 export default async function ProductsPage() {
-  var productList = await getAllProduct();
+  const productList = await getAllProduct();
   return (
       <div className="Product_List">    
         {
