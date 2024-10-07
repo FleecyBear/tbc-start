@@ -11,11 +11,11 @@ export default function BlogItems({ blogTitle, blogDescription, id }) {
   };
 
   return (
-    <div className="blogItemsContent" onClick={handleClick}>
+    <div className="blogItemsContent" >
       <p className="blogItemsTitle">{blogTitle}</p>
       <p className="blogItemsDescription">{blogDescription}</p>
-      <div className="blogItemsButton">
-        <CustomButton buttonText="Continue reading..." />
+      <div onClick={handleClick} style={{ display: 'inline-block' }}>
+        <CustomButton  buttonText="Continue reading..." />
       </div>
     </div>
   );

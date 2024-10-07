@@ -4,6 +4,7 @@ import "./Products.css";
 import CustomButton from "../button/button.js";
 import { useRouter } from "next/navigation";
 
+
 export default function Products({...props }) { 
   const router = useRouter();
 
@@ -21,7 +22,7 @@ export default function Products({...props }) {
           <p>${props.price}</p>
         </div>
       </div>
-      <CustomButton buttonText="Add To Cart"  />
+        <CustomButton buttonText="Add To Cart"  />
     </div>
   );
 }
