@@ -47,6 +47,22 @@
   border-radius: 5px;
 }
 
+.cart-container {
+  position: relative;
+  display: inline-block;
+}
+
+.cart-count {
+  position: absolute;
+  bottom: -2px;
+  right: -2px;
+  background-color: red;
+  color: white;
+  font-size: 12px;
+  padding: 2px 5px;
+  border-radius: 50%;
+}
+
 @media (max-width: 1024px) {
   .Header_Left {
     margin-left: 30px;

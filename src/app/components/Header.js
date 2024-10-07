@@ -1,10 +1,13 @@
+"use client"
 import "./Header.css";
 // import Image from 'next/image';
 import ImageButton from "../imagebutton/imagebutton.js";
 // import Navigation from "./Navigation.js";
 import Link from "next/link";
+import { useState } from "react";
 
-export default function Header() {
+
+export default function Header({cartCount} ) {
   return (
     <header className="Header">
       <div className="Header_Left">
@@ -20,7 +23,10 @@ export default function Header() {
       <div className="Header_Right">
         <ImageButton imageUrl="/images/favorites.png" />
 
-        <ImageButton imageUrl="/images/cart.png" />
+        <div className="cart-container">
+          <ImageButton imageUrl="/images/cart.png" />
+          <span className="cart-count">{cartCount}</span>
+        </div>
 
         <Link href="/BlogsPage" passHref>
           <ImageButton imageUrl="/images/blog.png" />
