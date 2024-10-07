@@ -13,7 +13,7 @@ export default function ProductsPage() {
   useEffect(()=>{
     (async function getproduct(){
         try {
-            const jsonData = await fetch('https://dummyjson.com/products');
+            const jsonData = await fetch('https://dummyjson.com/products/category/sports-accessories');
             const data = await jsonData.json();
             console.log(data)
             console.log(data.products)

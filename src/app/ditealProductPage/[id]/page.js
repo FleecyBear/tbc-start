@@ -58,7 +58,7 @@ import '../../global.css'
 //     if (loading) return <p>Loading...</p>; 
 //     if (error) return <p>{error}</p>; 
     export async function generateStaticParams() {
-        const res = await fetch('https://dummyjson.com/products')
+        const res = await fetch('https://dummyjson.com/products/category/sports-accessoriess')
         const data = await res.json();    
         return data.products.map((product)=>({
             id:product.id.toString()
