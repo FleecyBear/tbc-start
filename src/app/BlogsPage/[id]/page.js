@@ -1,7 +1,7 @@
 import "../../global.css";
 import "../Blog.css";
+import '../blog-items/BlogItems.css'
 export async function generateStaticParams() {
-  console.log("generateStaticParams");
   const res = await fetch("https://dummyjson.com/posts");
   const data = await res.json();
   return data.posts.map((post) => ({
@@ -15,12 +15,10 @@ async function GetPost(id) {
   return data;
 }
 
-export default async function BlogPost({ params }) {
-  debugger;
-  console.log("BlogPost");
+export default async function BlogPost({ params }) {  
   const postData = await GetPost(params.id);
   return (
-    <div>
+    <div class='post-Conteiner'>
       {postData ? (
         <div className="blog-container">
           <h1 className="blog-title">{postData.title}</h1>

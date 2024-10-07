@@ -6,7 +6,6 @@ import { useRouter } from "next/navigation";
 
 export default function Products(props) {
   const router = useRouter();
-  console.log(props.id)
   const handleClick = () => {
     router.push(`/productsPage/${props.id}`);
   };
@@ -21,7 +20,6 @@ export default function Products(props) {
           <p>{props.price}</p>
         </div>
       </div>
-      {/* <p className="product-desc">{props.description}</p> */}
       <CustomButton buttonText="Add To Cart" />
     </div>
   );

@@ -12,10 +12,6 @@ async function getAllBlogs() {
 
 export default async function BlogsPage() {
   var BlogList = await getAllBlogs();
-  console.log(BlogList);
-  console.log("BlogList");
-
-  console.log("getAllBlogs");
   return (
     <div className="BlogContainer">
       <div className="BlogPageWelcome">

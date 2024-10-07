@@ -2,7 +2,6 @@
 import '../ditealPage.css'
 import '../../global.css'
     export async function generateStaticParams() {
-        console.log("generateStaticParams")
         const res = await fetch('https://dummyjson.com/products')
         const data = await res.json();    
         return data.products.map((product)=>({
@@ -16,8 +15,6 @@ import '../../global.css'
     }
 
     export default async function ProductPage({params}) {
-        debugger
-        console.log("productData")
         const productData = await GetProduct(params.id)
         return (
             <div>
