@@ -8,38 +8,33 @@
   display: flex;
   justify-content: center;
   flex-direction: row;
-  gap: 50px;
+  gap: 200px;
 }
 
 .Main_Images img {
-  height: 250px;
-  width: auto;
+  height: 250px; 
+  width: auto; 
+  border: 5px solid rgba(255, 192, 203, 0.7); 
+  border-radius: 10px; 
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); 
+  transition: transform 0.3s, box-shadow 0.3s; 
 }
 
+.Main_Images img:hover {
+  transform: scale(1.05); 
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.5); 
+}
 .Main_Text_First {
   font-size: 24px;
+  color: lightyellow;
+
 }
 
 .Main_Text_Last {
   font-size: 15px;
-  color: gray;
+  color: lightyellow;
 }
 
 .Main_Grid::-webkit-scrollbar-track {
   background: pink;
-}
-
-@media (max-width: 1024px) {
-
-  .Main_Images img {
-    height: 100px;
-    width: auto;
-    gap: 20px;
-  }
-  .Main_Text_First {
-    font-size: 16px;
-  }
-  .Main_Text_Last {
-    font-size: 10px;
-  }
 }
