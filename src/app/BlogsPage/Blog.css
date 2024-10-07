@@ -2,7 +2,6 @@
   height: 100%;
   width: 100%;
   overflow: auto;
-  background-color: lightpink;
 }
 
 .BlogContainer {
@@ -17,7 +16,7 @@
 .BlogPageTitle {
   font-size: 32px;
   font-weight: bold;
-  color: darkred;
+  color: white;
   margin-bottom: 10px;
 }
 
