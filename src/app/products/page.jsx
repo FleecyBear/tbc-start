@@ -6,9 +6,9 @@ import { useRouter } from "next/navigation";
 
 export default function Products(props) {
   const router = useRouter();
-
+  console.log(props.id)
   const handleClick = () => {
-    router.push(`/ditealProductPage/${props.id}`);
+    router.push(`/productsPage/${props.id}`);
   };
 
   return (

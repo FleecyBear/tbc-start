@@ -1,8 +1,6 @@
 "use client"
 import Image from "next/image";
-import Products from "./products/page";
 import "./home.css";
-import { useEffect, useState } from "react";
 
 export default function Main() {
   return (

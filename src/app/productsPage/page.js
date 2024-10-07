@@ -1,32 +1,25 @@
-"use client"
-import Image from "next/image";
-import Products from "../products/page.js";
 import "./productsPage.css";
-import { useEffect, useState } from "react";
+import Products from '../products/page.jsx'
+async function getAllProduct() {
+    debugger
+    console.log("getAllProduct")
+    const result = await fetch('https://dummyjson.com/products')
+    const data = await result.json();  
+    console.log("getAllProduct")
+    console.log(data.products)
+    return data.products;
+}
 
-export default function ProductsPage() {
-
-  
-  const [productList, serProductList] = useState([]);
-  
-
-  useEffect(()=>{
-    (async function getproduct(){
-        try {
-            const jsonData = await fetch('https://dummyjson.com/products/category/sports-accessories');
-            const data = await jsonData.json();
-            console.log(data)
-            console.log(data.products)
-            serProductList(data.products)
-        } catch (error) {
-          console.log(error)
-        }
-    })();
-},[])
+export default async function ProductsPage() {
+  var productList = await getAllProduct();
+  console.log(productList);
+  console.log("ProductsPage")
   return (
       <div className="Product_List">    
         {
-          productList.map((product)=>{
+          productList.length > 0 &&
+          (          
+            productList.map((product)=>{
             console.log(product.id)
               return(
                 <Products
@@ -39,6 +32,7 @@ export default function ProductsPage() {
               />
             );
           })
+        )
         }
       </div>
   );
