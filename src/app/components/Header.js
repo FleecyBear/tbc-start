@@ -1,10 +1,9 @@
+"use client";
 import "./Header.css";
-// import Image from 'next/image';
 import ImageButton from "../imagebutton/imagebutton.js";
-// import Navigation from "./Navigation.js";
 import Link from "next/link";
 
-export default function Header() {
+export default function Header({ }) {
   return (
     <header className="Header">
       <div className="Header_Left">
@@ -12,17 +11,15 @@ export default function Header() {
           <ImageButton imageUrl="/images/rlogo.png" />
         </Link>
         <Link href="/productsPage" passHref>
-          <button>Products</button>
+          <button className="products-btn">Products</button>
         </Link>
         <input type="text" className="Search_Button" placeholder="Search" />
       </div>
 
       <div className="Header_Right">
         <ImageButton imageUrl="/images/favorites.png" />
-
-        <ImageButton imageUrl="/images/cart.png" />
-
-        <Link href="/blog" passHref>
+          <ImageButton imageUrl="/images/cart.png" />
+        <Link href="/BlogsPage" passHref>
           <ImageButton imageUrl="/images/blog.png" />
         </Link>
         <Link href="/profile" passHref>
