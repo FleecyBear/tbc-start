@@ -23,7 +23,6 @@ export default function ProductsPage() {
         console.error('Failed to fetch categories:', error);
       }
     }
-
     fetchCategories();
   }, []);
 
@@ -40,14 +39,23 @@ export default function ProductsPage() {
         setLoading(false);
       }
     }
-
     fetchProducts();
-  }, []); 
+  }, []);
 
-  const handleSearch = async (event) => {
+  const debounce = (func, delay) => {
+    let timeout;
+    return (...args) => {
+      clearTimeout(timeout);
+      timeout = setTimeout(() => {
+        func.apply(this, args);
+      }, delay);
+    };
+  };
+
+  const handleSearch = debounce((event) => {
     const searchValue = event.target.value;
     setSearchTerm(searchValue);
-  };
+  }, 500);
 
   const filteredProducts = products.filter(product => {
     const matchesCategory = selectedCategory ? product.category === selectedCategory : true;
@@ -93,7 +101,6 @@ export default function ProductsPage() {
         <input
           type="text"
           placeholder="Search products..."
-          value={searchTerm}
           onChange={handleSearch}
         />
       </div>
