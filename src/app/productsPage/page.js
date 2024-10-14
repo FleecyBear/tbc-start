@@ -4,21 +4,23 @@ import Products from './products/page.jsx';
 import { useEffect, useState } from 'react';
 
 export default function ProductsPage() {
-  const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [sortField, setSortField] = useState("title");
-  const [sortOrder, setSortOrder] = useState("asc");
-  const [categories, setCategories] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState("");
-  const [searchQuery, setSearchQuery] = useState("");
+  const [data, setData] = useState({
+    products: [],
+    categories: [],
+    loading: true,
+    sortField: "title",
+    sortOrder: "asc",
+    selectedCategory: "",
+    searchQuery: ""
+  });
 
-  // Fetch categories on component mount
+  
   useEffect(() => {
     async function fetchCategories() {
       try {
         const res = await fetch('https://dummyjson.com/products/category-list');
-        const data = await res.json();
-        setCategories(data);
+        const categories = await res.json();
+        setData((prev) => ({ ...prev, categories })); 
       } catch (error) {
         console.error('Failed to fetch categories:', error);
       }
@@ -27,31 +29,30 @@ export default function ProductsPage() {
     fetchCategories();
   }, []);
 
-  // Fetch products based on search query, category, sorting field, and order
+
   useEffect(() => {
     async function fetchProducts() {
-      setLoading(true); // Set loading to true when fetching
+      setData((prev) => ({ ...prev, loading: true })); 
       try {
-        // Build URL for fetching products
-        const categoryPart = selectedCategory ? `/category/${selectedCategory}` : "";
-        const searchPart = searchQuery ? `search?q=${searchQuery}&` : "";
-        const url = `https://dummyjson.com/products/${categoryPart}?${searchPart}sortBy=${sortField}&order=${sortOrder}`;
+        const categoryPart = data.selectedCategory ? `/category/${data.selectedCategory}` : "";
+        const searchPart = data.searchQuery ? `search?q=${data.searchQuery}&` : "";
+        const url = `https://dummyjson.com/products/${categoryPart}?${searchPart}sortBy=${data.sortField}&order=${data.sortOrder}`;
 
         const res = await fetch(url);
-        const data = await res.json();
-        setProducts(data.products); // Update products state with fetched data
+        const products = await res.json();
+        setData((prev) => ({ ...prev, products: products.products }));
       } catch (error) {
         console.error('Failed to fetch products:', error);
       } finally {
-        setLoading(false); // Set loading to false after fetching
+        setData((prev) => ({ ...prev, loading: false })); 
       }
     }
 
     fetchProducts();
-  }, [sortField, sortOrder, searchQuery, selectedCategory]);
+  }, [data.sortField, data.sortOrder, data.searchQuery, data.selectedCategory]);
 
-  if (loading) return <p>Loading products...</p>;
-  if (!products.length) return <p>No products found</p>;
+  if (data.loading) return <p>Loading products...</p>;
+  if (!data.products.length) return <p>No products found</p>;
 
   return (
     <div className="products-main-container">
@@ -60,19 +61,19 @@ export default function ProductsPage() {
         <input
           id="searchQuery"
           type="text"
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
+          value={data.searchQuery}
+          onChange={(e) => setData((prev) => ({ ...prev, searchQuery: e.target.value }))}
           placeholder="Search products..."
         />
 
         <label htmlFor="category">Category:</label>
         <select
           id="category"
-          value={selectedCategory}
-          onChange={(e) => setSelectedCategory(e.target.value)}
+          value={data.selectedCategory}
+          onChange={(e) => setData((prev) => ({ ...prev, selectedCategory: e.target.value }))}
         >
           <option value="">All Categories</option>
-          {categories.map((category) => (
+          {data.categories.map((category) => (
             <option key={category} value={category}>{category}</option>
           ))}
         </select>
@@ -80,8 +81,8 @@ export default function ProductsPage() {
         <label htmlFor="sortField">Sort by:</label>
         <select
           id="sortField"
-          value={sortField}
-          onChange={(e) => setSortField(e.target.value)}
+          value={data.sortField}
+          onChange={(e) => setData((prev) => ({ ...prev, sortField: e.target.value }))}
         >
           <option value="title">Title</option>
           <option value="price">Price</option>
@@ -91,15 +92,15 @@ export default function ProductsPage() {
         <label htmlFor="sortOrder">Order:</label>
         <select
           id="sortOrder"
-          value={sortOrder}
-          onChange={(e) => setSortOrder(e.target.value)}
+          value={data.sortOrder}
+          onChange={(e) => setData((prev) => ({ ...prev, sortOrder: e.target.value }))}
         >
           <option value="asc">Ascending</option>
           <option value="desc">Descending</option>
         </select>
       </div>
       <div className="Product_List">
-        {products.map((product) => (
+        {data.products.map((product) => (
           <Products
             key={product.id}
             id={product.id}
