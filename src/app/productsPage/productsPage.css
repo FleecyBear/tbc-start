@@ -1,17 +1,16 @@
-   
-  .Product_List::-webkit-scrollbar {
+  
+.products-main-container{
+  overflow: auto;
+}
+  .products-main-container::-webkit-scrollbar {
     width: 4px;
   }
   
-  .Product_List::-webkit-scrollbar-thumb {
+  .products-main-container::-webkit-scrollbar-thumb {
     background: purple;
     border-radius: 10px;
   }
   
-  .Main_Grid::-webkit-scrollbar-track {
+  .products-main-container::-webkit-scrollbar-track {
     background: pink;
   }
-  
-  .products-page-container {
-    overflow: auto;
-}
