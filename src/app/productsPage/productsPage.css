@@ -1,7 +1,4 @@
-    .Product_List {
-    
-    overflow: auto;
-  }
+   
   .Product_List::-webkit-scrollbar {
     width: 4px;
   }
@@ -15,3 +12,6 @@
     background: pink;
   }
   
+  .products-page-container {
+    overflow: auto;
+}
