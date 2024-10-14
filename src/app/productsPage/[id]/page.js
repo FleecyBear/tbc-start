@@ -1,7 +1,6 @@
-"use client";  // Ensures client-side rendering
+"use client"; 
 import { useEffect, useState } from 'react';
 import '../detailPage.css';
-import '../../global.css';
 
 export default function ProductPage({ params }) {
   const [productData, setProductData] = useState(null);

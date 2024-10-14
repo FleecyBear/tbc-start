@@ -28,13 +28,3 @@
   color: gray;
   margin: 15px;
 }
-
-.post-Conteiner{
-  width: 500px;
-  border: 2px solid #e9dede; 
-  padding: 20px;
-  border-radius: 10px; 
-  background-color: #f9f9f9; 
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); 
-  margin: 20px auto; 
-}

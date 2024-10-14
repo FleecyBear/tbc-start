@@ -1,3 +1,4 @@
+
 .BlogMain {
   height: 100%;
   width: 100%;
@@ -33,6 +34,7 @@
   justify-content: center;
   gap: 20px;
 }
+
 ::-webkit-scrollbar {
   width: 10px;
 }
@@ -41,57 +43,12 @@
   background: violet;
   border-radius: 8px;
 }
+
 ::-webkit-scrollbar-track {
   background: pink;
 }
 
-/* Blog Page Styling */
-.blog-container {
+.blog-items-container {
   display: grid;
   grid-template-columns: auto;
-}
-
-.blog-title {
-  margin-bottom: 50px;
-  font-style: italic;
-}
-
-.blog-body {
-  display: flex;
-}
-
-.blog-bottom {
-  display: flex;
-  margin-top: 40px;
-  justify-content: space-between;
-}
-
-.blog-tag {
-  background-color: rgb(235, 160, 160);
-  font-style: italic;
-  padding: 5px;
-  margin: 0 5px;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.blog-likes {
-  display: flex;
-  justify-content: center;
-
-  gap: 5px;
-}
-
-@media screen and (max-width: 730px) {
-  .blog-body {
-    text-align: center;
-  }
-
-  .blog-bottom {
-    flex-direction: column;
-    text-align: center;
-  }
-  .blog-likes {
-    margin-top: 10px;
-  }
 }
