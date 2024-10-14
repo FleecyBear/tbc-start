@@ -1,94 +1,88 @@
+"use client";  // Ensures client-side rendering
+import { useEffect, useState } from 'react';
+import '../detailPage.css';
+import '../../global.css';
 
-import '../ditealPage.css'
-import '../../global.css'
-    export async function generateStaticParams() {
-        const res = await fetch('https://dummyjson.com/products')
-        const data = await res.json();    
-        return data.products.map((product)=>({
-            id:product.id.toString()
-        }))
-    }
-    async function GetProduct(id) {
-        const res  = await fetch(`https://dummyjson.com/products/${id}`);
-        const data =await res.json();
-        return data
-    }
-
-    export default async function ProductPage({params}) {
-        const productData = await GetProduct(params.id)
-        return (
-            <div>
-                {productData ? (
-                    <div className='ditealProduct-Conteiner'>
-                        <div>
-                            <img src={productData.images[0]} alt={productData.title} />
-                        </div>
-                        <div className='product-Info-Conteiner'>
-                            <div className='prduct-Title'>
-                                <h3>{productData.title}</h3>
-                                <h3>{productData.price}$</h3>
-                            </div>
-                            <div>
-                                <h5>About product:</h5>
-                                <p>{productData.description}</p>
-                            </div>
-                            <div className='product-Details'>
-                                <h5>Product details</h5>
-                                <div>
-                                    <div className='details-div'>
-                                        <h4>WarrantyInformation</h4>
-                                        <p>{productData.warrantyInformation}</p>
-                                    </div>
-                                    <div className='details-div'>
-                                        <h4>Dimensions</h4>
-                                        <p>{productData.dimensions.width}/{productData.dimensions.height}/{productData.dimensions.depth}(w/h/d)</p>
-                                    </div>
-                                    <div className='details-div'>
-                                        <h4>Rating</h4>
-                                        <p>{productData.rating} / 5</p>
-                                    </div>
-                                    <div className='details-div'>
-                                        <h4>Stock</h4>
-                                        <p>{productData.stock}</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className='button-Div'>
-                                <div className='amount-Div'>
-                                    <span>Quantity:</span>
-                                    <select id="Quantity">
-                                        {Array.from({ length: productData.stock }, (_, i) => (
-                                            <option key={i + 1} value={i + 1}>
-                                                {i + 1}
-                                            </option>
-                                        ))}
-                                    </select>
-                                </div>
-                                <div>
-                                    <button id="addTocard" className='button' type="submit">
-                                        Add to cart
-                                    </button>
-                                </div>
-                                <div>
-                                <button id="addWishList"  className='button' type="submit">
-                                    &hearts;
-                                    Add To Wish list
-                                </button>
-                                </div>
-                            </div>
-                            <div className='button-Div'>
-                                     <button id="Check-out"  className='button' type="submit">
-                                        &hearts;
-                                        Check out
-                                    </button>
-                            </div>
-                        </div>
-                    </div>
-                ) : (
-                    <p>Product not found.</p>
-                )}
-            </div>
-        );
+export default function ProductPage({ params }) {
+  const [productData, setProductData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  useEffect(() => {
+    async function fetchProduct() {
+      try {
+        const res = await fetch(`https://dummyjson.com/products/${params.id}`);
+        if (!res.ok) {
+            throw new Error("Product not found");
+          }
+        const data = await res.json();
+        setProductData(data);
+      } catch (error) {
+        console.error('Failed to fetch product:', error);
+      } finally {
+        setLoading(false);
+      }
     }
 
+    fetchProduct();
+  }, [params.id]);
 
+  if (loading) return <p>Loading...</p>;
+  if (error || !productData) {
+    return <p>Product not found.</p>;
+  }
+
+  return (
+    <div className="product-container">
+      <img className="product-image" src={productData.images[0]} alt={productData.title} />
+
+      <div className="product-info">
+        <h1>{productData.title}</h1>
+        <p className="product-price">${productData.price}</p>
+
+        <section className="product-description">
+          <h3>About the product</h3>
+          <p>{productData.description}</p>
+        </section>
+
+        <section className="product-details">
+          <h3>Product Details</h3>
+          <ul>
+            {productData.warrantyInformation && (
+              <li><strong>Warranty:</strong> {productData.warrantyInformation}</li>
+            )}
+            {productData.dimensions && (
+              <li>
+                <strong>Dimensions:</strong> {productData.dimensions.width} / {productData.dimensions.height} / {productData.dimensions.depth} (w/h/d)
+              </li>
+            )}
+            <li><strong>Rating:</strong> {productData.rating} / 5</li>
+            <li><strong>Stock:</strong> {productData.stock}</li>
+          </ul>
+        </section>
+
+        <section className="product-actions">
+          <label htmlFor="quantity">Quantity:</label>
+          <select id="quantity">
+            {Array.from({ length: productData.stock }, (_, i) => (
+              <option key={i + 1} value={i + 1}>
+                {i + 1}
+              </option>
+            ))}
+          </select>
+
+          <button className="button" id="addToCart">
+            Add to Cart
+          </button>
+
+          <button className="button wishlist" id="addToWishList">
+            &hearts; Add to Wishlist
+          </button>
+
+          <button className="button checkout" id="checkOut">
+            Checkout
+          </button>
+        </section>
+      </div>
+    </div>
+  );
+}
