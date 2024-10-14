@@ -4,23 +4,21 @@ import Products from './products/page.jsx';
 import { useEffect, useState } from 'react';
 
 export default function ProductsPage() {
-  const [data, setData] = useState({
-    products: [],
-    categories: [],
-    loading: true,
-    sortField: "title",
-    sortOrder: "asc",
-    selectedCategory: "",
-    searchQuery: ""
-  });
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [sortBy, setSortBy] = useState('title'); 
+  const [order, setOrder] = useState('asc');
+  const [searchTerm, setSearchTerm] = useState(''); 
+  const [noResults, setNoResults] = useState(false); 
+  const [categories, setCategories] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState("");
 
-  
   useEffect(() => {
     async function fetchCategories() {
       try {
         const res = await fetch('https://dummyjson.com/products/category-list');
-        const categories = await res.json();
-        setData((prev) => ({ ...prev, categories })); 
+        const data = await res.json();
+        setCategories(data);
       } catch (error) {
         console.error('Failed to fetch categories:', error);
       }
@@ -29,88 +27,95 @@ export default function ProductsPage() {
     fetchCategories();
   }, []);
 
-
   useEffect(() => {
     async function fetchProducts() {
-      setData((prev) => ({ ...prev, loading: true })); 
       try {
-        const categoryPart = data.selectedCategory ? `/category/${data.selectedCategory}` : "";
-        const searchPart = data.searchQuery ? `search?q=${data.searchQuery}&` : "";
-        const url = `https://dummyjson.com/products/${categoryPart}?${searchPart}sortBy=${data.sortField}&order=${data.sortOrder}`;
-
-        const res = await fetch(url);
-        const products = await res.json();
-        setData((prev) => ({ ...prev, products: products.products }));
+        const res = await fetch(`https://dummyjson.com/products`);
+        const data = await res.json();
+        setProducts(data.products); 
+        setNoResults(false); 
       } catch (error) {
         console.error('Failed to fetch products:', error);
       } finally {
-        setData((prev) => ({ ...prev, loading: false })); 
+        setLoading(false);
       }
     }
 
     fetchProducts();
-  }, [data.sortField, data.sortOrder, data.searchQuery, data.selectedCategory]);
+  }, []); 
 
-  if (data.loading) return <p>Loading products...</p>;
-  if (!data.products.length) return <p>No products found</p>;
+  const handleSearch = async (event) => {
+    const searchValue = event.target.value;
+    setSearchTerm(searchValue);
+  };
+
+  const filteredProducts = products.filter(product => {
+    const matchesCategory = selectedCategory ? product.category === selectedCategory : true;
+    const matchesSearch = product.title.toLowerCase().includes(searchTerm.toLowerCase());
+    return matchesCategory && matchesSearch;
+  });
+
+  const sortedProducts = filteredProducts.sort((a, b) => {
+    if (sortBy === "price") {
+      return order === "asc" ? a.price - b.price : b.price - a.price;
+    }
+    if (sortBy === "brand") {
+      return order === "asc" ? a.brand.localeCompare(b.brand) : b.brand.localeCompare(a.brand);
+    }
+    return order === "asc" ? a.title.localeCompare(b.title) : b.title.localeCompare(a.title);
+  });
+
+  if (loading) return <p>Loading products...</p>; 
 
   return (
     <div className="products-main-container">
-      <div className="sorting-controls">
-        <label htmlFor="searchQuery">Search:</label>
-        <input
-          id="searchQuery"
-          type="text"
-          value={data.searchQuery}
-          onChange={(e) => setData((prev) => ({ ...prev, searchQuery: e.target.value }))}
-          placeholder="Search products..."
-        />
-
-        <label htmlFor="category">Category:</label>
+      <div className="controls">
+        <select onChange={(e) => setSortBy(e.target.value)} value={sortBy}>
+          <option value="title">Sort by Title</option>
+          <option value="price">Sort by Price</option>
+          <option value="brand">Sort by Brand</option>
+        </select>
         <select
           id="category"
-          value={data.selectedCategory}
-          onChange={(e) => setData((prev) => ({ ...prev, selectedCategory: e.target.value }))}
+          value={selectedCategory}
+          onChange={(e) => setSelectedCategory(e.target.value)}
         >
           <option value="">All Categories</option>
-          {data.categories.map((category) => (
+          {categories.map((category) => (
             <option key={category} value={category}>{category}</option>
           ))}
         </select>
-
-        <label htmlFor="sortField">Sort by:</label>
-        <select
-          id="sortField"
-          value={data.sortField}
-          onChange={(e) => setData((prev) => ({ ...prev, sortField: e.target.value }))}
-        >
-          <option value="title">Title</option>
-          <option value="price">Price</option>
-          <option value="brand">Brand</option>
-        </select>
-
-        <label htmlFor="sortOrder">Order:</label>
-        <select
-          id="sortOrder"
-          value={data.sortOrder}
-          onChange={(e) => setData((prev) => ({ ...prev, sortOrder: e.target.value }))}
-        >
+        <select onChange={(e) => setOrder(e.target.value)} value={order}>
           <option value="asc">Ascending</option>
           <option value="desc">Descending</option>
         </select>
+
+        <input
+          type="text"
+          placeholder="Search products..."
+          value={searchTerm}
+          onChange={handleSearch}
+        />
       </div>
+
+      {noResults && <p>No results found</p>}
+
       <div className="Product_List">
-        {data.products.map((product) => (
-          <Products
-            key={product.id}
-            id={product.id}
-            image={product.images} 
-            description={product.description}
-            title={product.title}
-            price={product.price}
-            brand={product.brand}
-          />
-        ))}
+        {sortedProducts.length > 0 ? (
+          sortedProducts.map((product) => (
+            <Products
+              key={product.id}
+              id={product.id}
+              image={product.images} 
+              description={product.description}
+              title={product.title}
+              price={product.price}
+              brand={product.brand}
+            />
+          ))
+        ) : (
+          <p>No products available</p>
+        )}
       </div>
     </div>
   );
