@@ -1,32 +1,24 @@
-"use client"; 
-import { useEffect, useState } from 'react';
 import '../detailPage.css';
 
-export default function ProductPage({ params }) {
-  const [productData, setProductData] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  useEffect(() => {
-    async function fetchProduct() {
-      try {
-        const res = await fetch(`https://dummyjson.com/products/${params.id}`);
-        if (!res.ok) {
-            throw new Error("Product not found");
-          }
-        const data = await res.json();
-        setProductData(data);
-      } catch (error) {
-        console.error('Failed to fetch product:', error);
-      } finally {
-        setLoading(false);
-      }
+export default async function ProductPage({ params }) {
+  const { id } = params;
+  
+  const fetchProductData = async () => {
+    const res = await fetch(`https://dummyjson.com/products/${id}`);
+    
+    if (!res.ok) {
+      throw new Error("Product not found");
     }
+    
+    return res.json();
+  };
 
-    fetchProduct();
-  }, [params.id]);
-
-  if (loading) return <p>Loading...</p>;
-  if (error || !productData) {
+  // Get product data
+  let productData;
+  try {
+    productData = await fetchProductData();
+  } catch (error) {
+    console.error('Failed to fetch product:', error);
     return <p>Product not found.</p>;
   }
 

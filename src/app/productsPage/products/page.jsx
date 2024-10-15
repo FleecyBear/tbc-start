@@ -1,10 +1,9 @@
-"use client";
 import React from "react"; 
 import "./Products.css";
 import CustomButton from "../../button/button.js";
 import { useRouter } from "next/navigation";
 
-function Products({ id, title, image, brand, price }) { 
+export default function Products({ id, title, image, brand, price }) { 
   const router = useRouter();
 
   const handleClick = () => {
@@ -31,4 +30,3 @@ function Products({ id, title, image, brand, price }) {
   );
 }
 
-export default React.memo(Products);
