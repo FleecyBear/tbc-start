@@ -1,15 +1,28 @@
 import LikeIcon from '../../svgIcons/likeIcon';
 import DislikeIcon from '../../svgIcons/dislikeIcon';
 import "../detailBlogs.css";
-
 export default async function BlogPost({ params }) {
-  const res = await fetch(`https://dummyjson.com/posts/${params.id}`);
-  
-  if (!res.ok) {
-    throw new Error("Blog post not found");
+  const { id } = params;
+
+  let postData = null;
+  let errorMessage = null;
+
+  try {
+    const res = await fetch(`https://dummyjson.com/posts/${id}`);
+
+    if (!res.ok) {
+      throw new Error("Blog post not found"); 
+    }
+
+    postData = await res.json(); 
+  } catch (error) {
+    console.error('Failed to fetch blog post:', error);
+    errorMessage = error.message; 
   }
   
-  const postData = await res.json();
+  if (!postData) {
+    return <p>{errorMessage || "Blog was not retrieved."}</p>; 
+  }
 
   return (
     <div className='detail-blog-container'> 
