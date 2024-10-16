@@ -7,7 +7,6 @@ async function getCategories() {
   try {
     const res = await fetch('https://dummyjson.com/products/categories');
     const data = await res.json();
-    console.log("Fetched categories:", data); 
     return data || [];
   } catch (error) {
     console.error("Error fetching categories:", error);
@@ -17,27 +16,40 @@ async function getCategories() {
 
 async function getProducts(category = "", search = "", sort = "title", order = "asc") {
   try {
-    let url = `https://dummyjson.com/products${category ? `/category/${category}` : ""}?sortBy=${sort}&order=${order}&q=${search}`;
-    
-    console.log("Fetching products from:", url);
+    let url = "https://dummyjson.com/products";
 
+    if (category) {
+      url += `/category/${category}`;
+    }
+
+    url += `?sortBy=${sort}&order=${order}`;
+
+    console.log("Fetching products from:", url);
+    
     const res = await fetch(url);
     const data = await res.json();
-    console.log("Fetched products:", data.products);
+    let products = data.products || [];
 
-    return data.products || [];
+    if (search) {
+      products = products.filter(product =>
+        product.title.toLowerCase().includes(search.toLowerCase())
+      );
+    }
+
+    return products; 
   } catch (error) {
     console.error("Error fetching products:", error);
     return [];
   }
 }
 
-export default function ProductsPage({ searchParams }) {
+export default function ProductsPage() {
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("");
   const [sortBy, setSortBy] = useState("title");
   const [order, setOrder] = useState("asc");
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState(""); 
+  const [debouncedSearch, setDebouncedSearch] = useState(""); 
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [noResults, setNoResults] = useState(false);
@@ -53,16 +65,25 @@ export default function ProductsPage({ searchParams }) {
   useEffect(() => {
     const fetchProducts = async () => {
       setLoading(true);
-      const products = await getProducts(selectedCategory, search, sortBy, order);
+      const products = await getProducts(selectedCategory, debouncedSearch, sortBy, order);
       setFilteredProducts(products);
       setNoResults(products.length === 0);
       setLoading(false);
     };
     fetchProducts();
-  }, [selectedCategory, sortBy, order, search]);
+  }, [selectedCategory, sortBy, order, debouncedSearch]);
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedSearch(search);
+    }, 500); 
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [search]);
 
   const handleSearch = (e) => {
-    setSearch(e.target.value);
+    setSearch(e.target.value); 
   };
 
   if (loading) return <p>Loading products...</p>;
@@ -77,18 +98,18 @@ export default function ProductsPage({ searchParams }) {
         </select>
 
         <select
-          id="category"
-          value={selectedCategory}
-          onChange={(e) => setSelectedCategory(e.target.value)}
-        >
-          <option value="">All Categories</option>
-          {categories.length > 0 &&
-            categories.map((category) => (
-              <option key={category.slug} value={category.slug}>
-                {typeof category.name === 'string' ? category.name : category.name.someNestedProperty}
-              </option>
-            ))}
-        </select>
+  id="category"
+  value={selectedCategory}
+  onChange={(e) => setSelectedCategory(e.target.value)}
+>
+  <option value="">All Categories</option>
+  {categories.length > 0 &&
+    categories.map((category) => (
+      <option key={category.slug} value={category.slug}>
+        {category.name} 
+      </option>
+    ))}
+</select>
 
         <select onChange={(e) => setOrder(e.target.value)} value={order}>
           <option value="asc">Ascending</option>
@@ -98,6 +119,7 @@ export default function ProductsPage({ searchParams }) {
         <input
           type="text"
           placeholder="Search products..."
+          value={search}
           onChange={handleSearch}
         />
       </div>
