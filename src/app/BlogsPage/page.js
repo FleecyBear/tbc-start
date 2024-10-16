@@ -1,29 +1,24 @@
-"use client";
 import "./Blog.css";
 import BlogItems from "../BlogsPage/blog-items/page";
-import { useEffect, useState } from 'react';
 
-export default function BlogsPage() {
-  const [blogList, setBlogList] = useState([]);
-  const [loading, setLoading] = useState(true);
+async function fetchBlogs() {
+  const res = await fetch("https://dummyjson.com/posts");
+  if (!res.ok) {
+    throw new Error("Failed to fetch blogs");
+  }
+  const data = await res.json();
+  return data.posts;
+}
 
-  useEffect(() => {
-    async function fetchBlogs() {
-      try {
-        const res = await fetch("https://dummyjson.com/posts");
-        const data = await res.json();
-        setBlogList(data.posts);
-      } catch (error) {
-        console.error("Failed to fetch blogs:", error);
-      } finally {
-        setLoading(false);
-      }
-    }
+export default async function BlogsPage() {
+  let blogList;
 
-    fetchBlogs();
-  }, []);
-
-  if (loading) return <p>Loading blogs...</p>;
+  try {
+    blogList = await fetchBlogs();
+  } catch (error) {
+    console.error("Failed to fetch blogs:", error);
+    blogList = [];
+  }
 
   if (!blogList.length) return <p>No blogs found</p>;
 
