@@ -13,7 +13,6 @@ export default async function ProductPage({ params }) {
     return res.json();
   };
 
-  // Get product data
   let productData;
   try {
     productData = await fetchProductData();

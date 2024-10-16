@@ -3,13 +3,28 @@ import "./productsPage.css";
 import Products from './products/page.jsx';
 import { useEffect, useState } from 'react';
 
-async function getProducts(searchTerm = "", sortBy = "title", order = "asc") {
+async function getCategories() {
   try {
-    const res = await fetch(
-      `https://dummyjson.com/products?search=${searchTerm}&sortBy=${sortBy}&order=${order}`
-    );
+    const res = await fetch('https://dummyjson.com/products/categories');
     const data = await res.json();
-    console.log("Fetched products:", data.products); 
+    console.log("Fetched categories:", data); 
+    return data || [];
+  } catch (error) {
+    console.error("Error fetching categories:", error);
+    return [];
+  }
+}
+
+async function getProducts(category = "", search = "", sort = "title", order = "asc") {
+  try {
+    let url = `https://dummyjson.com/products${category ? `/category/${category}` : ""}?sortBy=${sort}&order=${order}&q=${search}`;
+    
+    console.log("Fetching products from:", url);
+
+    const res = await fetch(url);
+    const data = await res.json();
+    console.log("Fetched products:", data.products);
+
     return data.products || [];
   } catch (error) {
     console.error("Error fetching products:", error);
@@ -17,69 +32,40 @@ async function getProducts(searchTerm = "", sortBy = "title", order = "asc") {
   }
 }
 
-async function getCategories() {
-  try {
-    const res = await fetch("https://dummyjson.com/products/categories");
-    const data = await res.json();
-    console.log("Fetched categories:", data); 
-    return data; 
-  } catch (error) {
-    console.error("Error fetching categories:", error);
-    return [];
-  }
-}
-
 export default function ProductsPage({ searchParams }) {
-  const [searchTerm, setSearchTerm] = useState(searchParams?.search || "");
-  const [sortBy, setSortBy] = useState(searchParams?.sortBy || "title");
-  const [order, setOrder] = useState(searchParams?.order || "asc");
-  const [products, setProducts] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const [sortBy, setSortBy] = useState("title");
+  const [order, setOrder] = useState("asc");
+  const [search, setSearch] = useState("");
+  const [filteredProducts, setFilteredProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [noResults, setNoResults] = useState(false);
-  const [selectedCategory, setSelectedCategory] = useState("");
-  const [categories, setCategories] = useState([]);
 
   useEffect(() => {
     const fetchCategories = async () => {
       const fetchedCategories = await getCategories();
-      setCategories(fetchedCategories); 
+      setCategories(fetchedCategories);
     };
-
-    fetchCategories(); 
+    fetchCategories();
   }, []);
 
   useEffect(() => {
     const fetchProducts = async () => {
       setLoading(true);
-      const fetchedProducts = await getProducts(searchTerm, sortBy, order);
-      setProducts(fetchedProducts);
-      setNoResults(fetchedProducts.length === 0);
+      const products = await getProducts(selectedCategory, search, sortBy, order);
+      setFilteredProducts(products);
+      setNoResults(products.length === 0);
       setLoading(false);
     };
+    fetchProducts();
+  }, [selectedCategory, sortBy, order, search]);
 
-    fetchProducts(); 
-  }, [searchTerm, sortBy, order]);
-
-  const filteredProducts = selectedCategory
-    ? products.filter(product => product.category === selectedCategory) 
-    : products;
-
-  const debounce = (func, delay) => {
-    let timeout;
-    return (...args) => {
-      clearTimeout(timeout);
-      timeout = setTimeout(() => {
-        func.apply(this, args);
-      }, delay);
-    };
+  const handleSearch = (e) => {
+    setSearch(e.target.value);
   };
 
-  const handleSearch = debounce((event) => {
-    const searchValue = event.target.value;
-    setSearchTerm(searchValue);
-  }, 500);
-
-  if (loading) return <p>Loading products...</p>; 
+  if (loading) return <p>Loading products...</p>;
 
   return (
     <div className="products-main-container">
@@ -89,20 +75,21 @@ export default function ProductsPage({ searchParams }) {
           <option value="price">Sort by Price</option>
           <option value="brand">Sort by Brand</option>
         </select>
-        
+
         <select
           id="category"
           value={selectedCategory}
           onChange={(e) => setSelectedCategory(e.target.value)}
         >
           <option value="">All Categories</option>
-          {categories.map((category) => (
-            <option key={category.slug} value={category.slug}>
-              {category.name} 
-            </option>
-          ))}
+          {categories.length > 0 &&
+            categories.map((category) => (
+              <option key={category.slug} value={category.slug}>
+                {typeof category.name === 'string' ? category.name : category.name.someNestedProperty}
+              </option>
+            ))}
         </select>
-        
+
         <select onChange={(e) => setOrder(e.target.value)} value={order}>
           <option value="asc">Ascending</option>
           <option value="desc">Descending</option>
@@ -123,7 +110,7 @@ export default function ProductsPage({ searchParams }) {
             <Products
               key={product.id}
               id={product.id}
-              image={product.images} 
+              image={product.images}
               description={product.description}
               title={product.title}
               price={product.price}
