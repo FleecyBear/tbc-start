@@ -1,25 +1,19 @@
-import React from "react"; 
+import React from "react";
 import "./Products.css";
 import CustomButton from "../../button/button.js";
-import { useRouter } from "next/navigation";
+import Link from "next/link"; 
 
 export default function Products({ id, title, image, brand, price }) { 
-  const router = useRouter();
-
-  const handleClick = () => {
-    router.push(`/productsPage/${id}`);
-  };
-
   return (
     <div className="product-card">
       <div className="Title-Image">
-
-        <img
-          onClick={handleClick}
-          src={image?.[0] || "/default-image.jpg"} 
-          alt={title} 
-        />
-        <p onClick={handleClick} className="product-title">{title}</p>
+        <Link href={`/productsPage/${id}`}> 
+          <img
+            src={image?.[0] || "/default-image.jpg"} 
+            alt={title} 
+          />
+          <p className="product-title">{title}</p>
+        </Link>
         <div className="product-info">
           <p className="product-brand">{brand}</p>
           <p>${price}</p>
@@ -29,4 +23,3 @@ export default function Products({ id, title, image, brand, price }) {
     </div>
   );
 }
-
