@@ -14,6 +14,7 @@ const ProductControls = ({
   const [localSortBy, setLocalSortBy] = useState(sortBy);
   const [localOrder, setLocalOrder] = useState(order);
   const [localSearch, setLocalSearch] = useState(search);
+  const [debouncedSearch, setDebouncedSearch] = useState(search);
 
   useEffect(() => {
     setLocalCategory(selectedCategory);
@@ -22,33 +23,52 @@ const ProductControls = ({
     setLocalSearch(search);
   }, [selectedCategory, sortBy, order, search]);
 
-  const handleCategoryChange = (e) => {
-    const newCategory = e.target.value;
-    setLocalCategory(newCategory);
-    router.push(`/productsPage?category=${newCategory}&sortBy=${localSortBy}&order=${localOrder}&search=${localSearch}`);
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedSearch(localSearch);
+    }, 500); 
+
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [localSearch]);
+
+  useEffect(() => {
+    updateQueryParams('search', debouncedSearch);
+  }, [debouncedSearch]);
+
+  const updateQueryParams = (key, value) => {
+    const params = new URLSearchParams(window.location.search);
+    params.set(key, value);
+    router.push(`/productsPage?${params.toString()}`);
   };
 
-  const handleSortChange = (e) => {
-    const newSort = e.target.value;
-    setLocalSortBy(newSort);
-    router.push(`/productsPage?category=${localCategory}&sortBy=${newSort}&order=${localOrder}&search=${localSearch}`);
-  };
+  const handleChange = (key, value) => {
+    switch (key) {
+      case 'category':
+        setLocalCategory(value);
+        break;
+      case 'sortBy':
+        setLocalSortBy(value);
+        break;
+      case 'order':
+        setLocalOrder(value);
+        break;
+      case 'search':
+        setLocalSearch(value);
+        break;
+      default:
+        break;
+    }
 
-  const handleOrderChange = (e) => {
-    const newOrder = e.target.value;
-    setLocalOrder(newOrder);
-    router.push(`/productsPage?category=${localCategory}&sortBy=${localSortBy}&order=${newOrder}&search=${localSearch}`);
-  };
-
-  const handleSearchChange = (e) => {
-    const newSearch = e.target.value;
-    setLocalSearch(newSearch);
-    router.push(`/productsPage?category=${localCategory}&sortBy=${localSortBy}&order=${localOrder}&search=${newSearch}`);
+    if (key !== 'search') {
+      updateQueryParams(key, value);
+    }
   };
 
   return (
     <div className="controls">
-      <select value={localSortBy} onChange={handleSortChange}>
+      <select aria-label="Sort by" value={localSortBy} onChange={(e) => handleChange('sortBy', e.target.value)}>
         <option value="title">Sort by Title</option>
         <option value="price">Sort by Price</option>
         <option value="brand">Sort by Brand</option>
@@ -56,8 +76,9 @@ const ProductControls = ({
 
       <select
         id="category"
+        aria-label="Category"
         value={localCategory}
-        onChange={handleCategoryChange}
+        onChange={(e) => handleChange('category', e.target.value)}
       >
         <option value="">All Categories</option>
         {categories.map((category) => (
@@ -67,7 +88,7 @@ const ProductControls = ({
         ))}
       </select>
 
-      <select value={localOrder} onChange={handleOrderChange}>
+      <select aria-label="Order" value={localOrder} onChange={(e) => handleChange('order', e.target.value)}>
         <option value="asc">Ascending</option>
         <option value="desc">Descending</option>
       </select>
@@ -75,8 +96,9 @@ const ProductControls = ({
       <input
         type="text"
         placeholder="Search products..."
+        aria-label="Search products"
         value={localSearch}
-        onChange={handleSearchChange}
+        onChange={(e) => handleChange('search', e.target.value)}
       />
     </div>
   );

@@ -20,7 +20,7 @@ async function getProducts(category = "", search = "", sort = "title", order = "
     if (category) {
       url = `https://dummyjson.com/products/category/${category}?sortBy=${sort}&order=${order}`;
     } else { 
-      url = `https://dummyjson.com/products?sortBy=${sort}&order=${order}`;
+      url = `https://dummyjson.com/products/search?q=${search}&sortBy=${sort}&order=${order}`;
     }
 
     console.log("Fetching products from URL:", url);
