@@ -1,5 +1,5 @@
-import LikeIcon from '../../svgIcons/likeIcon';
-import DislikeIcon from '../../svgIcons/dislikeIcon';
+import LikeIcon from '../../../svgIcons/likeIcon'
+import DislikeIcon from '../../../svgIcons/dislikeIcon';
 import "../detailBlogs.css";
 export default async function BlogPost({ params }) {
   const { id } = params;

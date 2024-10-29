@@ -1,5 +1,5 @@
 import "./BlogItems.css";
-import CustomButton from "../../button/button.js";
+import CustomButton from "../../../components/button/button.js";
 import Link from "next/link";
 
 export default function BlogItems({ blogTitle, blogDescription, id }) {

@@ -1,0 +1,111 @@
+.profile_container {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  background-color: #f9f9f9;
+}
+
+.description_content_wrapper {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 30px;
+  background: #ffffff;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.prof_img {
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+}
+
+.profile_description {
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.profile_name {
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+}
+
+.profile_email {
+  font-size: 16px;
+  color: #555;
+}
+
+.profile_settings {
+  width: 100%;
+  background: #ffffff;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: 30px;
+}
+
+.profile_settings nav ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.profile_settings nav ul li {
+  font-size: 18px;
+  padding: 10px 0;
+  transition: background 0.3s;
+}
+
+.profile_settings nav ul li:hover {
+  background: #f0f0f0;
+}
+
+.buttons_wrapper {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.buttons_wrapper button {
+  background-color: #0070f3;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 15px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.buttons_wrapper button:hover {
+  background-color: #005bb5;
+}
+
+.label_wrapper {
+  margin-bottom: 15px;
+}
+
+.label_wrapper label {
+  display: block;
+  font-size: 16px;
+  margin-bottom: 5px;
+}
+
+.label_wrapper input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+.error_message {
+  color: red;
+  margin-bottom: 20px;
+}

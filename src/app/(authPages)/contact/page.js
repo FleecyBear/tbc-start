@@ -1,5 +1,5 @@
 import "./Contact.css";
-import Button from "../button/button.js";
+import Button from "../../components/button/button.js";
 
 export default function Contact({ buttonText }) {
   return (
