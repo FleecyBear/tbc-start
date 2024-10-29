@@ -1,6 +1,6 @@
 import React from "react";
 import "./Products.css";
-import CustomButton from "../../button/button.js";
+import CustomButton from '../../../components/button/button';
 import Link from "next/link"; 
 
 export default function Products({ id, title, image, brand, price }) { 

@@ -1,6 +1,6 @@
 // import Image from "next/image.js";
 import "./Profile.css";
-import CustomButton from "../button/button.js";
+import CustomButton from "../../components/button/button.js";
 
 export default function Profile() {
   return (

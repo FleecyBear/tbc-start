@@ -1,5 +1,5 @@
 import "./Blog.css";
-import BlogItems from "../BlogsPage/blog-items/page";
+import BlogItems from "./blog-items/page";
 
 async function fetchBlogs() {
   const res = await fetch("https://dummyjson.com/posts");
