@@ -1,8 +1,21 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
    
-    distDir: './build', // Changes the build output directory to `./dist`.
-    basePath: ''
+    distDir: './build', 
+    basePath: '',
+    reactStrictMode: true,
+    images: {
+      domains: ['dummyjson.com'], 
+    },
+    async redirects() {
+      return [
+        {
+          source: '/',
+          destination: '/home',
+          permanent: true,
+        },
+      ];
+    },
   }
    
-  export default nextConfig
+  export default nextConfig;

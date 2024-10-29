@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import '../global.css'
-import { sessionStatus } from '../utils/session';
+import { sessionStatus } from '../utils/actions';
 
 export default function PublicLayout({ children }) {
   const router = useRouter();

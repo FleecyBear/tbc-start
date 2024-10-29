@@ -38,7 +38,7 @@ export function signOut() {
   localStorage.removeItem('refreshToken');
   console.log('User signed out');
 
-  window.location.href = '/signIn';
+  window.location.href = '/login';
 }
 
 export function sessionStatus() {

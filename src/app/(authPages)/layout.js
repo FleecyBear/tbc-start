@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import '../global.css'
-import { sessionStatus } from '../utils/session';
+import { sessionStatus } from '../utils/actions';
 import Header from '../components/header/Header';
 import Footer from '../components/footer/Footer';
 

@@ -1,49 +1,128 @@
-// import Image from "next/image.js";
-import "./Profile.css";
-import CustomButton from "../../components/button/button.js";
+'use client';
+import { useEffect, useState } from 'react';
+import './Profile.css'; 
+import Image from 'next/image';
+import { signOut } from '../../utils/actions';
 
 export default function Profile() {
+  const [userData, setUserData] = useState(null);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const token = localStorage.getItem('accessToken');
+
+    const getAuthUser = async () => {
+      if (!token) {
+        setError('Please log in.');
+        return;
+      }
+
+      try {
+        const res = await fetch('https://dummyjson.com/users/me', {
+          method: 'GET',
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (!res.ok) {
+          throw new Error('Failed to fetch user data');
+        }
+
+        const data = await res.json();
+        setUserData(data);
+      } catch (error) {
+        setError(error.message);
+      }
+    };
+
+    getAuthUser();
+  }, []);
+
   return (
-    <div className="profile_main">
-      <div className="profile_main_left">
-        <img
-          src={"/images/nicolascage.jpg"}
-          className="profile_image"
-          alt="user"
-        />
-        <div className="profile_info">
-          <h2>Bear Cage</h2>
-          <p className="profile_title">Protector of Bears</p>
-          <p className="profile_location">California, U.S.</p>
-        </div>
-      </div>
-      <div className="profile_main_right">
-        <p>
-          <b>First Name: </b>Nicolas
-        </p>
-        <p>
-          <b>Middle Name: </b>Bear
-        </p>
-        <p>
-          <b>Last Name: </b>Cage
-        </p>
-        <p>
-          <b>Full Name: </b>Nicolas Bear Cage
-        </p>
-        <p>
-          <b>Occupation: </b>Protector of Bears
-        </p>
-        <p>
-          <b>Location: </b>California, U.S.
-        </p>
-        <p>
-          <b>Email: </b>ilovebears@bears.com
-        </p>
-        <p>
-          <b>Phone: </b>555 555 555
-        </p>
-        <CustomButton buttonText="Edit" />
-      </div>
-    </div>
+    <main className="profile_container">
+      {error && <p className="error_message">{error}</p>}
+      {userData ? (
+        <>
+          <section className="description_content_wrapper">
+            <div className="background_decoration">
+              <div className="profile_image">
+                <Image
+                  className="prof_img"
+                  src={
+                    userData.image ||
+                    'https://ssl.gstatic.com/onebox/media/sports/photos/ufc/3605_rZmNsA_96x96.png'
+                  }
+                  alt='profile image'
+                  width={96}
+                  height={96}
+                />
+              </div>
+            </div>
+            <div className="profile_description">
+              <div>
+                <h2 className="profile_name">
+                  {`${userData.firstName} ${userData.lastName}`}
+                </h2>
+                <div>
+                  <span className="profile_email">
+                    Email: {userData.email}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section className="profile_settings">
+            <nav>
+              <ul>
+                <li>Account settings</li>
+                <li>Manage password</li>
+                <li>Order history</li>
+                <li>Address</li>
+                <li>Notification</li>
+                <li>
+                  <button onClick={signOut}>Sign Out</button>
+                </li>
+              </ul>
+            </nav>
+          </section>
+
+          <section className="account_settings">
+            <form>
+              <div className="label_wrapper">
+                <label htmlFor='firstName'>First Name</label>
+                <input type='text' id='firstName' value={userData.firstName} readOnly />
+              </div>
+              <div className="label_wrapper">
+                <label htmlFor='lastName'>Last Name</label>
+                <input type='text' id='lastName' value={userData.lastName} readOnly />
+              </div>
+
+              <div className="label_wrapper">
+                <label htmlFor='email'>Email</label>
+                <input type='text' id='email' value={userData.email} readOnly />
+              </div>
+
+              <div className="label_wrapper">
+                <label htmlFor='phoneNumber'>Phone Number</label>
+                <input
+                  type='tel'
+                  id='phoneNumber'
+                  required
+                  value={userData.phone || ''}
+                />
+              </div>
+              <div className="buttons_wrapper">
+                <button type='button'>Cancel</button>
+                <button type='submit'>Update</button>
+              </div>
+            </form>
+          </section>
+        </>
+      ) : (
+        !error && <p>Loading user data...</p>
+      )}
+    </main>
   );
 }
