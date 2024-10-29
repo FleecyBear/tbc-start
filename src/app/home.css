@@ -1,17 +1,19 @@
-.home_main{
+.home_main {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: center; 
   gap: 50px;
 }
+
 .Main_Images {
   display: flex;
   justify-content: center;
   flex-direction: row;
-  gap: 200px;
+  gap: 50px; 
 }
 
-.Main_Images img {
+.panda-image { 
   height: 250px; 
   width: auto; 
   border: 5px solid rgba(255, 192, 203, 0.7); 
@@ -20,19 +22,21 @@
   transition: transform 0.3s, box-shadow 0.3s; 
 }
 
-.Main_Images img:hover {
+.panda-image:hover {
   transform: scale(1.05); 
   box-shadow: 0 6px 15px rgba(0, 0, 0, 0.5); 
 }
+
 .Main_Text_First {
   font-size: 24px;
   color: lightyellow;
-
+  text-align: center; 
 }
 
 .Main_Text_Last {
   font-size: 15px;
   color: lightyellow;
+  text-align: center; 
 }
 
 .Main_Grid::-webkit-scrollbar-track {
