@@ -157,7 +157,7 @@ export default function ProductsPage({ searchParams }) {
       <div className="Product_List">
         {filteredProducts.length > 0 ? (
           filteredProducts.map((product) => (
-            <>
+            <div>
               <Products
                 id={product.id}
                 image={product.images}
@@ -167,7 +167,7 @@ export default function ProductsPage({ searchParams }) {
                 brand={product.brand}
               />
               <button onClick={() => deleteProduct(product.id)}>Delete</button>
-            </>
+            </div>
           ))
         ) : (
           <p>No products available</p>
