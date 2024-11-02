@@ -4,7 +4,7 @@ import ProductControls from './productControls.jsx';
 
 async function getCategories() {
   try {
-    const res = await fetch('https://dummyjson.com/products/categories');
+    const res = await fetch('https://dummyjson.com/products/categories?limit=15');
     if (!res.ok) throw new Error('Failed to fetch categories');
     return await res.json();
   } catch (error) {
@@ -18,9 +18,9 @@ async function getProducts(category = "", search = "", sort = "title", order = "
     let url;
     
     if (category) {
-      url = `https://dummyjson.com/products/category/${category}?sortBy=${sort}&order=${order}`;
+      url = `https://dummyjson.com/products/category/${category}?sortBy=${sort}&order=${order}&limit=15`;
     } else { 
-      url = `https://dummyjson.com/products/search?q=${search}&sortBy=${sort}&order=${order}`;
+      url = `https://dummyjson.com/products/search?q=${search}&sortBy=${sort}&order=${order}&limit=15`;
     }
 
     console.log("Fetching products from URL:", url);
