@@ -11,7 +11,7 @@ export default function PublicLayout({ children }) {
 
   useEffect(() => {
     const checkSession = async () => {
-      const session = await sessionStatus(); 
+      const session = sessionStatus(); 
 
       if (session===true) {
         router.push('/profile'); 

@@ -14,7 +14,7 @@ export default function AuthLayout({ children }) {
     const checkSession = async () => {
       const session = await sessionStatus(); 
 
-      if (!session) {
+      if (session===false) {
         router.push('/login'); 
       } else {
         setLoading(false); 

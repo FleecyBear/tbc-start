@@ -6,7 +6,7 @@ export default function SignIn() {
   return (
     <div className="login-container">
       <h5 className="login-title">Log In</h5>
-      <form action={authenticate} className="login-form" method="POST">
+      <form action={authenticate} className="login-form" >
         <div className="input-box"> 
           <label htmlFor='email'></label>
           <input
