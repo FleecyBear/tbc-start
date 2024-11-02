@@ -21,8 +21,8 @@ export default function RootLayout({ children }) {
       </head>
 
       <body>
-        <div className="App">
-          <main className="main">{children}</main>
+        <div className="app-layout">
+          <main className="main-layout">{children}</main>
         </div>
       </body>
     </html>
