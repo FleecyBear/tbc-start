@@ -90,6 +90,15 @@ export default function ProductsPage({ searchParams }) {
     setNewProduct((prev) => ({ ...prev, [name]: value }));
   };
 
+  const deleteProduct = (id) => {
+    const updatedProducts = filteredProducts.filter((product) => product.id !== id);
+    setFilteredProducts(updatedProducts);
+
+    const customProducts = JSON.parse(localStorage.getItem("customProducts")) || [];
+    const updatedCustomProducts = customProducts.filter((product) => product.id !== id);
+    localStorage.setItem("customProducts", JSON.stringify(updatedCustomProducts));
+  };
+
   return (
     <div className="products-main-container">
       <ProductControls 
@@ -148,15 +157,17 @@ export default function ProductsPage({ searchParams }) {
       <div className="Product_List">
         {filteredProducts.length > 0 ? (
           filteredProducts.map((product) => (
-            <Products
-              key={product.id}
-              id={product.id}
-              image={product.images}
-              description={product.description}
-              title={product.title}
-              price={product.price}
-              brand={product.brand}
-            />
+            <>
+              <Products
+                id={product.id}
+                image={product.images}
+                description={product.description}
+                title={product.title}
+                price={product.price}
+                brand={product.brand}
+              />
+              <button onClick={() => deleteProduct(product.id)}>Delete</button>
+            </>
           ))
         ) : (
           <p>No products available</p>
