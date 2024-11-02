@@ -2,7 +2,7 @@
 import "./Header.css";
 import ImageButton from "../imagebutton/imagebutton.js";
 import Link from "next/link";
-
+import { signOut } from "../../utils/actions.js";
 export default function Header({ }) {
   return (
     <header className="Header">
@@ -28,6 +28,7 @@ export default function Header({ }) {
             className="Profile_Button"
           />
         </Link>
+        <button onClick={signOut}>Sign Out</button>
       </div>
     </header>
   );
