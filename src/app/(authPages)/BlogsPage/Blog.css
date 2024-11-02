@@ -52,3 +52,16 @@
   display: grid;
   grid-template-columns: auto;
 }
+.BlogForm {
+  margin: 10px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.BlogForm input,
+.BlogForm textarea {
+  padding: 10px;
+  font-size: 16px;
+  width: 100%;
+}
