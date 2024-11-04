@@ -21,44 +21,5 @@
   gap: 30px;
 }
 
-.Profile_Button {
-  border-radius: 50%; 
-  transition: transform 0.3s ease; 
-}
 
-.Profile_Button:hover {
-  transform: scale(1.1); 
-}
 
-.products-btn {
-  font-size: 15px;
-  width: 150px; 
-  cursor: pointer;
-  padding: 8px 15px; 
-  background-color: #a85fc2; 
-  color: white; 
-  border: none;
-  border-radius: 5px;
-  transition: background-color 0.3s ease; 
-}
-
-.products-btn:hover {
-  background-color: #972db1; 
-}
-
-.Search_Button {
-  height: 35px; 
-  border: none;
-  outline: none;
-  font-size: 16px; 
-  max-width: 220px; 
-  background-color: #e9ecef; 
-  padding: 5px 15px; 
-  border-radius: 5px;
-  transition: background-color 0.3s ease; 
-}
-
-.Search_Button:focus {
-  background-color: #ffffff; 
-  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); 
-}

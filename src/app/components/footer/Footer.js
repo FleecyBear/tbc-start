@@ -6,23 +6,23 @@ export default function Footer() {
     <footer className="Footer">
       <div className="Footer_Top">
         <Link href="/contact" passHref>
-          <button className="footer-btn">Contact</button>
+          <button className="btn-custom">Contact</button>
         </Link>
         <Link href="/assignment-3" passHref>
-          <button className="footer-btn">Assignment 3</button>
+          <button className="btn-custom">Assignment 3</button>
         </Link>
         <Link href="/BlogsPage" passHref>
-          <button className="footer-btn">Blog</button>
+          <button className="btn-custom">Blog</button>
         </Link>
         <Link href="/about" passHref>
-          <button className="footer-btn">About</button>
+          <button className="btn-custom">About</button>
         </Link>
       </div>
 
       <div className="Footer_Bottom">
-        <button className="footer-btn">Privacy Policy</button>
-        <button className="footer-btn">Terms of Service</button>
-        <button className="footer-btn">FAQ</button>
+        <button className="btn-custom">Privacy Policy</button>
+        <button className="btn-custom">Terms of Service</button>
+        <button className="btn-custom">FAQ</button>
       </div>
     </footer>
   );

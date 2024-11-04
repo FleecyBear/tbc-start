@@ -3,7 +3,6 @@ import './productsPage.css';
 import { useState, useEffect } from 'react';
 import Products from './products/page.jsx';
 import ProductControls from './productControls.jsx';
-import CustomButton from '../../components/button/button';
 
 export default function ProductsPage({ searchParams }) {
   const { category = "", sortBy = "title", order = "asc", search = "" } = searchParams;
@@ -111,7 +110,7 @@ export default function ProductsPage({ searchParams }) {
 
       <div className="ProductPageWelcome">
         <p className="ProductPageTitle">Products</p>
-        <button onClick={() => setShowForm(!showForm)}>
+        <button onClick={() => setShowForm(!showForm)} className='btn-custom'>
           {showForm ? "Cancel" : "Add Product"}
         </button>
       </div>
@@ -146,9 +145,9 @@ export default function ProductsPage({ searchParams }) {
             value={newProduct.image}
             onChange={handleFormChange}
           />
-          <div onClick={addCustomProduct} style={{ display: 'inline-block' }}>
-            <CustomButton buttonText="Add Product" />
-          </div>
+          <button onClick={addCustomProduct} className="btn-custom">
+            Add Product
+          </button>
         </div>
       )}
 
@@ -166,7 +165,7 @@ export default function ProductsPage({ searchParams }) {
                 price={product.price}
                 brand={product.brand}
               />
-              <button onClick={() => deleteProduct(product.id)}>Delete</button>
+              <button onClick={() => deleteProduct(product.id)} className='btn-custom'>Delete</button>
             </div>
           ))
         ) : (

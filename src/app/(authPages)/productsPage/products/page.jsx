@@ -1,6 +1,5 @@
 import React from "react";
 import "./Products.css";
-import CustomButton from '../../../components/button/button';
 import Link from "next/link"; 
 
 export default function Products({ id, title, image, brand, price }) { 
@@ -19,7 +18,7 @@ export default function Products({ id, title, image, brand, price }) {
           <p>${price}</p>
         </div>
       </div>
-      <CustomButton buttonText="Add To Cart" />
+      <button className="btn-custom">Add To Cart</button>
     </div>
   );
 }
