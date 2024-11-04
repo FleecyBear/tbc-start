@@ -1,7 +1,5 @@
 import "./Contact.css";
-import Button from "../../components/button/button.js";
-
-export default function Contact({ buttonText }) {
+export default function Contact({  }) {
   return (
     <>
       <h1 className="main-title">Contact Us</h1>
@@ -50,8 +48,7 @@ export default function Contact({ buttonText }) {
             placeholder="Enter your email"
             className="subscribe-input"
           />
-
-          <Button buttonText="Subscribe" />
+          <button className="btn-custom">Subscribe</button>
         </form>
       </div>
     </>
