@@ -1,10 +1,11 @@
-import "./Footer.css";
 import Link from "next/link";
 
 export default function Footer() {
   return (
-    <footer className="Footer dark:bg-gray-900">
-      <div className="Footer_Top">
+    <footer className="relative w-full h-20 bg-purple-400 
+      flex justify-between items-center mt-auto z-50 shadow-md 
+      dark:bg-gray-900 border-t-4 border-blue-500 px-32">
+      <div className="flex gap-12 items-center">
         <Link href="/contact" passHref>
           <button className="btn-custom">Contact</button>
         </Link>
@@ -19,7 +20,7 @@ export default function Footer() {
         </Link>
       </div>
 
-      <div className="Footer_Bottom">
+      <div className="flex gap-12 items-center">
         <button className="btn-custom">Privacy Policy</button>
         <button className="btn-custom">Terms of Service</button>
         <button className="btn-custom">FAQ</button>

@@ -19,9 +19,9 @@ export default function AuthLayout({ children }) {
   }
 
   return (
-    <div className="flex flex-col min-h-screen bg-purple-500 dark:bg-purple-900">
+    <div className="flex flex-col min-h-screen bg-violet-400 dark:bg-violet-950 ">
       <Header />
-      <main className="flex-grow p-4 md:p-8 lg:p-12">
+      <main className="flex-grow p-4 mt-16 lg:p-12">
         {children}
       </main>
       <Footer />
