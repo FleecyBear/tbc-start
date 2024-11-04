@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 import CustomButton from "../../components/button/button";
 
 async function fetchBlogs() {
-  const res = await fetch("https://dummyjson.com/posts");
+  const res = await fetch("https://dummyjson.com/posts?limit=10");
   if (!res.ok) {
     throw new Error("Failed to fetch blogs");
   }
