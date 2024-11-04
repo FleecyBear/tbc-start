@@ -4,43 +4,30 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMoon, faSun, faGear } from "@fortawesome/free-solid-svg-icons";
 
 const ThemeToggle = () => {
-  const [theme, setTheme] = useState('system'); 
+  const [theme, setTheme] = useState(() => {
+    return localStorage.getItem("theme") || 'system';
+  }); 
 
   useEffect(() => {
-    const storedTheme = localStorage.getItem("theme");
-    if (storedTheme) {
-      setTheme(storedTheme);
-    } else {
-      const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-      setTheme(mediaQuery.matches ? 'dark' : 'light');
-
-      const handleChange = (e) => {
-        setTheme(e.matches ? 'dark' : 'light');
-      };
-      mediaQuery.addEventListener('change', handleChange);
-
-      return () => {
-        mediaQuery.removeEventListener('change', handleChange);
-      };
-    }
-  }, []);
-
-  useEffect(() => {
-    if (theme === 'dark') {
-      document.documentElement.classList.add('dark');
-      localStorage.setItem("theme", "dark");
-    } else if (theme === 'light') {
-      document.documentElement.classList.remove('dark');
-      localStorage.setItem("theme", "light");
-    } else {
-      const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-      if (mediaQuery.matches) {
+    const updateTheme = (newTheme) => {
+      if (newTheme === 'dark') {
         document.documentElement.classList.add('dark');
-      } else {
+        localStorage.setItem("theme", "dark");
+      } else if (newTheme === 'light') {
         document.documentElement.classList.remove('dark');
+        localStorage.setItem("theme", "light");
+      } else {
+        const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+        if (mediaQuery.matches) {
+          document.documentElement.classList.add('dark');
+        } else {
+          document.documentElement.classList.remove('dark');
+        }
+        localStorage.removeItem("theme");
       }
-      localStorage.removeItem("theme");
-    }
+    };
+
+    updateTheme(theme);
   }, [theme]);
 
   const handleThemeChange = (newTheme) => {
