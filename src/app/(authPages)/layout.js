@@ -12,7 +12,7 @@ export default function AuthLayout({ children }) {
   const [loading, setLoading] = useState(true); 
   useEffect(() => {
     const checkSession = async () => {
-      const session = await sessionStatus(); 
+      const session = sessionStatus(); 
 
       if (session===false) {
         router.push('/login'); 
@@ -28,10 +28,13 @@ export default function AuthLayout({ children }) {
   }
 
   return (
-    <div className="app-container">
-      <Header />
-      <main className="main-container">{children}</main>
-      <Footer />
-    </div>
+    <div className="flex flex-col min-h-screen bg-purple-500
+    dark:bg-purple-900">
+    <Header />
+    <main className="flex-grow p-4 md:p-8 lg:p-12">
+      {children}
+    </main>
+    <Footer />
+  </div>
   );
 }

@@ -7,7 +7,7 @@ import ThemeToggle from "../../utils/themeToggle.js";
 
 export default function Header() {
   return (
-    <header className="Header flex  dark:bg-gray-900">
+    <header className="Header dark:bg-gray-900">
       <div className="Header_Left">
         <Link href="/" passHref>
           <CustomButton buttonText="Home" />

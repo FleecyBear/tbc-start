@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export default function Footer() {
   return (
-    <footer className="Footer">
+    <footer className="Footer dark:bg-gray-900">
       <div className="Footer_Top">
         <Link href="/contact" passHref>
           <button className="btn-custom">Contact</button>
