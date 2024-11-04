@@ -1,5 +1,4 @@
 "use client";
-import CustomButton from "../button/button.js";
 import Link from "next/link";
 import { signOut } from "../../utils/actions.js";
 import ThemeToggle from "../../utils/themeToggle.js";
@@ -11,19 +10,19 @@ export default function Header() {
      border-blue-500 shadow-md dark:bg-gray-900">
       <div className="Header_Left flex gap-12">
         <Link href="/" passHref>
-          <CustomButton buttonText="Home" />
+        <button className="btn-custom">Home</button>
         </Link>
         <Link href="/productsPage" passHref>
-          <CustomButton buttonText="Products" />
+        <button className="btn-custom">Products</button>
         </Link>
         <Link href="/BlogsPage" passHref>
-          <CustomButton buttonText="Blogs" />
+        <button className="btn-custom">Blogs</button>
         </Link>
       </div>
 
       <div className="Header_Right flex gap-12">
         <Link href="/profile" passHref>
-          <CustomButton buttonText="Profile" />
+          <button className="btn-custom">Profile</button>
         </Link>
         <button onClick={signOut} className="btn-custom">
           Sign Out
