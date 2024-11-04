@@ -6,7 +6,7 @@ import { faMoon, faSun, faGear } from "@fortawesome/free-solid-svg-icons";
 const ThemeToggle = () => {
   const [theme, setTheme] = useState(() => {
     return localStorage.getItem("theme") || 'system';
-  }); 
+  });
 
   useEffect(() => {
     const updateTheme = (newTheme) => {
@@ -25,9 +25,25 @@ const ThemeToggle = () => {
         }
         localStorage.removeItem("theme");
       }
+      console.log("Theme updated:", newTheme);
     };
 
     updateTheme(theme);
+
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    
+    const handleMediaQueryChange = (e) => {
+      const newTheme = e.matches ? 'dark' : 'light';
+      if (theme === 'system') {
+        updateTheme(newTheme); 
+      }
+    };
+
+    mediaQuery.addEventListener('change', handleMediaQueryChange);
+    
+    return () => {
+      mediaQuery.removeEventListener('change', handleMediaQueryChange);
+    };
   }, [theme]);
 
   const handleThemeChange = (newTheme) => {
