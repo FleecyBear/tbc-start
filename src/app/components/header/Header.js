@@ -1,6 +1,5 @@
 "use client";
 import Link from "next/link";
-import { signOut } from "../../utils/actions.js";
 import ThemeToggle from "../../utils/themeToggle.js";
 
 export default function Header() {
@@ -24,8 +23,11 @@ export default function Header() {
         <Link href="/profile" passHref>
           <button className="btn-custom">Profile</button>
         </Link>
-        <button onClick={signOut} className="btn-custom">
-          Sign Out
+        <button  className="btn-custom"
+          onClick={() => {
+            window.location.href = '/api/auth/logout';
+          }} >
+          Logout
         </button>
         <ThemeToggle />
       </div>

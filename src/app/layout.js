@@ -1,6 +1,8 @@
 import "./global.css";
 import { config } from '@fortawesome/fontawesome-svg-core';
 import '@fortawesome/fontawesome-svg-core/styles.css'; 
+import { UserProvider } from "@auth0/nextjs-auth0/client";
+
 config.autoAddCss = false; 
 
 export const metadata = {
@@ -19,12 +21,13 @@ export default function RootLayout({ children }) {
           rel="stylesheet"
         />
       </head>
-
+      <UserProvider>
       <body>
         <div className="app-layout">
           <main className="main-layout">{children}</main>
         </div>
       </body>
+      </UserProvider>
     </html>
   );
 }
