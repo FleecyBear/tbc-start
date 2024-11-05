@@ -6,28 +6,22 @@ export default function About() {
         About TBC Project
       </h1>
       
-      <section className="bg-gray-200 p-6 rounded-lg shadow-md mb-6 mx-4
-       dark:bg-gray-900">
-        <h2 className="text-xl font-semibold mb-2 text-blue-700 text-center
-        dark:text-blue-400">
+      <section className="section-1">
+        <h2 className="h2-1">
           Welcome to the TBC Project!
         </h2>
-        <p className="text-gray-700 text-base leading-relaxed text-center
-        dark:text-gray-200">
+        <p className="p-1">
           Our mission is to spread joy and positivity through our adorable panda
           toys. Inspired by the gentle nature of these beloved animals, we aim
           to bring a smile to children and adults alike.
         </p>
       </section>
 
-      <section className="bg-gray-200 p-6 rounded-lg shadow-md mb-6 mx-4
-      dark:bg-gray-900">
-        <h2 className="text-xl font-semibold mb-2 text-blue-700 text-center
-        dark:text-blue-400">
+      <section className="section-1">
+        <h2 className="h2-1">
           Our Panda Toys
         </h2>
-        <p className="text-gray-700 text-base leading-relaxed text-center
-        dark:text-gray-200">
+        <p className="p-1">
           Our collection features a range of panda toys, from cuddly plush
           companions to fun educational figures. Each toy is crafted with care
           using eco-friendly materials, ensuring that our products are not only
@@ -35,14 +29,11 @@ export default function About() {
         </p>
       </section>
 
-      <section className="bg-gray-200 p-6 rounded-lg shadow-md mb-6 mx-4
-      dark:bg-gray-900">
-        <h2 className="text-xl font-semibold mb-2 text-blue-700 text-center
-        dark:text-blue-400">
+      <section className="section-1">
+        <h2 className="h2-1">
           Why Pandas?
         </h2>
-        <p className="text-gray-700 text-base leading-relaxed text-center
-        dark:text-gray-200">
+        <p className="p-1">
           Pandas are not just cute; they symbolize peace and conservation. By
           choosing our panda toys, you are not only getting a delightful
           companion but also supporting efforts to protect these amazing
