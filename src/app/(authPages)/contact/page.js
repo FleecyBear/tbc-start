@@ -1,7 +1,8 @@
 export default function Contact() {
   return (
     <div className="flex justify-center items-center flex-col">
-      <h1 className="main-title">Contact Us</h1>
+      <h1 className="text-3xl font-bold text-center mt-8 mb-6 text-gray-800
+      dark:text-gray-300">Contact Us</h1>
 
       <div className="section-1 w-1/3">
         <h2 className="h2-1">Contact Information</h2>
