@@ -1,22 +1,21 @@
-import "./Contact.css";
 export default function Contact({  }) {
   return (
-    <>
+    <div className = "flex justify-center items-center flex-col">
       <h1 className="main-title">Contact Us</h1>
 
-      <div className="contact-info">
-        <h2 className="second-title">Contact Information</h2>
-        <p className="contact-email">Email: info@ExampleProject.com</p>
-        <p className="contact-phone">Phone: 555 555 555</p>
-        <p className="contact-address">
+      <div className="section-1 w-1/3">
+        <h2 className="h2-1">Contact Information</h2>
+        <p className="p-1">Email: info@ExampleProject.com</p>
+        <p className="p-1">Phone: 555 555 555</p>
+        <p className="p-1">
           Address: 1 Example Street, Example Region, Example City
         </p>
       </div>
 
-      <div className="subscribe-form-wrapper">
+      <div className=" section-1 flex justify-center items-center flex-col w-1/3">
         <h2 className="second-title">Subscribe to Us</h2>
-        <form className="subscribe-form">
-          <label htmlFor="name" className="subscribe-label">
+        <form>
+          <label htmlFor="name" className="p-1 ">
             Name:
           </label>
           <input
@@ -27,7 +26,7 @@ export default function Contact({  }) {
             className="subscribe-input"
           />
 
-          <label htmlFor="phone" className="subscribe-label">
+          <label htmlFor="phone" className="p-1 ">
             Phone:
           </label>
           <input
@@ -38,7 +37,7 @@ export default function Contact({  }) {
             className="subscribe-input"
           />
 
-          <label htmlFor="email" className="subscribe-label">
+          <label htmlFor="email" className="p-1 ">
             Email:
           </label>
           <input
@@ -51,6 +50,6 @@ export default function Contact({  }) {
           <button className="btn-custom">Subscribe</button>
         </form>
       </div>
-    </>
+    </div>
   );
 }

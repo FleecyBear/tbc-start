@@ -4,8 +4,8 @@
 
 .btn-custom {
   @apply relative w-[120px] h-[40px] 
-        bg-slate-200 text-black 
-          dark:bg-gray-900 dark:text-white 
+        bg-transparent text-black 
+         dark:text-white 
           flex flex-col items-center justify-center 
           rounded-full cursor-pointer
           border-r-4 border-blue-500
@@ -15,8 +15,9 @@
 }
 .section-1 {
   @apply 
-  bg-gray-200 p-6 rounded-lg shadow-md mb-6 mx-4
-  dark:bg-gray-900;
+  bg-gray-200 opacity-90
+  p-6 rounded-lg shadow-md mb-6 mx-4
+  dark:bg-gray-900 dark:opacity-90;
 }
 .h2-1 {
 @apply
