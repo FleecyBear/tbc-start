@@ -1,6 +1,6 @@
-export default function Contact({  }) {
+export default function Contact() {
   return (
-    <div className = "flex justify-center items-center flex-col">
+    <div className="flex justify-center items-center flex-col">
       <h1 className="main-title">Contact Us</h1>
 
       <div className="section-1 w-1/3">
@@ -12,10 +12,10 @@ export default function Contact({  }) {
         </p>
       </div>
 
-      <div className=" section-1 flex justify-center items-center flex-col w-1/3">
-        <h2 className="second-title">Subscribe to Us</h2>
-        <form>
-          <label htmlFor="name" className="p-1 ">
+      <div className="section-1 flex justify-center items-center flex-col w-1/3">
+        <h2 className="h2-1">Subscribe to Us</h2>
+        <form className="flex flex-col w-full">
+          <label htmlFor="name" className="p-1">
             Name:
           </label>
           <input
@@ -23,10 +23,10 @@ export default function Contact({  }) {
             id="name"
             name="name"
             placeholder="Enter your name"
-            className="subscribe-input"
+            className="mb-4 p-2 border border-gray-300 rounded"
           />
 
-          <label htmlFor="phone" className="p-1 ">
+          <label htmlFor="phone" className="p-1">
             Phone:
           </label>
           <input
@@ -34,10 +34,10 @@ export default function Contact({  }) {
             id="phone"
             name="phone"
             placeholder="Enter your phone number"
-            className="subscribe-input"
+            className="mb-4 p-2 border border-gray-300 rounded" 
           />
 
-          <label htmlFor="email" className="p-1 ">
+          <label htmlFor="email" className="p-1">
             Email:
           </label>
           <input
@@ -45,9 +45,10 @@ export default function Contact({  }) {
             id="email"
             name="email"
             placeholder="Enter your email"
-            className="subscribe-input"
+            className="mb-4 p-2 border border-gray-300 rounded" 
           />
-          <button className="btn-custom">Subscribe</button>
+          
+          <button className="mt-4 px-4 py-2 btn-2">Subscribe</button>
         </form>
       </div>
     </div>
