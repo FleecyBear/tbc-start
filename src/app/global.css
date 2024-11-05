@@ -13,6 +13,29 @@
           hover:shadow-[0_0_20px_rgba(0,0,0,0.7),0_0_30px_rgba(0,0,0,0.5)]
           dark:hover:shadow-[0_0_20px_rgba(255,255,255,0.5),0_0_30px_rgba(255,255,255,0.3)];
 }
+.btn-2 {
+  @apply relative w-[140px] h-[50px] 
+         bg-blue-100 text-black dark:bg-gray-800 dark:text-violet-200
+         flex flex-col items-center justify-center 
+         rounded-full cursor-pointer 
+         border-l-8 border-violet-300 dark:border-violet-400 
+         transition-all duration-300 ease-in-out 
+         shadow-lg hover:shadow-[0_0_15px_rgba(0,0,0,0.2),0_0_25px_rgba(0,0,0,0.1)]
+         dark:hover:shadow-[0_0_20px_rgba(139,92,246,0.5),0_0_30px_rgba(139,92,246,0.3)]
+         px-4 text-center;
+}
+
+.btn-2:hover {
+  @apply bg-purple-400 dark:bg-violet-800 text-black 
+         transform scale-105 border-l-8 border-blue-100 dark:border-purple-400;
+}
+
+.btn-2:active {
+  @apply scale-95 bg-gray-400 dark:bg-violet-900;
+}
+
+
+
 .section-1 {
   @apply 
   bg-gray-200 opacity-90

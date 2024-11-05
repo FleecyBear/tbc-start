@@ -21,8 +21,8 @@ export default function Profile() {
           <p className="text-lg">{getUserDetail(user.email)}</p>
         </div>
 
-        <div className="bg-purple-600 p-4 rounded-lg w-full max-w-md">
-          <h3 className="text-lg font-semibold">Additional Information</h3>
+        <div className="section-1 p-1">
+          <h3 className="h2-1">Additional Information</h3>
           <p><strong>Name:</strong> {getUserDetail(user.name)}</p>
           <p><strong>Nickname:</strong> {getUserDetail(user.nickname)}</p>
           <p><strong>Username:</strong> {getUserDetail(user.username)}</p>
@@ -35,7 +35,7 @@ export default function Profile() {
           onClick={() => {
             window.location.href = '/api/auth/logout';
           }} 
-          className="mt-4 px-4 py-2 btn-custom">
+          className="mt-4 px-4 py-2 btn-2">
           Logout
         </button>
       </main>
