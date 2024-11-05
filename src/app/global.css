@@ -4,7 +4,7 @@
 
 .btn-custom {
   @apply relative w-[120px] h-[40px] 
-          bg-gray-200 text-black 
+        bg-slate-200 text-black 
           dark:bg-gray-900 dark:text-white 
           flex flex-col items-center justify-center 
           rounded-full cursor-pointer
