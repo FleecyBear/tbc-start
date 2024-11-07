@@ -1,6 +1,6 @@
 'use client';
 import { useEffect } from 'react';
-import { useUser } from '@auth0/nextjs-auth0/client'; 
+import { useUser } from '@auth0/nextjs-auth0/client';
 import '../global.css';
 import Header from '../components/header/Header';
 import Footer from '../components/footer/Footer';
@@ -13,10 +13,15 @@ export default function AuthLayout({ children }) {
     if (!isLoading && !user) {
       window.location.href = '/api/auth/login';
     }
-  }, [isLoading, user]); 
+  }, [isLoading, user]);
 
-  if (isLoading) {
-    return <div>Loading...</div>; 
+  if (isLoading || (!user && typeof window !== 'undefined')) {
+    return (
+      <div className="flex items-center justify-center min-h-screen 
+      bg-violet-700">
+        <div className="text-white text-lg">Loading...</div>
+      </div>
+    );
   }
 
   return (
@@ -30,9 +35,7 @@ export default function AuthLayout({ children }) {
         />
       </div>
 
-      <div className="absolute inset-0
-      bg-violet-400 dark:bg-violet-950 
-      opacity-80 dark:opacity-90 z-[-1]" /> 
+      <div className="absolute inset-0 bg-violet-400 dark:bg-violet-950 opacity-80 dark:opacity-90 z-[-1]" /> 
 
       <Header />
       <main className="flex-grow p-4 mt-16 lg:p-12 relative z-10">
