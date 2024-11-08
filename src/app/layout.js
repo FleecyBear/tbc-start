@@ -1,9 +1,12 @@
 import "./global.css";
-import { config } from '@fortawesome/fontawesome-svg-core';
-import '@fortawesome/fontawesome-svg-core/styles.css'; 
+import { config } from "@fortawesome/fontawesome-svg-core";
+import "@fortawesome/fontawesome-svg-core/styles.css";
 import { UserProvider } from "@auth0/nextjs-auth0/client";
+import Header from "./components/header/Header";
+import Footer from "./components/footer/Footer";
+import LanguageRedirect from "./utils/languageRedirect.js";
 
-config.autoAddCss = false; 
+config.autoAddCss = false;
 
 export const metadata = {
   title: "React App",
@@ -22,11 +25,12 @@ export default function RootLayout({ children }) {
         />
       </head>
       <UserProvider>
-      <body>
-        <div className="app-layout">
-          <main className="main-layout">{children}</main>
-        </div>
-      </body>
+        <body>
+          <LanguageRedirect /> 
+          <div className="app-layout">
+            <main className="main-layout">{children}</main>
+          </div>
+        </body>
       </UserProvider>
     </html>
   );

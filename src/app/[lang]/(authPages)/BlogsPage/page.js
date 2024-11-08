@@ -2,7 +2,7 @@
 import "./Blog.css";
 import BlogItems from "./blog-items/page";
 import { useState, useEffect } from "react";
-import CustomButton from "../../components/button/button";
+import CustomButton from "../../../components/button/button";
 
 async function fetchBlogs() {
   const res = await fetch("https://dummyjson.com/posts?limit=10");

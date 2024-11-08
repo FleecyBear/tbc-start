@@ -40,8 +40,11 @@ const ProductControls = ({
   const updateQueryParams = (key, value) => {
     const params = new URLSearchParams(window.location.search);
     params.set(key, value);
-    router.push(`/productsPage?${params.toString()}`);
+  
+    const newUrl = `${window.location.pathname}?${params.toString()}`;
+    window.history.pushState(null, "", newUrl); 
   };
+  
 
   const handleChange = (key, value) => {
     switch (key) {
