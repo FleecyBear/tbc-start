@@ -28,7 +28,7 @@ export default function Header() {
         <button
           className="btn-custom"
           onClick={() => {
-            window.location.href = `/${currentLang}/api/auth/logout`;
+            window.location.href = `/api/auth/logout`;
           }}
         >
           {translations.logout}  

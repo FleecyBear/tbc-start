@@ -1,18 +1,20 @@
 "use client";
 import { useEffect } from 'react';
 import { useUser } from '@auth0/nextjs-auth0/client';
-
+import { useRouter } from 'next/navigation';
 import Header from '../../components/header/Header';
 import Footer from '../../components/footer/Footer';
 import Image from 'next/image';
 
 export default function AuthLayout({ children }) {
   const { user, isLoading } = useUser();
+  const router = useRouter();
+
   useEffect(() => {
     if (!isLoading && !user) {
-      router.push('/ge/api/auth/login');
+      router.push('/api/auth/login');
     }
-  }, [isLoading, user]);
+  }, [isLoading, user, router]);
 
   if (isLoading || (!user && typeof window !== 'undefined')) {
     return (
