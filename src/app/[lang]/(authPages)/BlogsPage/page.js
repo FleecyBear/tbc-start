@@ -1,8 +1,6 @@
 'use client'
-import "./Blog.css";
 import BlogItems from "./blog-items/page";
 import { useState, useEffect } from "react";
-import CustomButton from "../../../components/button/button";
 
 async function fetchBlogs() {
   const res = await fetch("https://dummyjson.com/posts?limit=10");
@@ -51,6 +49,7 @@ export default function BlogsPage() {
     setNewBlog({ title: "", description: "" });
     setShowForm(false);
   };
+
   const deleteBlog = (id) => {
     const updatedBlogs = blogList.filter(blog => blog.id !== id);
     setBlogList(updatedBlogs);
@@ -67,36 +66,39 @@ export default function BlogsPage() {
   if (!blogList.length) return <p>No blogs found</p>;
 
   return (
-    <div className="BlogContainer">
-      <div className="BlogPageWelcome">
-        <p className="BlogPageTitle">Blogs</p>
-        <button onClick={() => setShowForm(!showForm)}>
+    <div className="flex flex-col items-center p-4">
+      <div className="flex items-center justify-between w-full max-w-4xl mb-4">
+        <p className="h2-1">Blogs</p>
+        <button
+          onClick={() => setShowForm(!showForm)}
+          className="btn-2"
+        >
           {showForm ? "Cancel" : "Create Blog"}
         </button>
       </div>
       
       {showForm && (
-        <div className="BlogForm">
+        <div className="flex flex-col section-1 w-1/3">
           <input
             type="text"
             name="title"
             placeholder="Blog Title"
             value={newBlog.title}
             onChange={handleFormChange}
+            className="w-full p-2 mb-2 border border-gray-300 rounded"
           />
           <textarea
             name="description"
             placeholder="Blog Description"
             value={newBlog.description}
             onChange={handleFormChange}
+            className="w-full p-2 mb-2 border border-gray-300 rounded"
           />
-          <div onClick={addCustomBlog} style={{ display: 'inline-block' }}>
-          <CustomButton buttonText="Add Blog" />
-          </div>
+          <button onClick={addCustomBlog} className="btn-2 w-1/3 my-2">Add Blog</button>
         </div>
       )}
       
-      <div className="Blog_List">
+      <div className="w-full max-w-4xl mt-4 grid gap-4">
         {blogList.map((blog) => (
           <BlogItems
             key={blog.id}

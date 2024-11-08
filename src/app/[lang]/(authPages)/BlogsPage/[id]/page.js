@@ -1,6 +1,5 @@
 import LikeIcon from '../../../../svgIcons/likeIcon'
 import DislikeIcon from '../../../../svgIcons/dislikeIcon';
-import "../detailBlogs.css";
 export default async function BlogPost({ params }) {
   const { id } = params;
 
@@ -25,29 +24,40 @@ export default async function BlogPost({ params }) {
   }
 
   return (
-    <div className='detail-blog-container'> 
-      <div className="blog-container">
-        <h1 className="detail-blog-title">{postData.title}</h1>
-        <p className="detail-blog-body">{postData.body}</p>
-        <div className="detail-blog-bottom">
-          <p className="detail-blog-tags">
+    <div className="section-1 w-2/3 ">
+      <div className="space-y-6">
+        <h1 className="h2-1">
+          {postData.title}
+        </h1>
+        <p className="p-1">
+          {postData.body}
+        </p>
+  
+        <div className="flex flex-col md:flex-row md:justify-between items-start md:items-center mt-6 border-t pt-4 border-gray-200 dark:border-gray-700">
+          <p className="text-gray-600 dark:text-gray-400 text-sm">
             Tags:{" "}
             {postData.tags.map((tag, index) => (
-              <span key={index} className="detail-blog-tag">
-                {tag.charAt(0).toUpperCase() + tag.slice(1).toLowerCase()}{" "}
+              <span
+                key={index}
+                className="inline-block bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-200 px-2 py-1 rounded-full text-xs mr-2 mb-1"
+              >
+                {tag.charAt(0).toUpperCase() + tag.slice(1).toLowerCase()}
               </span>
             ))}
           </p>
-          <div className="detail-blog-likes">
-            <p>
-              <LikeIcon />: {postData.reactions.likes}
+  
+          <div className="flex space-x-4 mt-4 md:mt-0 text-gray-600 dark:text-gray-400">
+            <p className="flex items-center">
+              <LikeIcon  />:{" "}
+              {postData.reactions.likes}
             </p>
-            <p>
-              <DislikeIcon />: {postData.reactions.dislikes}
+            <p className="flex items-center">
+              <DislikeIcon  />:{" "}
+              {postData.reactions.dislikes}
             </p>
           </div>
         </div>
       </div>
     </div>
   );
-}
+}  

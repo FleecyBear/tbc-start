@@ -9,7 +9,9 @@ export default function Header() {
   const translations = useTranslation(currentLang);  
 
   return (
-    <header className="fixed top-0 left-0 w-full h-20 bg-slate-200 flex justify-between items-center z-50 shadow-md dark:bg-gray-900 border-b-4 border-blue-500 px-32">
+    <header className="fixed top-0 left-0 w-full h-20 bg-white 
+    flex justify-between items-center z-50 shadow-md dark:bg-gray-900 
+    border-b-4 border-blue-500 px-32">
       <div className="flex gap-12 items-center">
         <Link href={`/${currentLang}/home`} passHref>
           <button className="btn-custom">{translations.home}</button> 
