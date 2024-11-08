@@ -4,7 +4,6 @@ import "@fortawesome/fontawesome-svg-core/styles.css";
 import { UserProvider } from "@auth0/nextjs-auth0/client";
 import Header from "./components/header/Header";
 import Footer from "./components/footer/Footer";
-import LanguageRedirect from "./utils/languageRedirect.js";
 
 config.autoAddCss = false;
 
@@ -26,7 +25,6 @@ export default function RootLayout({ children }) {
       </head>
       <UserProvider>
         <body>
-          <LanguageRedirect /> 
           <div className="app-layout">
             <main className="main-layout">{children}</main>
           </div>
