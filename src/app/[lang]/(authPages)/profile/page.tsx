@@ -1,6 +1,5 @@
 'use client';
 
-import { useEffect } from 'react';
 import { useUser } from '@auth0/nextjs-auth0/client';
 
 interface UserType {
