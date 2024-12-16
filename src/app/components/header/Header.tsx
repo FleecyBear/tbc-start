@@ -2,8 +2,8 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import ThemeToggle from '../../utils/themeToggle.js';
-import LanguageSelector from '../../utils/languageSelector.js';
-import useTranslation from '../../utils/useTranslation.tsx';
+import LanguageSelector from '../../utils/languageSelector';
+import useTranslation from '../../utils/useTranslation';
 
 interface Translations {
   home: string;
