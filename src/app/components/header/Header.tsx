@@ -1,7 +1,7 @@
 'use client';
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import ThemeToggle from '../../utils/themeToggle.js';
+import ThemeToggle from '../../utils/themeToggle';
 import LanguageSelector from '../../utils/languageSelector';
 import useTranslation from '../../utils/useTranslation';
 
