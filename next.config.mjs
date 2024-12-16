@@ -4,7 +4,7 @@ const nextConfig = {
     basePath: '',
     reactStrictMode: true,
     images: {
-      domains: ['dummyjson.com'], 
+      domains: ['dummyjson.com', 'www.urbanaccentscanada.com', 'cdn.fairdealfurniture.co.ke', 'www.alankaram.in'], 
     },
     async redirects() {
       return [
