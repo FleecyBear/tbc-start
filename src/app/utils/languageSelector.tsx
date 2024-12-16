@@ -4,7 +4,8 @@ import { useEffect, useState } from "react";
 
 export default function LanguageSelector() {
   const router = useRouter();
-  const [lang, setLang] = useState("en");
+  
+  const [lang, setLang] = useState<string>("en");
 
   useEffect(() => {
     const storedLang = localStorage.getItem("lang");
@@ -13,12 +14,15 @@ export default function LanguageSelector() {
     }
   }, []);
 
-  const handleLanguageChange = (event) => {
+  const handleLanguageChange = (event: React.ChangeEvent<HTMLSelectElement>): void => {
     const selectedLang = event.target.value;
+    
     const pathWithoutLang = window.location.pathname.replace(/^\/(en|ge)/, "");
+    
     router.push(`/${selectedLang}${pathWithoutLang}`);
+    
     setLang(selectedLang);
-    localStorage.setItem("lang", selectedLang); 
+    localStorage.setItem("lang", selectedLang);
   };
 
   return (

@@ -1,6 +1,8 @@
+interface ButtonProps {
+  buttonText?: string;
+}
 
-
-const Button = ({ buttonText }) => {
+const Button = ({ buttonText }: ButtonProps) => {
   return (
     <button className="bg-purple-700 text-white hover:bg-purple-600 
                        px-4 py-2 rounded-md transition 

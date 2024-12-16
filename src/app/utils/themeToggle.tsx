@@ -3,13 +3,15 @@ import { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMoon, faSun, faGear } from "@fortawesome/free-solid-svg-icons";
 
+type Theme = 'light' | 'dark' | 'system';
+
 const ThemeToggle = () => {
-  const [theme, setTheme] = useState(() => {
-    return localStorage.getItem("theme") || 'system';
+  const [theme, setTheme] = useState<Theme>(() => {
+    return (localStorage.getItem("theme") as Theme) || 'system';
   });
 
   useEffect(() => {
-    const updateTheme = (newTheme) => {
+    const updateTheme = (newTheme: Theme) => {
       if (newTheme === 'dark') {
         document.documentElement.classList.add('dark');
         localStorage.setItem("theme", "dark");
@@ -32,10 +34,10 @@ const ThemeToggle = () => {
 
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
     
-    const handleMediaQueryChange = (e) => {
+    const handleMediaQueryChange = (e: MediaQueryListEvent) => {
       const newTheme = e.matches ? 'dark' : 'light';
       if (theme === 'system') {
-        updateTheme(newTheme); 
+        updateTheme(newTheme);
       }
     };
 
@@ -46,7 +48,7 @@ const ThemeToggle = () => {
     };
   }, [theme]);
 
-  const handleThemeChange = (newTheme) => {
+  const handleThemeChange = (newTheme: Theme) => {
     setTheme(newTheme);
   };
 

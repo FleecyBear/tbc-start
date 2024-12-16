@@ -1,21 +1,21 @@
-"use client";
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+'use client';
+import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
 export default function NotFoundPage() {
   const router = useRouter();
-  const [loading, setLoading] = useState(true);
-  const [redirecting, setRedirecting] = useState(false);
-  const [errorMessage, setErrorMessage] = useState(null);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [redirecting, setRedirecting] = useState<boolean>(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   useEffect(() => {
     const pathname = window.location.pathname;
 
-    const hasLangPrefix = pathname.startsWith("/en") || pathname.startsWith("/ge");
+    const hasLangPrefix = pathname.startsWith('/en') || pathname.startsWith('/ge');
 
     if (!hasLangPrefix) {
       setLoading(false);
-      const storedLang = localStorage.getItem("lang") || "ge"; 
+      const storedLang = localStorage.getItem('lang') || 'ge'; 
       router.replace(`/${storedLang}${pathname}`);
       return;
     }
@@ -24,9 +24,9 @@ export default function NotFoundPage() {
       const res = await fetch(pathname);
       if (res.status === 404) {
         setLoading(false);
-        setErrorMessage("Page not found! You will be redirected to the homepage.");
+        setErrorMessage('Page not found! You will be redirected to the homepage.');
 
-        const storedLang = localStorage.getItem("lang") || "ge";
+        const storedLang = localStorage.getItem('lang') || 'ge';
 
         setRedirecting(true);
         setTimeout(() => {
@@ -55,7 +55,7 @@ export default function NotFoundPage() {
         <button
           className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-md"
           onClick={() => {
-            const storedLang = localStorage.getItem("lang") || "ge"; 
+            const storedLang = localStorage.getItem('lang') || 'ge'; 
             router.replace(`/${storedLang}/home`);
           }}
         >

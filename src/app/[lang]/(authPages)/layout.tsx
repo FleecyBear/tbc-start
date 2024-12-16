@@ -1,4 +1,4 @@
-"use client";
+'use client';
 import { useEffect } from 'react';
 import { useUser } from '@auth0/nextjs-auth0/client';
 import { useRouter } from 'next/navigation';
@@ -6,7 +6,11 @@ import Header from '../../components/header/Header';
 import Footer from '../../components/footer/Footer';
 import Image from 'next/image';
 
-export default function AuthLayout({ children }) {
+interface AuthLayoutProps {
+  children: React.ReactNode;
+}
+
+export default function AuthLayout({ children }: AuthLayoutProps) {
   const { user, isLoading } = useUser();
   const router = useRouter();
 
