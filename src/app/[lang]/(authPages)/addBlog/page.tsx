@@ -5,11 +5,12 @@ import { useUser } from '@auth0/nextjs-auth0/client';
 import supaBase from '../../../utils/supaBase';
 
 export default function AddBlog() {
-  const { user, error, isLoading } = useUser(); 
-  const [userCount, setUserCount] = useState<number | null>(null); 
-  const [selectedUser, setSelectedUser] = useState<string>(''); 
-  const [selectedId, setSelectedId] = useState<string | null>(null); 
-  const [isUpdating, setIsUpdating] = useState(false); 
+  const { user, error, isLoading } = useUser();
+  const [userCount, setUserCount] = useState<number | null>(null);
+  const [selectedUser, setSelectedUser] = useState<string>('');
+  const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [isUpdating, setIsUpdating] = useState(false);
+  const [isUserCreated, setIsUserCreated] = useState(false);
 
   const fetchUser = async (nickname: string) => {
     try {
@@ -17,21 +18,26 @@ export default function AddBlog() {
         .from('users')
         .select('id, count')
         .eq('nickname', nickname)
-        .single(); 
+        .single();
 
       if (error) {
-        console.error('Error fetching user data:', error.message);
+        if (error.code === 'PGRST116') {
+          await supaBase
+            .from('users')
+            .insert([{ nickname, count: 0 }]);
+          setIsUserCreated(true);
+          return;
+        }
         return;
       }
 
       if (data) {
-        setSelectedId(data.id); 
-        setUserCount(data.count); 
-        setSelectedUser(nickname); 
+        setSelectedId(data.id);
+        setUserCount(data.count);
+        setSelectedUser(nickname);
+        setIsUserCreated(false);
       }
-    } catch (err) {
-      console.error('An unexpected error occurred while fetching user data:', err);
-    }
+    } catch (err) {}
   };
 
   const updateUserCount = async () => {
@@ -39,7 +45,7 @@ export default function AddBlog() {
       return;
     }
 
-    setIsUpdating(true); 
+    setIsUpdating(true);
 
     try {
       const { data, error } = await supaBase
@@ -49,17 +55,14 @@ export default function AddBlog() {
         .select('count');
 
       if (error) {
-        console.error('Error updating user count:', error.message);
         return;
       }
 
       if (data) {
-        setUserCount(data[0].count); 
+        setUserCount(data[0].count);
       }
-    } catch (err) {
-      console.error('An unexpected error occurred while updating user count:', err);
-    } finally {
-      setIsUpdating(false); 
+    } catch (err) {} finally {
+      setIsUpdating(false);
     }
   };
 
@@ -69,6 +72,13 @@ export default function AddBlog() {
       fetchUser(userNickname);
     }
   }, [isLoading, user]);
+
+  useEffect(() => {
+    if (isUserCreated && user) {
+      const userNickname = user?.nickname || user?.email || '';
+      fetchUser(userNickname);
+    }
+  }, [isUserCreated, user]);
 
   if (isLoading) {
     return <div className="text-center text-lg">Loading...</div>;
