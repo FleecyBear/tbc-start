@@ -22,6 +22,9 @@ export default function Header() {
         </Link>
       </div>
       <div className="flex gap-12 items-center pl-12">
+        <Link href={`/${currentLang}/pricing`}>
+          <button className="btn-custom">{translations.pricing}</button>
+        </Link>
         <Link href={`/${currentLang}/profile`}>
           <button className="btn-custom">{translations.profile}</button>
         </Link>
