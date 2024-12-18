@@ -18,9 +18,6 @@ export default function Profile() {
   const { user, error, isLoading } = useUser();
   const [userCount, setUserCount] = useState<number | null>(null);
 
-  if (isLoading) return <div className="text-center text-lg">Loading...</div>;
-  if (error) return <div className="text-red-500">{error.message}</div>;
-
   const getUserDetail = (detail: string | null | undefined): string => {
     return detail ? detail : 'Not set up';
   };
@@ -32,7 +29,7 @@ export default function Profile() {
 
   useEffect(() => {
     const fetchCount = async () => {
-      const freshCount =  displayCurrentCount();
+      const freshCount = displayCurrentCount();
       if (typeof freshCount === 'number') {
         setUserCount(freshCount);
       }
@@ -42,6 +39,9 @@ export default function Profile() {
       fetchCount();
     }
   }, [displayCurrentCount, user?.nickname]);
+
+  if (isLoading) return <div className="text-center text-lg">Loading...</div>;
+  if (error) return <div className="text-red-500">{error.message}</div>;
 
   return user ? (
     <main className="flex flex-col items-center justify-center p-6 text-white">
