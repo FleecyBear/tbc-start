@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 .btn-custom {
-  @apply relative w-[120px] h-[40px] 
+  @apply relative w-auto h-[40px] mx-4 px-4
         bg-transparent text-black 
          dark:text-white 
           flex flex-col items-center justify-center 

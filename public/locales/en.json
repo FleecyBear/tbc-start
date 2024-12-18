@@ -3,6 +3,14 @@
     "products": "Products",
     "blogs": "Blogs",
     "profile": "Profile",
-    "logout": "Logout"
+    "logout": "Logout",
+    "addBlog": "Add Blog",
+    "contact": "Contact",
+    "about": "About",
+    "privacypolicy": "Privacy Policy",
+    "termsofservice": "Terms of Service",
+    "faq": "FAQ",
+    "readmore": "Read More",
+    "shareblog": "Share Blog",
+    "pricing": "Pricing"
   }
-  
