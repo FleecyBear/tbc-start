@@ -1,48 +1,64 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import supaBase from './supaBase';
 
 interface CountUpdaterProps {
-  selectedId: string | null;
-  currentCount: number | null;
+  nickname: string;
   setUserCount: React.Dispatch<React.SetStateAction<number | null>>;
 }
 
-export const CountUpdater = ({ selectedId, currentCount, setUserCount }: CountUpdaterProps) => {
+export const CountUpdater = ({ nickname, setUserCount }: CountUpdaterProps) => {
+  const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [currentCount, setCurrentCount] = useState<number | null>(null);
   const [isUpdating, setIsUpdating] = useState<boolean>(false);
 
-  const fetchCurrentCount = async () => {
-    if (!selectedId) return null;
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const { data, error } = await supaBase
+          .from('users')
+          .select('id, count')
+          .eq('nickname', nickname)
+          .single();
 
-    try {
-      const { data, error } = await supaBase
-        .from('users')
-        .select('count')
-        .eq('id', selectedId)
-        .single();
+        if (error) {
+          if (error.code === 'PGRST116') {
+            await supaBase.from('users').insert([{ nickname, count: 0 }]);
+            return;
+          }
+          console.error('Error fetching user:', error);
+          return;
+        }
 
-      if (error) {
-        console.error('Error fetching current count:', error.message);
-        return null;
+        if (data) {
+          setSelectedId(data.id);
+          setCurrentCount(data.count);
+          setUserCount(data.count);
+        }
+      } catch (err) {
+        console.error('Error fetching user:', err);
       }
+    };
 
-      return data?.count ?? null;
-    } catch (err) {
-      console.error('Error fetching current count:', err);
-      return null;
+    if (nickname) {
+      fetchUser();
     }
-  };
+  }, [nickname, setUserCount]);
 
   const increaseUserCount = async () => {
     if (!selectedId || currentCount === null) return;
 
     setIsUpdating(true);
 
+    const newCount = currentCount + 1;
+    setCurrentCount(newCount);
+    setUserCount(newCount);
+
     try {
       const { data, error } = await supaBase
         .from('users')
-        .update({ count: currentCount + 1 })
+        .update({ count: newCount })
         .eq('id', selectedId)
         .select('count');
 
@@ -51,7 +67,10 @@ export const CountUpdater = ({ selectedId, currentCount, setUserCount }: CountUp
         return;
       }
 
-      if (data) setUserCount(data[0].count);
+      if (data) {
+        setUserCount(data[0].count);
+        setCurrentCount(data[0].count);
+      }
     } catch (err) {
       console.error('Error increasing count:', err);
     } finally {
@@ -64,10 +83,14 @@ export const CountUpdater = ({ selectedId, currentCount, setUserCount }: CountUp
 
     setIsUpdating(true);
 
+    const newCount = currentCount - 1;
+    setCurrentCount(newCount);
+    setUserCount(newCount);
+
     try {
       const { data, error } = await supaBase
         .from('users')
-        .update({ count: currentCount - 1 })
+        .update({ count: newCount })
         .eq('id', selectedId)
         .select('count');
 
@@ -76,7 +99,10 @@ export const CountUpdater = ({ selectedId, currentCount, setUserCount }: CountUp
         return;
       }
 
-      if (data) setUserCount(data[0].count);
+      if (data) {
+        setUserCount(data[0].count);
+        setCurrentCount(data[0].count);
+      }
     } catch (err) {
       console.error('Error decreasing count:', err);
     } finally {
@@ -84,9 +110,8 @@ export const CountUpdater = ({ selectedId, currentCount, setUserCount }: CountUp
     }
   };
 
-  const displayCurrentCount = async () => {
-    const freshCount = await fetchCurrentCount();
-    return freshCount !== null ? freshCount : 'Loading...';
+  const displayCurrentCount = () => {
+    return currentCount !== null ? currentCount : 'Loading...';
   };
 
   return {

@@ -2,59 +2,25 @@
 
 import { useEffect, useState } from 'react';
 import { useUser } from '@auth0/nextjs-auth0/client';
+import { CountUpdater } from '../../../utils/countUpdater'; 
 import supaBase from '../../../utils/supaBase';
-import { CountUpdater } from '../../../utils/countUpdater';
-
 export default function AddBlog() {
   const { user, error, isLoading } = useUser();
   const [userCount, setUserCount] = useState<number | null>(null);
-  const [selectedUser, setSelectedUser] = useState<string>('');
-  const [selectedId, setSelectedId] = useState<string | null>(null);
-  const [isUpdating, setIsUpdating] = useState<boolean>(false);
   const [title, setTitle] = useState<string>('');
   const [description, setDescription] = useState<string>('');
   const [titleKa, setTitleKa] = useState<string>('');
   const [descriptionKa, setDescriptionKa] = useState<string>('');
   const [isBlogAdded, setIsBlogAdded] = useState<boolean>(false);
+  const [isUpdating, setIsUpdating] = useState<boolean>(false);
 
   const { increaseUserCount, decreaseUserCount, displayCurrentCount } = CountUpdater({
-    selectedId,
-    currentCount: userCount,
+    nickname: user?.nickname || '',
     setUserCount,
   });
 
-  const fetchUser = async (nickname: string) => {
-    setIsUpdating(true); 
-    try {
-      const { data, error } = await supaBase
-        .from('users')
-        .select('id, count')
-        .eq('nickname', nickname)
-        .single();
-
-      if (error) {
-        if (error.code === 'PGRST116') {
-          await supaBase.from('users').insert([{ nickname, count: 0 }]);
-          return;
-        }
-        console.error('Error fetching user:', error);
-        return;
-      }
-
-      if (data) {
-        setSelectedId(data.id);
-        setSelectedUser(nickname);
-        setUserCount(data.count);
-      }
-    } catch (err) {
-      console.error('Error fetching user:', err);
-    } finally {
-      setIsUpdating(false); 
-    }
-  };
-
   const addBlog = async () => {
-    const currentCount = await displayCurrentCount();
+    const currentCount = displayCurrentCount();
 
     if (currentCount === 'Loading...') {
       return alert('Count is still loading. Please wait.');
@@ -71,7 +37,7 @@ export default function AddBlog() {
       Description_Ka: descriptionKa,
     };
 
-    setIsUpdating(true); 
+    setIsUpdating(true);
 
     try {
       const { error } = await supaBase.from('Blogs').insert([blogData]);
@@ -81,19 +47,17 @@ export default function AddBlog() {
         return;
       }
 
-      await decreaseUserCount();
+      await decreaseUserCount(); 
       setIsBlogAdded(true);
     } catch (err) {
       console.error('An unexpected error occurred:', err);
     } finally {
-      setIsUpdating(false); 
+      setIsUpdating(false);
     }
   };
 
   useEffect(() => {
     if (!isLoading && user) {
-      const userNickname = user?.nickname || user?.email || '';
-      fetchUser(userNickname);
     }
   }, [isLoading, user]);
 
@@ -109,7 +73,7 @@ export default function AddBlog() {
     <main className="flex flex-col items-center justify-center p-6 text-black">
       {user ? (
         <>
-          <h2 className="text-2xl font-bold">Nickname: {selectedUser}</h2>
+          <h2 className="text-2xl font-bold">Nickname: {user.nickname}</h2>
           <div className="mt-4">
             {userCount !== null ? (
               <p>
