@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-
+import useTranslation from '../../../utils/useTranslation';
 interface Blog {
   id: number;
   Title: string;
@@ -15,6 +15,9 @@ const BlogPage = () => {
   const [blogs, setBlogs] = useState<Blog[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+
+  const currentLang: string = typeof window !== 'undefined' ? localStorage.getItem('lang') || 'en' : 'en';
+  const translations = useTranslation(currentLang);
 
   useEffect(() => {
     const fetchBlogs = async () => {
@@ -64,7 +67,12 @@ const BlogPage = () => {
   return (
     <div className="bg-white dark:bg-gray-900 text-gray-900 dark:text-white min-h-screen">
       <div className="container mx-auto px-4 py-8">
-        <h1 className="text-4xl font-bold mb-6">Blogs</h1>
+        <div className="flex flex-row justify-between">
+          <h1 className="text-4xl font-bold mb-6">{translations.blogs}</h1>
+          <Link href={`/${currentLang}/addBlog`}>
+          <button className="btn-custom">{translations.addBlog}</button>
+        </Link>
+        </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-6">
           {blogs.map((blog) => (
             <div key={blog.id} className="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden">
@@ -76,7 +84,7 @@ const BlogPage = () => {
                   {localStorage.getItem('lang') === 'ge' ? blog.Description_Ka : blog.Description}
                 </p>
                 <Link href={`/BlogsPage/${blog.id}`} className="text-indigo-600 hover:text-indigo-800 font-semibold">
-                  Read more
+                {translations.readmore}
                 </Link>
               </div>
             </div>

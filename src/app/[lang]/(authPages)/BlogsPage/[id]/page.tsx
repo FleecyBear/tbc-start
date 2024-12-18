@@ -1,7 +1,7 @@
 'use client'
 import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
-
+import useTranslation from '../../../../utils/useTranslation';
 interface Blog {
   id: number;
   Title: string;
@@ -15,6 +15,9 @@ const BlogDetailPage = () => {
   const [blog, setBlog] = useState<Blog | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+
+  const currentLang: string = typeof window !== 'undefined' ? localStorage.getItem('lang') || 'en' : 'en';
+  const translations = useTranslation(currentLang);
 
   useEffect(() => {
     const fetchBlog = async () => {
@@ -81,9 +84,9 @@ const BlogDetailPage = () => {
           </div>
           <div className="mt-4">
             <button
-              className="w-full md:w-auto px-6 py-3 bg-indigo-600 text-white font-semibold rounded-lg shadow-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50"
+              className="btn-custom"
             >
-              Share Blog
+              {translations.shareblog}
             </button>
           </div>
         </div>
