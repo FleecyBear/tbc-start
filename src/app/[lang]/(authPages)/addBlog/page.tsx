@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useUser } from '@auth0/nextjs-auth0/client';
 import supaBase from '../../../utils/supaBase';
+import { CountUpdater } from '../../../utils/countUpdater';
 
 export default function AddBlog() {
   const { user, error, isLoading } = useUser();
@@ -10,15 +11,20 @@ export default function AddBlog() {
   const [selectedUser, setSelectedUser] = useState<string>('');
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [isUpdating, setIsUpdating] = useState<boolean>(false);
-  const [isUserCreated, setIsUserCreated] = useState<boolean>(false);
-
   const [title, setTitle] = useState<string>('');
   const [description, setDescription] = useState<string>('');
   const [titleKa, setTitleKa] = useState<string>('');
   const [descriptionKa, setDescriptionKa] = useState<string>('');
   const [isBlogAdded, setIsBlogAdded] = useState<boolean>(false);
 
+  const { increaseUserCount, decreaseUserCount, displayCurrentCount } = CountUpdater({
+    selectedId,
+    currentCount: userCount,
+    setUserCount,
+  });
+
   const fetchUser = async (nickname: string) => {
+    setIsUpdating(true); 
     try {
       const { data, error } = await supaBase
         .from('users')
@@ -29,7 +35,6 @@ export default function AddBlog() {
       if (error) {
         if (error.code === 'PGRST116') {
           await supaBase.from('users').insert([{ nickname, count: 0 }]);
-          setIsUserCreated(true);
           return;
         }
         console.error('Error fetching user:', error);
@@ -38,17 +43,24 @@ export default function AddBlog() {
 
       if (data) {
         setSelectedId(data.id);
-        setUserCount(data.count);
         setSelectedUser(nickname);
-        setIsUserCreated(false);
+        setUserCount(data.count);
       }
     } catch (err) {
       console.error('Error fetching user:', err);
+    } finally {
+      setIsUpdating(false); 
     }
   };
 
   const addBlog = async () => {
-    if (userCount === null || userCount <= 0) {
+    const currentCount = await displayCurrentCount();
+
+    if (currentCount === 'Loading...') {
+      return alert('Count is still loading. Please wait.');
+    }
+
+    if (currentCount <= 0) {
       return alert('You need more than 0 count to add a blog!');
     }
 
@@ -58,6 +70,8 @@ export default function AddBlog() {
       Title_Ka: titleKa,
       Description_Ka: descriptionKa,
     };
+
+    setIsUpdating(true); 
 
     try {
       const { error } = await supaBase.from('Blogs').insert([blogData]);
@@ -71,64 +85,8 @@ export default function AddBlog() {
       setIsBlogAdded(true);
     } catch (err) {
       console.error('An unexpected error occurred:', err);
-    }
-  };
-
-  const increaseUserCount = async () => {
-    if (!selectedId || userCount === null) {
-      return;
-    }
-
-    setIsUpdating(true);
-
-    try {
-      const { data, error } = await supaBase
-        .from('users')
-        .update({ count: userCount + 1 })
-        .eq('id', selectedId)
-        .select('count');
-
-      if (error) {
-        console.error('Error increasing count:', error.message);
-        return;
-      }
-
-      if (data) {
-        setUserCount(data[0].count);
-      }
-    } catch (err) {
-      console.error('Error increasing count:', err);
     } finally {
-      setIsUpdating(false);
-    }
-  };
-
-  const decreaseUserCount = async () => {
-    if (!selectedId || userCount === null || userCount <= 0) {
-      return;
-    }
-
-    setIsUpdating(true);
-
-    try {
-      const { data, error } = await supaBase
-        .from('users')
-        .update({ count: userCount - 1 })
-        .eq('id', selectedId)
-        .select('count');
-
-      if (error) {
-        console.error('Error decreasing count:', error.message);
-        return;
-      }
-
-      if (data) {
-        setUserCount(data[0].count);
-      }
-    } catch (err) {
-      console.error('Error decreasing count:', err);
-    } finally {
-      setIsUpdating(false);
+      setIsUpdating(false); 
     }
   };
 
@@ -138,13 +96,6 @@ export default function AddBlog() {
       fetchUser(userNickname);
     }
   }, [isLoading, user]);
-
-  useEffect(() => {
-    if (isUserCreated && user) {
-      const userNickname = user?.nickname || user?.email || '';
-      fetchUser(userNickname);
-    }
-  }, [isUserCreated, user]);
 
   if (isLoading) {
     return <div className="text-center text-lg">Loading...</div>;
@@ -212,7 +163,7 @@ export default function AddBlog() {
               disabled={isUpdating}
               className="bg-blue-500 text-white px-4 py-2 rounded mt-4"
             >
-              Add Blog
+              {isUpdating ? 'Adding Blog...' : 'Add Blog'}
             </button>
             {isBlogAdded && <p className="mt-2 text-green-500">Blog added successfully!</p>}
           </div>
