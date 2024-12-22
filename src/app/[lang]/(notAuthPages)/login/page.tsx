@@ -5,7 +5,9 @@ import { useState } from 'react';
 export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [isSignup, setIsSignup] = useState(false);
+  const [confirmPassword, setConfirmPassword] = useState(''); // State for confirm password
+  const [isSignup, setIsSignup] = useState(false); // State to toggle between Login and Signup
+  const [error, setError] = useState<string | null>(null); // State to handle error messages
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -17,6 +19,14 @@ export default function LoginPage() {
 
   const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (password !== confirmPassword) {
+      setError('Passwords do not match!');
+      return;
+    }
+
+    setError(null); 
+
     const formData = new FormData();
     formData.append('email', email);
     formData.append('password', password);
@@ -64,8 +74,16 @@ export default function LoginPage() {
                 name="confirmPassword"
                 type="password"
                 required
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
                 className="w-full px-4 py-2 mt-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
               />
+            </div>
+          )}
+
+          {error && (
+            <div className="mb-4 text-red-600 text-sm text-center">
+              {error}
             </div>
           )}
 
