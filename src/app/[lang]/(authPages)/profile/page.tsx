@@ -1,8 +1,8 @@
 'use client';
 
-import { useUser } from '@auth0/nextjs-auth0/client';
+import { createClient } from '../../../utils/supabase/client'; 
+import { useEffect, useState } from 'react';
 import { CountUpdater } from '../../../utils/countUpdater';
-import { useState, useEffect } from 'react';
 
 interface UserType {
   picture?: string;
@@ -14,16 +14,35 @@ interface UserType {
   phone_verified?: boolean;
 }
 
+const supabase = createClient();
+
 export default function Profile() {
-  const { user, error, isLoading } = useUser();
+  const [user, setUser] = useState<UserType | null>(null);
   const [userCount, setUserCount] = useState<number | null>(null);
+  const [isLoading, setIsLoading] = useState(true); 
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchUserDetails = async () => {
+      try {
+        const { data, error } = await supabase.auth.getUser();
+        if (error) throw error;
+        setUser(data.user);
+      } catch (err) {
+        setError('Failed to load user details');
+      } finally {
+        setIsLoading(false); 
+      }
+    };
+    fetchUserDetails();
+  }, []);
 
   const getUserDetail = (detail: string | null | undefined): string => {
     return detail ? detail : 'Not set up';
   };
 
   const { displayCurrentCount } = CountUpdater({
-    nickname: user?.nickname || '',
+    nickname: user?.email || '', 
     setUserCount,
   });
 
@@ -35,23 +54,32 @@ export default function Profile() {
       }
     };
 
-    if (user?.nickname) {
+    if (user?.email) {
       fetchCount();
     }
-  }, [displayCurrentCount, user?.nickname]);
+  }, [displayCurrentCount, user?.email]);
 
-  if (isLoading) return <div className="text-center text-lg">Loading...</div>;
-  if (error) return <div className="text-red-500">{error.message}</div>;
+  if (isLoading) {
+    return (
+      <div className="text-center text-lg">
+        <p>Loading your profile...</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return <div className="text-center text-lg text-red-500">{error}</div>;
+  }
 
   return user ? (
     <main className="flex flex-col items-center justify-center p-6 text-white">
       <div className="flex flex-col items-center mb-4">
         <img
-          src={user.picture ?? '/default-avatar.png'} 
+          src={user.picture ?? '/default-avatar.png'}
           alt={user.name ?? 'User'}
           className="w-32 h-32 rounded-full border-2 border-white mb-4"
         />
-        <h2 className="text-2xl font-bold">{getUserDetail(user.nickname)}</h2>
+        <h2 className="text-2xl font-bold">{getUserDetail(user.email)}</h2>
         <p className="text-lg">{getUserDetail(user.email)}</p>
       </div>
 
@@ -61,16 +89,10 @@ export default function Profile() {
           <strong>Name:</strong> {getUserDetail(user.name)}
         </p>
         <p>
-          <strong>Nickname:</strong> {getUserDetail(user.nickname)}
-        </p>
-        <p>
-          <strong>Username:</strong> {getUserDetail((user as UserType).username)}
-        </p>
-        <p>
           <strong>Email:</strong> {getUserDetail(user.email)}
         </p>
         <p>
-          <strong>Phone Number:</strong> {getUserDetail((user as UserType).phone_number)}
+          <strong>Phone Number:</strong> {getUserDetail(user.phone_number)}
         </p>
         <p>
           <strong>Phone Verified:</strong> {user.phone_verified ? 'Yes' : 'No'}

@@ -1,9 +1,10 @@
 'use client';
+
 import Link from 'next/link';
 import ThemeToggle from '../../utils/themeToggle';
 import LanguageSelector from '../../utils/languageSelector';
 import useTranslation from '../../utils/useTranslation';
-
+import Logout from '../../components/logout';
 export default function Header() {
   const currentLang: string = typeof window !== 'undefined' ? localStorage.getItem('lang') || 'en' : 'en';
   const translations = useTranslation(currentLang);
@@ -28,14 +29,7 @@ export default function Header() {
         <Link href={`/${currentLang}/profile`}>
           <button className="btn-custom">{translations.profile}</button>
         </Link>
-        <button
-          className="btn-custom"
-          onClick={() => {
-            window.location.href = '/api/auth/logout';
-          }}
-        >
-          {translations.logout}
-        </button>
+        <Logout />
         <LanguageSelector />
         <ThemeToggle />
       </div>
