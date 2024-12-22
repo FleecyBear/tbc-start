@@ -6,12 +6,23 @@ import { CURRENCY } from "../config";
 import { formatAmountForStripe } from "../utils/stripe-helpers";
 import { stripe } from "../lib/stripe";
 
+async function getCookie(name: string): Promise<string | undefined> {
+  const cookie = await headers(); 
+  const cookieHeader = cookie.get("cookie");
+  if (cookieHeader) {
+    const match = cookieHeader.match(new RegExp(`(^| )${name}=([^;]+)`));
+    return match ? match[2] : undefined;
+  }
+  return undefined;
+}
+
 export async function createCheckoutSession(
   data: FormData,
 ): Promise<{ client_secret: string | null; url: string | null }> {
   try {
-       const ui_mode = data.get("uiMode") as Stripe.Checkout.SessionCreateParams.UiMode;
+    const ui_mode = data.get("uiMode") as Stripe.Checkout.SessionCreateParams.UiMode;
 
+    const lang = (await getCookie("lang")) || "en"; 
 
     const origin: string = (await headers()).get("origin") as string;
 
@@ -34,11 +45,11 @@ export async function createCheckoutSession(
         },
       ],
       ...(ui_mode === "hosted" && {
-        success_url: `${origin}/pricing/result?session_id={CHECKOUT_SESSION_ID}`,
-        cancel_url: `${origin}/pricing`,
+        success_url: `${origin}/${lang}/pricing/result?session_id={CHECKOUT_SESSION_ID}`,
+        cancel_url: `${origin}/${lang}/pricing`,
       }),
       ...(ui_mode === "embedded" && {
-        return_url: `${origin}/pricing/result?session_id={CHECKOUT_SESSION_ID}`,
+        return_url: `${origin}/${lang}/pricing/result?session_id={CHECKOUT_SESSION_ID}`,
       }),
       ui_mode,
     });
