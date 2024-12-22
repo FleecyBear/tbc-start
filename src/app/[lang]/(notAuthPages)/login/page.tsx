@@ -1,13 +1,15 @@
 'use client'
 import { login, signup } from './actions';
 import { useState } from 'react';
-
+import { FcHighPriority } from "react-icons/fc";
 export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState(''); // State for confirm password
-  const [isSignup, setIsSignup] = useState(false); // State to toggle between Login and Signup
-  const [error, setError] = useState<string | null>(null); // State to handle error messages
+  const [confirmPassword, setConfirmPassword] = useState(''); 
+  const [isSignup, setIsSignup] = useState(false); 
+  const [error, setError] = useState<string | null>(null); 
+  const [passwordError, setPasswordError] = useState<string | null>(null);
+  const [passwordMatchError, setPasswordMatchError] = useState<string | null>(null);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -21,11 +23,17 @@ export default function LoginPage() {
     e.preventDefault();
 
     if (password !== confirmPassword) {
-      setError('Passwords do not match!');
+      setPasswordMatchError('Passwords do not match!');
       return;
     }
 
-    setError(null); 
+    if (password.length < 6) {
+      setPasswordError('Password must be at least 6 characters long');
+      return;
+    }
+
+    setPasswordError(null);
+    setPasswordMatchError(null); 
 
     const formData = new FormData();
     formData.append('email', email);
@@ -55,35 +63,57 @@ export default function LoginPage() {
 
           <div className="mb-6">
             <label htmlFor="password" className="block text-gray-600 text-sm font-medium">Password</label>
-            <input
-              id="password"
-              name="password"
-              type="password"
-              required
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-4 py-2 mt-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
-            />
+            <div className="relative">
+              <input
+                id="password"
+                name="password"
+                type="password"
+                required
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="w-full px-4 py-2 mt-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              />
+              {password.length > 0 && password.length < 6 && (
+                <div className="absolute right-4 top-1/2 transform -translate-y-1/2 text-red-600 text-xl">
+                  <span title="Password must be at least 6 characters long"><FcHighPriority />
+                  </span>
+                </div>
+              )}
+            </div>
           </div>
 
           {isSignup && (
             <div className="mb-6">
               <label htmlFor="confirmPassword" className="block text-gray-600 text-sm font-medium">Confirm Password</label>
-              <input
-                id="confirmPassword"
-                name="confirmPassword"
-                type="password"
-                required
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-                className="w-full px-4 py-2 mt-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
-              />
+              <div className="relative">
+                <input
+                  id="confirmPassword"
+                  name="confirmPassword"
+                  type="password"
+                  required
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  className="w-full px-4 py-2 mt-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                />
+                {confirmPassword.length > 0 && confirmPassword !== password && (
+                  <div className="absolute right-4 top-1/2 transform -translate-y-1/2 text-red-600 text-xl">
+                    <span title="Passwords do not match"><FcHighPriority />
+                    </span>
+                  </div>
+                )}
+              </div>
             </div>
           )}
 
-          {error && (
+          {passwordError && (
             <div className="mb-4 text-red-600 text-sm text-center">
-              {error}
+              {passwordError}
+            </div>
+          )}
+
+          {passwordMatchError && (
+            <div className="mb-4 text-red-600 text-sm text-center">
+              {passwordMatchError}
             </div>
           )}
 
