@@ -11,6 +11,12 @@ export default function LanguageSelector() {
     const storedLang = localStorage.getItem("lang");
     if (storedLang) {
       setLang(storedLang);
+    } else {
+      const cookieLang = getCookie("lang");
+      if (cookieLang) {
+        setLang(cookieLang);
+        localStorage.setItem("lang", cookieLang); 
+      }
     }
   }, []);
 
@@ -22,8 +28,22 @@ export default function LanguageSelector() {
     router.push(`/${selectedLang}${pathWithoutLang}`);
     
     setLang(selectedLang);
+
     localStorage.setItem("lang", selectedLang);
+    setCookie("lang", selectedLang, 365); 
   };
+
+  function getCookie(name: string): string | undefined {
+    const match = document.cookie.match(new RegExp(`(^| )${name}=([^;]+)`));
+    return match ? match[2] : undefined;
+  }
+
+  function setCookie(name: string, value: string, days: number): void {
+    const date = new Date();
+    date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000); 
+    const expires = `expires=${date.toUTCString()}`;
+    document.cookie = `${name}=${value}; ${expires}; path=/`; 
+  }
 
   return (
     <select

@@ -1,24 +1,32 @@
 "use server";
 
 import type { Stripe } from "stripe";
-
 import { headers } from "next/headers";
-
 import { CURRENCY } from "../config";
 import { formatAmountForStripe } from "../utils/stripe-helpers";
-import {stripe} from "../lib/stripe"
+import { stripe } from "../lib/stripe";
+
+async function getCookie(name: string): Promise<string | undefined> {
+  const cookie = await headers(); 
+  const cookieHeader = cookie.get("cookie");
+  if (cookieHeader) {
+    const match = cookieHeader.match(new RegExp(`(^| )${name}=([^;]+)`));
+    return match ? match[2] : undefined;
+  }
+  return undefined;
+}
 
 export async function createCheckoutSession(
   data: FormData,
 ): Promise<{ client_secret: string | null; url: string | null }> {
-  const ui_mode = data.get(
-    "uiMode",
-  ) as Stripe.Checkout.SessionCreateParams.UiMode;
+  try {
+    const ui_mode = data.get("uiMode") as Stripe.Checkout.SessionCreateParams.UiMode;
 
-  const origin: string = headers().get("origin") as string;
+    const lang = (await getCookie("lang")) || "en"; 
 
-  const checkoutSession: Stripe.Checkout.Session =
-    await stripe.checkout.sessions.create({
+    const origin: string = (await headers()).get("origin") as string;
+
+    const checkoutSession: Stripe.Checkout.Session = await stripe.checkout.sessions.create({
       mode: "payment",
       submit_type: "donate",
       line_items: [
@@ -37,26 +45,33 @@ export async function createCheckoutSession(
         },
       ],
       ...(ui_mode === "hosted" && {
-        success_url: `${origin}/pricing/result?session_id={CHECKOUT_SESSION_ID}`,
-        cancel_url: `${origin}/pricing`,
+        success_url: `${origin}/${lang}/pricing/result?session_id={CHECKOUT_SESSION_ID}`,
+        cancel_url: `${origin}/${lang}/pricing`,
       }),
       ...(ui_mode === "embedded" && {
-        return_url: `${origin}/donate-with-embedded-checkout/result?session_id={CHECKOUT_SESSION_ID}`,
+        return_url: `${origin}/${lang}/pricing/result?session_id={CHECKOUT_SESSION_ID}`,
       }),
       ui_mode,
     });
 
-  return {
-    client_secret: checkoutSession.client_secret,
-    url: checkoutSession.url,
-  };
+    return {
+      client_secret: checkoutSession.client_secret,
+      url: checkoutSession.url,
+    };
+  } catch (error) {
+    console.error("Error creating checkout session:", error);
+    return {
+      client_secret: null,
+      url: null,
+    };
+  }
 }
 
 export async function createPaymentIntent(
   data: FormData,
 ): Promise<{ client_secret: string }> {
-  const paymentIntent: Stripe.PaymentIntent =
-    await stripe.paymentIntents.create({
+  try {
+    const paymentIntent: Stripe.PaymentIntent = await stripe.paymentIntents.create({
       amount: formatAmountForStripe(
         Number(data.get("customDonation") as string),
         CURRENCY,
@@ -65,5 +80,9 @@ export async function createPaymentIntent(
       currency: CURRENCY,
     });
 
-  return { client_secret: paymentIntent.client_secret as string };
+    return { client_secret: paymentIntent.client_secret as string };
+  } catch (error) {
+    console.error("Error creating payment intent:", error);
+    throw new Error("Unable to create payment intent.");
+  }
 }

@@ -1,8 +1,8 @@
 import { NextResponse } from 'next/server';
 import supaBase from '../../../utils/supaBase';
 
-export async function GET(request: Request, { params }: { params: { id: string } }) {
-  const { id } = params;
+export async function GET(request: Request, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
 
   try {
     const lang = request.headers.get('lang') || 'en'; 
