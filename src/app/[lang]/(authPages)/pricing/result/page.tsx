@@ -1,7 +1,6 @@
 import type { Stripe } from "stripe";
+import { stripe } from "../../../../lib/stripe";
 
-import PrintObject from "../../../../components/PrintObject";
-import {stripe} from "../../../../lib/stripe"
 export default async function ResultPage({
   searchParams,
 }: {
@@ -17,11 +16,26 @@ export default async function ResultPage({
 
   const paymentIntent = checkoutSession.payment_intent as Stripe.PaymentIntent;
 
+  const currency = checkoutSession.currency ?? "usd";  
+
+
   return (
-    <>
-      <h2>Status: {paymentIntent.status}</h2>
-      <h3>Checkout Session response:</h3>
-      <PrintObject content={checkoutSession} />
-    </>
+    <div className="container mx-auto px-4 py-6">
+      <h2 className="h2-1">Thank you for your purchase! Your payment was successful</h2>
+      <div className=" p-1  mt-6 text-center">
+        <p>
+          <strong>Session ID:</strong> {checkoutSession.id}
+        </p>
+        <p>
+          <strong>Amount:</strong> ${(checkoutSession.amount_total ?? 0) / 100} {currency.toUpperCase()}
+        </p>
+        <p>
+          <strong>Payment Status:</strong> {paymentIntent.status}
+        </p>
+      </div>
+      <div className="mt-6 text-center">
+        <h3 className="font-semibold text-xl p-1 ">Thank you for using our services!</h3>
+      </div>
+    </div>
   );
 }
