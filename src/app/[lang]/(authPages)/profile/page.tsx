@@ -160,7 +160,7 @@ export default function ProfilePage() {
                 name="name"
                 value={formData.name}
                 onChange={handleChange}
-                className="p-1 border border-gray-300 rounded w-32"
+                className="text-blue-700 border border-gray-300 rounded w-32"
                 required
               />
               <button
@@ -189,7 +189,7 @@ export default function ProfilePage() {
                 name="last_name"
                 value={formData.last_name}
                 onChange={handleChange}
-                className="p-1 border border-gray-300 rounded w-32"
+                className="text-blue-700 border border-gray-300 rounded w-32"
                 required
               />
               <button
@@ -218,7 +218,7 @@ export default function ProfilePage() {
                 name="nickname"
                 value={formData.nickname}
                 onChange={handleChange}
-                className="p-1 border border-gray-300 rounded w-32"
+                className="text-blue-700 border border-gray-300 rounded w-32"
                 required
               />
               <button
