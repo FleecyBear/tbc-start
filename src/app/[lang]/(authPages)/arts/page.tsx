@@ -50,7 +50,7 @@ const ArtsPage = () => {
         {arts.map((art, index) => (
           <div
             key={index}
-            className="bg-white border border-gray-300 rounded-xl p-6 shadow-lg text-center dark:bg-gray-800 dark:border-gray-700 dark:text-gray-300"
+            className="bg-white rounded-xl p-6 shadow-lg text-center dark:bg-gray-800 dark:text-gray-300"
           >
             <h2 className="h2-1">{art.art_name}</h2>
             <p className="p-1">Creator: {art.creator}</p>
