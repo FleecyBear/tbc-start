@@ -1,32 +1,45 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 export default function CreateArtPage() {
-  const [gridSize, setGridSize] = useState<number | null>(null) 
-  const [cubeSize, setCubeSize] = useState(50) 
-  const [rightCubeSize, setRightCubeSize] = useState(50) 
-  const [isGridVisible, setIsGridVisible] = useState(false) 
-  const [cubes, setCubes] = useState<number[][]>([]) 
-  const [rightCubes, setRightCubes] = useState<number[]>([0, 1, 2, 3, 4]) 
+  const [gridSize, setGridSize] = useState<number | null>(null)
+  const [cubeSize, setCubeSize] = useState(50)
+  const [rightCubeSize, setRightCubeSize] = useState(50)
+  const [isGridVisible, setIsGridVisible] = useState(false)
+  const [cubes, setCubes] = useState<string[][]>([])
+  const [rightCubes, setRightCubes] = useState<string[]>([
+    '#FF0000', // Red
+    '#00FF00', // Green
+    '#0000FF', // Blue
+    '#FFFF00', // Yellow
+    '#00FFFF', // Cyan
+    '#FF00FF', // Magenta
+    '#800000', // Maroon
+    '#008000', // Dark Green
+    '#FFFFFF', // White
+    '#000000', // Black
+  ])
 
   const handleGridSizeChange = (size: number) => {
     setGridSize(size)
     generateGrid(size)
-    setIsGridVisible(true) 
+    setIsGridVisible(true)
   }
 
   const generateGrid = (size: number) => {
-    const grid = Array(size).fill(null).map(() => Array(size).fill(0))
+    const grid = Array(size)
+      .fill(null)
+      .map(() => Array(size).fill('#FFFFFF')) 
     setCubes(grid)
   }
 
   const handleCubeSizeChange = (change: number) => {
-    setCubeSize((prevSize) => Math.max(prevSize + change, 10)) 
+    setCubeSize((prevSize) => Math.max(prevSize + change, 10))
   }
 
   const handleRightCubeSizeChange = (change: number) => {
-    setRightCubeSize((prevSize) => Math.max(prevSize + change, 10)) 
+    setRightCubeSize((prevSize) => Math.max(prevSize + change, 10))
   }
 
   const containerStyle = {
@@ -34,11 +47,16 @@ export default function CreateArtPage() {
     gridTemplateColumns: `repeat(${gridSize}, ${cubeSize}px)`,
     gridTemplateRows: `repeat(${gridSize}, ${cubeSize}px)`,
     gap: '4px',
-    height: '500px', 
-    width: '500px', 
+    height: '500px',
+    width: '500px',
     overflow: 'auto',
-    marginRight: '20px', 
+    marginRight: '20px',
   }
+
+  useEffect(() => {
+    console.log('Left cubes (grid):', cubes)
+    console.log('Right cubes (sample):', rightCubes)
+  }, [cubes, rightCubes])
 
   return (
     <div className="flex items-center justify-center">
@@ -49,26 +67,29 @@ export default function CreateArtPage() {
           {!isGridVisible && (
             <div className="mb-4">
               <p>Size of cube?</p>
-              <button onClick={() => handleGridSizeChange(5)} className="mx-2">5x5</button>
-              <button onClick={() => handleGridSizeChange(10)} className="mx-2">10x10</button>
-              <button onClick={() => handleGridSizeChange(20)} className="mx-2">20x20</button>
+              <button onClick={() => handleGridSizeChange(5)} className="mx-2">
+                5x5
+              </button>
+              <button onClick={() => handleGridSizeChange(10)} className="mx-2">
+                10x10
+              </button>
+              <button onClick={() => handleGridSizeChange(20)} className="mx-2">
+                20x20
+              </button>
             </div>
           )}
 
           {isGridVisible && (
             <div className="flex">
-              <div
-                className="bg-gray-200"
-                style={containerStyle}
-              >
+              <div className="bg-gray-200" style={containerStyle}>
                 {cubes.map((row, rowIndex) =>
-                  row.map((_, colIndex) => (
+                  row.map((color, colIndex) => (
                     <div
                       key={`${rowIndex}-${colIndex}`}
                       style={{
                         width: `${cubeSize}px`,
                         height: `${cubeSize}px`,
-                        backgroundColor: '#3498db',
+                        backgroundColor: color,
                         border: '1px solid #2980b9',
                       }}
                     ></div>
@@ -79,22 +100,20 @@ export default function CreateArtPage() {
               <div className="ml-8 flex flex-col items-center">
                 <h2 className="text-xl mb-4">Sample Cubes</h2>
 
-                {isGridVisible && (
-                  <div className="flex flex-col items-center">
-                    {rightCubes.map((_, index) => (
-                      <div
-                        key={index}
-                        style={{
-                          width: `${rightCubeSize}px`,
-                          height: `${rightCubeSize}px`,
-                          backgroundColor: '#e74c3c',
-                          border: '1px solid #c0392b',
-                          marginBottom: '10px',
-                        }}
-                      ></div>
-                    ))}
-                  </div>
-                )}
+                <div className="flex flex-col items-center">
+                  {rightCubes.map((color, index) => (
+                    <div
+                      key={index}
+                      style={{
+                        width: `${rightCubeSize}px`,
+                        height: `${rightCubeSize}px`,
+                        backgroundColor: color,
+                        border: '1px solid #c0392b',
+                        marginBottom: '10px',
+                      }}
+                    ></div>
+                  ))}
+                </div>
 
                 <div className="mt-4">
                   <button
