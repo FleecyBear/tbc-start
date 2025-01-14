@@ -10,8 +10,8 @@ export default function Header() {
   const translations = useTranslation(currentLang);
 
   return (
-    <header className="fixed top-0 left-0 w-full h-20 bg-white flex justify-between items-center z-50 shadow-md dark:bg-gray-900 border-b-4 border-blue-500 px-32">
-      <div className="flex gap-12 items-center">
+    <header className="fixed top-0 left-0 w-full h-20 bg-white flex justify-between items-center z-50 shadow-md dark:bg-gray-900 border-b-4 border-blue-500 px-9 text-sm">
+      <div className="flex gap-8 items-center">
         <Link href={`/${currentLang}/home`}>
           <button className="btn-custom">{translations.home}</button>
         </Link>
@@ -21,8 +21,14 @@ export default function Header() {
         <Link href={`/${currentLang}/BlogsPage`}>
           <button className="btn-custom">{translations.blogs}</button>
         </Link>
+        <Link href={`/${currentLang}/arts`}>
+          <button className="btn-custom">{translations.arts}</button>
+        </Link>
       </div>
       <div className="flex gap-12 items-center pl-12">
+        <Link href={`/${currentLang}/CreateArt`}>
+          <button className="btn-custom">{translations.createart}</button>
+        </Link>
         <Link href={`/${currentLang}/pricing`}>
           <button className="btn-custom">{translations.pricing}</button>
         </Link>
