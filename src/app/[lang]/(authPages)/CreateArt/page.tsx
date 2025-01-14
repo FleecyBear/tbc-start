@@ -9,12 +9,18 @@ const supabase = createClient()
 export default function CreateArtPage() {
   const [gridSize, setGridSize] = useState<number | null>(null)
   const [cubeSize, setCubeSize] = useState(50)
-  const [rightCubeSize, setRightCubeSize] = useState(50)
+  const [rightCubeSize] = useState(40) 
   const [isGridVisible, setIsGridVisible] = useState(false)
   const [cubes, setCubes] = useState<string[][]>([])
   const [rightCubes, setRightCubes] = useState<string[]>([
-    '#FF0000', '#00FF00', '#0000FF', '#FFFF00', '#00FFFF', '#FF00FF', '#800000', '#008000', '#FFFFFF', '#000000'
+    '#FF0000', // red 
+    '#00FF00', // green
+    '#0000FF', // blue
+    '#FFFF00', // yellow
+    '#FFFFFF', // #white
+    '#000000', // #black
   ])
+  
   const [selectedColor, setSelectedColor] = useState<string>('#FFFFFF')
   const [isDragging, setIsDragging] = useState(false)
   const [artName, setArtName] = useState('')
@@ -65,10 +71,6 @@ export default function CreateArtPage() {
     setCubeSize((prevSize) => Math.max(prevSize + change, 10))
   }
 
-  const handleRightCubeSizeChange = (change: number) => {
-    setRightCubeSize((prevSize) => Math.max(prevSize + change, 10))
-  }
-
   const handleColorChange = (color: string) => {
     setSelectedColor(color)
   }
@@ -77,7 +79,6 @@ export default function CreateArtPage() {
     const newCubes = [...cubes]
     newCubes[rowIndex][colIndex] = selectedColor
     setCubes(newCubes)
-    console.log('Updated cubes array:', newCubes)
   }
 
   const handleMouseDown = () => {
@@ -93,7 +94,6 @@ export default function CreateArtPage() {
       const newCubes = [...cubes]
       newCubes[rowIndex][colIndex] = selectedColor
       setCubes(newCubes)
-      console.log('Updated cubes array:', newCubes)
     }
   }
 
@@ -117,14 +117,12 @@ export default function CreateArtPage() {
       try {
         const { data, error } = await supabase
           .from('arts')
-          .insert([
-            {
-              creator,
-              price: parseFloat(price),
-              art: cubes,
-              art_name: artName,
-            },
-          ])
+          .insert([{
+            creator,
+            price: parseFloat(price),
+            art: cubes,
+            art_name: artName,
+          }])
 
         if (error) {
           console.error('Error inserting art:', error)
@@ -155,11 +153,11 @@ export default function CreateArtPage() {
   return (
     <div className="flex items-center justify-center">
       <div className="flex flex-col items-center">
-        <h1 className="text-2xl mb-4">Create Art</h1>
+        <h1 className="text-2xl mb-4 h2-1">Create Art</h1>
 
         {!isGridVisible && (
           <div className="mb-4">
-            <p>Size of cube?</p>
+            <p>Size of grid?</p>
             <button onClick={() => handleGridSizeChange(5)} className="mx-2">
               5x5
             </button>
@@ -194,7 +192,7 @@ export default function CreateArtPage() {
             <div className="flex mb-4">
               <button
                 onClick={handleSubmit}
-                className="px-4 py-2 bg-blue-500 text-white rounded"
+                className="btn-2"
                 disabled={isSubmitting}
               >
                 {isSubmitting ? 'Submitting...' : 'Submit'}
@@ -203,7 +201,7 @@ export default function CreateArtPage() {
 
             <div className="flex">
               <div
-                className="bg-gray-200"
+                className="bg-gray-500"
                 style={containerStyle}
                 ref={gridRef}
                 onMouseDown={handleMouseDown}
@@ -226,7 +224,7 @@ export default function CreateArtPage() {
               </div>
 
               <div className="ml-8 flex flex-col items-center">
-                <h2 className="text-xl mb-4">Sample Cubes</h2>
+                <h2 className="text-xl mb-4 p-1">Color Pallete</h2>
                 <div className="flex flex-col items-center">
                   {rightCubes.map((color, index) => (
                     <div
@@ -243,22 +241,22 @@ export default function CreateArtPage() {
                     ></div>
                   ))}
                 </div>
-
-                <div className="mt-4">
-                  <button
-                    onClick={() => handleRightCubeSizeChange(5)}
-                    className="mx-2 px-3 py-1 bg-blue-500 text-white rounded"
-                  >
-                    + Cube Size
-                  </button>
-                  <button
-                    onClick={() => handleRightCubeSizeChange(-5)}
-                    className="mx-2 px-3 py-1 bg-blue-500 text-white rounded"
-                  >
-                    - Cube Size
-                  </button>
-                </div>
               </div>
+            </div>
+
+            <div className="mt-4">
+              <button
+                onClick={() => handleCubeSizeChange(5)}
+                className="my-2 px-3 py-1 btn-2"
+              >
+                + Cube Size
+              </button>
+              <button
+                onClick={() => handleCubeSizeChange(-5)}
+                className="my-2 px-3 py-1 btn-2"
+              >
+                - Cube Size
+              </button>
             </div>
           </>
         )}
