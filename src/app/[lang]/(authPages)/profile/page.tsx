@@ -1,129 +1,253 @@
-'use client';
+'use client'
 
-import { createClient } from '../../../utils/supabase/client'; 
-import { useEffect, useState } from 'react';
-import { CountUpdater } from '../../../utils/countUpdater';
+import { useState, useEffect } from 'react'
+import { createClient } from '../../../utils/supabase/client'
 
-interface UserType {
-  picture?: string;
-  name?: string;
-  nickname?: string;
-  email?: string;
-  username?: string;
-  phone_number?: string;
-  phone_verified?: boolean;
+type ProfileData = {
+  name: string
+  last_name: string
+  nickname: string
+  coins: number
+  email: string
 }
 
-const supabase = createClient();
+export default function ProfilePage() {
+  const [profileData, setProfileData] = useState<ProfileData | null>(null)
+  const [error, setError] = useState<string | null>(null)
+  const [editingField, setEditingField] = useState<string | null>(null)
+  const [formData, setFormData] = useState<ProfileData>({
+    name: '',
+    last_name: '',
+    nickname: '',
+    coins: 0,
+    email: '',
+  })
+  const [nicknameError, setNicknameError] = useState<string | null>(null)
 
-export default function Profile() {
-  const [user, setUser] = useState<UserType | null>(null);
-  const [userCount, setUserCount] = useState<number | null>(null);
-  const [isLoading, setIsLoading] = useState(true); 
-  const [error, setError] = useState<string | null>(null);
+  const supabase = createClient()
 
   useEffect(() => {
-    const fetchUserDetails = async () => {
+    const fetchUserProfile = async () => {
       try {
-        const { data, error } = await supabase.auth.getUser();
-        if (error) throw error;
-        setUser(data.user);
+        const { data: { user }, error: authError } = await supabase.auth.getUser()
+
+        if (authError) {
+          setError('Error fetching user session.')
+          return
+        }
+
+        if (!user) {
+          setError('You are not logged in. Please log in to view your profile.')
+          return
+        }
+
+        const { data, error: profileError } = await supabase
+          .from('profiles')
+          .select('*')
+          .eq('user_id', user.id)
+          .single()
+
+        if (profileError) {
+          setError(`Error fetching profile data: ${profileError.message}`)
+        } else {
+          setProfileData(data)
+          setFormData({
+            name: data.name || '',
+            last_name: data.last_name || '',
+            nickname: data.nickname || '',
+            coins: data.coins || 0,
+            email: user.email || '',
+          })
+        }
       } catch (err) {
-        setError('Failed to load user details');
-      } finally {
-        setIsLoading(false); 
+        setError('An unexpected error occurred.')
       }
-    };
-    fetchUserDetails();
-  }, []);
-
-  const getUserDetail = (detail: string | null | undefined): string => {
-    return detail ? detail : 'Not set up';
-  };
-
-  const { displayCurrentCount } = CountUpdater({
-    nickname: user?.email || '', 
-    setUserCount,
-  });
-
-  useEffect(() => {
-    const fetchCount = async () => {
-      const freshCount = displayCurrentCount();
-      if (typeof freshCount === 'number') {
-        setUserCount(freshCount);
-      }
-    };
-
-    if (user?.email) {
-      fetchCount();
     }
-  }, [displayCurrentCount, user?.email]);
 
-  if (isLoading) {
-    return (
-      <div className="text-center text-lg">
-        <p>Loading your profile...</p>
-      </div>
-    );
+    fetchUserProfile()
+  }, [])
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }))
+
+    if (name === 'nickname') {
+      setNicknameError(null)
+    }
+  }
+
+  const checkNicknameAvailability = async (nickname: string) => {
+    const { data: { user }, error: authError } = await supabase.auth.getUser()
+
+    if (authError || !user) {
+      setError('You are not logged in. Please log in to check nickname availability.')
+      return 'User session is missing.'
+    }
+
+    const { data, error } = await supabase
+      .from('profiles')
+      .select('*')
+      .eq('nickname', nickname)
+      .neq('user_id', user.id) 
+      .single()
+
+    if (error) {
+      return null
+    }
+
+    return 'This nickname is already taken. Please choose another one.'
+  }
+
+  const handleSubmit = async (e: React.FormEvent, field: keyof ProfileData) => {
+    e.preventDefault()
+
+    if (field === 'nickname') {
+      const nicknameTakenError = await checkNicknameAvailability(formData.nickname)
+      if (nicknameTakenError) {
+        setNicknameError(nicknameTakenError)
+        return
+      }
+    }
+
+    const { data: { user }, error: authError } = await supabase.auth.getUser()
+
+    if (authError || !user) {
+      setError('You are not logged in. Please log in to update your profile.')
+      return
+    }
+
+    const updatedField = { [field]: formData[field] }
+
+    const { error: updateError } = await supabase
+      .from('profiles')
+      .upsert({
+        user_id: user.id,
+        ...updatedField,
+      })
+
+    if (updateError) {
+      setError(`Error updating profile: ${updateError.message}`)
+    } else {
+      setProfileData({
+        ...profileData!,
+        ...updatedField,
+      })
+      setEditingField(null) 
+    }
   }
 
   if (error) {
-    return <div className="text-center text-lg text-red-500">{error}</div>;
+    return <div className="text-red-600 text-xl text-center mt-12">{error}</div>
   }
 
-  return user ? (
-    <main className="flex flex-col items-center justify-center p-6 text-white">
-      <div className="flex flex-col items-center mb-4">
-        <img
-          src={user.picture ?? '/default-avatar.png'}
-          alt={user.name ?? 'User'}
-          className="w-32 h-32 rounded-full border-2 border-white mb-4"
-        />
-        <h2 className="text-2xl font-bold">{getUserDetail(user.email)}</h2>
-        <p className="text-lg">{getUserDetail(user.email)}</p>
-      </div>
+  if (!profileData) {
+    return <div className="text-xl text-center mt-12">Loading your profile...</div>
+  }
 
-      <div className="section-1 p-1">
-        <h3 className="h2-1">Additional Information</h3>
-        <p>
-          <strong>Name:</strong> {getUserDetail(user.name)}
-        </p>
-        <p>
-          <strong>Email:</strong> {getUserDetail(user.email)}
-        </p>
-        <p>
-          <strong>Phone Number:</strong> {getUserDetail(user.phone_number)}
-        </p>
-        <p>
-          <strong>Phone Verified:</strong> {user.phone_verified ? 'Yes' : 'No'}
-        </p>
-      </div>
-
-      <div className="flex flex-col items-center justify-center p-6 text-white">
-        <h3 className="h2-1">Blogs Balance</h3>
-        <p className="text-xl p-1">
-          <strong>Current Balance:</strong> {userCount !== null ? userCount : 'Loading...'}
-        </p>
-      </div>
-
-      <button
-        onClick={() => {
-          window.location.href = '/pricing';
-        }}
-        className="px-4 py-2 bg-blue-600 text-white font-semibold rounded hover:bg-blue-700"
-      >
-        Buy More
-      </button>
-      <button
-        onClick={() => {
-          window.location.href = '/api/auth/logout';
-        }}
-        className="mt-4 px-4 py-2 bg-blue-600 text-white font-semibold rounded hover:bg-blue-700"
-      >
-        Logout
-      </button>
-    </main>
-  ) : (
-    <div className="text-center text-lg">You are not logged in.</div>
-  );
+  return (
+    <div className="section-1">
+      <h1 className="h2-1">Your Profile</h1>
+      <ul className="space-y-4">
+        <li>
+          <span className="p-1">Name:</span>
+          {editingField === 'name' ? (
+            <form onSubmit={(e) => handleSubmit(e, 'name')} className="inline">
+              <input
+                type="text"
+                name="name"
+                value={formData.name}
+                onChange={handleChange}
+                className="text-blue-700 border border-gray-300 rounded w-32"
+                required
+              />
+              <button
+                type="submit"
+                className="ml-2 px-2 py-1 bg-blue-600 text-white rounded"
+              >
+                Save
+              </button>
+            </form>
+          ) : (
+            <span className="text-gray-500">{profileData?.name || 'Not set up'}</span>
+          )}
+          <button
+            onClick={() => setEditingField(editingField === 'name' ? null : 'name')}
+            className="ml-2 text-blue-600"
+          >
+            {editingField === 'name' ? 'Cancel' : 'Edit'}
+          </button>
+        </li>
+        <li>
+          <span className="p-1">Last Name:</span>
+          {editingField === 'last_name' ? (
+            <form onSubmit={(e) => handleSubmit(e, 'last_name')} className="inline">
+              <input
+                type="text"
+                name="last_name"
+                value={formData.last_name}
+                onChange={handleChange}
+                className="text-blue-700 border border-gray-300 rounded w-32"
+                required
+              />
+              <button
+                type="submit"
+                className="ml-2 px-2 py-1 bg-blue-600 text-white rounded"
+              >
+                Save
+              </button>
+            </form>
+          ) : (
+            <span className="text-gray-500">{profileData?.last_name || 'Not set up'}</span>
+          )}
+          <button
+            onClick={() => setEditingField(editingField === 'last_name' ? null : 'last_name')}
+            className="ml-2 text-blue-600"
+          >
+            {editingField === 'last_name' ? 'Cancel' : 'Edit'}
+          </button>
+        </li>
+        <li>
+          <span className="p-1">Nickname:</span>
+          {editingField === 'nickname' ? (
+            <form onSubmit={(e) => handleSubmit(e, 'nickname')} className="inline">
+              <input
+                type="text"
+                name="nickname"
+                value={formData.nickname}
+                onChange={handleChange}
+                className="text-blue-700 border border-gray-300 rounded w-32"
+                required
+              />
+              <button
+                type="submit"
+                className="ml-2 px-2 py-1 bg-blue-600 text-white rounded"
+              >
+                Save
+              </button>
+            </form>
+          ) : (
+            <span className="text-gray-500">{profileData?.nickname || 'Not set up'}</span>
+          )}
+          <button
+            onClick={() => setEditingField(editingField === 'nickname' ? null : 'nickname')}
+            className="ml-2 text-blue-600"
+          >
+            {editingField === 'nickname' ? 'Cancel' : 'Edit'}
+          </button>
+          {nicknameError && <div className="text-red-600 mt-2">{nicknameError}</div>}
+        </li>
+        <li>
+          <span className="p-1">Email:</span>
+          <span className="text-gray-500">{profileData?.email || 'Not set up'}</span>
+        </li>
+        <li>
+          <span className="p-1">Coins:</span>
+          <span className="text-gray-500">{profileData?.coins || 'Not set up'}</span>
+        </li>
+      </ul>
+    </div>
+  )
 }

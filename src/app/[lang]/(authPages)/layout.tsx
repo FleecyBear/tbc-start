@@ -21,7 +21,7 @@ export default function AuthLayout({ children }: AuthLayoutProps) {
       </div>
       <div className="absolute inset-0 bg-violet-400 dark:bg-violet-950 opacity-80 dark:opacity-90 z-[-1]" /> 
       <Header />
-      <main className="flex-grow p-4 mt-16 lg:p-12 relative z-10">
+      <main className="flex-grow p-4 mt-16 lg:p-12 relative z-10 my-10">
         {children}
       </main>
       <Footer />

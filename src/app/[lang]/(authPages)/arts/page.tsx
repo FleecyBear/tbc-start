@@ -1,0 +1,73 @@
+'use client'
+import { useEffect, useState } from 'react';
+import { createClient } from '../../../utils/supabase/client'
+
+interface Art {
+  timestampz: string;
+  art_name: string;
+  creator: string;
+  price: number;
+  art: string[][]; 
+}
+
+const ArtsPage = () => {
+  const [arts, setArts] = useState<Art[]>([]);
+  const supabase = createClient();
+
+  useEffect(() => {
+    const fetchArts = async () => {
+      const { data, error } = await supabase.from('arts').select('*');
+      if (data) {
+        setArts(data);
+      } else {
+        console.error(error);
+      }
+    };
+
+    fetchArts();
+  }, []);
+
+  const renderArtGrid = (artArray: string[][]) => {
+    return (
+      <div className="flex flex-wrap" style={{ width: `${artArray[0].length * 30}px` }}>
+        {artArray.map((row, rowIndex) =>
+          row.map((color, colIndex) => (
+            <div
+              key={`${rowIndex}-${colIndex}`}
+              className="w-[30px] h-[30px]"
+              style={{ backgroundColor: color }}
+            ></div>
+          ))
+        )}
+      </div>
+    );
+  };
+
+  return (
+    <div className="section-1">
+      <h1 className=" h2-1 ">Arts Page</h1>
+      <div className="space-y-8"> 
+        {arts.map((art, index) => (
+          <div
+            key={index}
+            className="bg-white border border-gray-300 rounded-xl p-6 shadow-lg text-center dark:bg-gray-800 dark:border-gray-700 dark:text-gray-300"
+          >
+            <h2 className="h2-1">{art.art_name}</h2>
+            <p className="p-1">Creator: {art.creator}</p>
+            <p className="text-green-500 font-semibold dark:text-green-400 mb-4">${art.price}</p>
+            <div className="flex flex-col items-center">
+              <div className="border-2 border-gray-700 mb-4 inline-block dark:border-gray-400">
+                {renderArtGrid(art.art)}
+              </div>
+              <button className="w-96 btn-2">
+                Buy
+              </button>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+export default ArtsPage;
