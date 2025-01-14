@@ -8,6 +8,7 @@ type ProfileData = {
   last_name: string
   nickname: string
   coins: number
+  email: string
 }
 
 export default function ProfilePage() {
@@ -19,7 +20,9 @@ export default function ProfilePage() {
     last_name: '',
     nickname: '',
     coins: 0,
+    email: '',
   })
+  const [nicknameError, setNicknameError] = useState<string | null>(null)
 
   const supabase = createClient()
 
@@ -53,6 +56,7 @@ export default function ProfilePage() {
             last_name: data.last_name || '',
             nickname: data.nickname || '',
             coins: data.coins || 0,
+            email: user.email || '',
           })
         }
       } catch (err) {
@@ -69,10 +73,44 @@ export default function ProfilePage() {
       ...prevData,
       [name]: value,
     }))
+
+    if (name === 'nickname') {
+      setNicknameError(null)
+    }
+  }
+
+  const checkNicknameAvailability = async (nickname: string) => {
+    const { data: { user }, error: authError } = await supabase.auth.getUser()
+
+    if (authError || !user) {
+      setError('You are not logged in. Please log in to check nickname availability.')
+      return 'User session is missing.'
+    }
+
+    const { data, error } = await supabase
+      .from('profiles')
+      .select('*')
+      .eq('nickname', nickname)
+      .neq('user_id', user.id) 
+      .single()
+
+    if (error) {
+      return null
+    }
+
+    return 'This nickname is already taken. Please choose another one.'
   }
 
   const handleSubmit = async (e: React.FormEvent, field: keyof ProfileData) => {
     e.preventDefault()
+
+    if (field === 'nickname') {
+      const nicknameTakenError = await checkNicknameAvailability(formData.nickname)
+      if (nicknameTakenError) {
+        setNicknameError(nicknameTakenError)
+        return
+      }
+    }
 
     const { data: { user }, error: authError } = await supabase.auth.getUser()
 
@@ -199,6 +237,11 @@ export default function ProfilePage() {
           >
             {editingField === 'nickname' ? 'Cancel' : 'Edit'}
           </button>
+          {nicknameError && <div className="text-red-600 mt-2">{nicknameError}</div>}
+        </li>
+        <li>
+          <span className="p-1">Email:</span>
+          <span className="text-gray-500">{profileData?.email || 'Not set up'}</span>
         </li>
         <li>
           <span className="p-1">Coins:</span>
