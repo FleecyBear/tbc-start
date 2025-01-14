@@ -15,25 +15,24 @@
 }
 .btn-2 {
   @apply relative h-10
-          text-sm text-nowrap
-         bg-blue-100 text-black dark:bg-gray-800 dark:text-violet-200
-         flex flex-col items-center justify-center 
-         rounded-full cursor-pointer 
-         border-l-8 border-violet-300 dark:border-violet-400 
-         transition-all duration-300 ease-in-out 
-         shadow-lg hover:shadow-[0_0_15px_rgba(0,0,0,0.2),0_0_25px_rgba(0,0,0,0.1)]
-         dark:hover:shadow-[0_0_20px_rgba(139,92,246,0.5),0_0_30px_rgba(139,92,246,0.3)]
-         px-4 text-center;
+          text-sm font-semibold
+          bg-gradient-to-r from-blue-500 to-purple-500 text-white dark:from-purple-700 dark:to-blue-700
+          flex items-center justify-center
+          rounded-lg cursor-pointer
+          transition-all duration-300 ease-in-out
+          shadow-md hover:shadow-lg dark:hover:shadow-[0_0_10px_rgba(139,92,246,0.5)]
+          px-6;
 }
 
 .btn-2:hover {
-  @apply bg-purple-400 dark:bg-violet-800 text-black 
-         transform scale-105 border-l-8 border-blue-100 dark:border-purple-400;
+  @apply bg-gradient-to-r from-purple-500 to-blue-500
+         transform scale-105;
 }
 
 .btn-2:active {
-  @apply scale-95 bg-gray-400 dark:bg-violet-900;
+  @apply scale-95 shadow-sm;
 }
+
 
 
 
