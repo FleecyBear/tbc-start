@@ -55,11 +55,11 @@
 
 
 .btn-3 {
-  @apply px-4 py-2 font-medium text-white bg-blue-600 rounded transition-all duration-300 ease-in-out;
+  @apply px-4 py-2 font-medium text-white bg-blue-500 rounded transition-all duration-300 ease-in-out;
 }
 
 .btn-3:hover {
-  @apply border border-blue-600 bg-transparent text-blue-600;
+  @apply border border-blue-600 bg-transparent text-blue-500;
 }
 
 .btn-3:focus {
