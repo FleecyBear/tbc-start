@@ -6,6 +6,7 @@ import ThemeToggle from '../../utils/themeToggle';
 import LanguageSelector from '../../utils/languageSelector';
 import useTranslation from '../../utils/useTranslation';
 import Logout from '../../components/logout';
+import { CiMenuBurger } from "react-icons/ci";
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -34,12 +35,8 @@ export default function Header() {
       </div>
 
       <div className="relative">
-        <button
-          className="hamburger-btn text-gray-800 dark:text-white"
-          onClick={toggleMenu}
-        >
-          ☰
-        </button>
+        
+      <CiMenuBurger  className="hamburger-btn text-gray-800 dark:text-white" size={20} onClick={toggleMenu} />
 
         {isMenuOpen && (
           <div className="absolute right-0 mt-2 bg-white dark:bg-gray-800 rounded-lg shadow-lg p-4 flex flex-col gap-3 z-10">
