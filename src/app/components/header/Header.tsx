@@ -6,7 +6,6 @@ import ThemeToggle from '../../utils/themeToggle';
 import LanguageSelector from '../../utils/languageSelector';
 import useTranslation from '../../utils/useTranslation';
 import Logout from '../../components/logout';
-import { CiMenuBurger } from "react-icons/ci";
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -36,18 +35,24 @@ export default function Header() {
 
       <div className="relative">
         
-      <CiMenuBurger  className="hamburger-btn text-gray-800 dark:text-white" size={20} onClick={toggleMenu} />
+      <div //hamburger menu
+      className="group flex h-8 w-8 cursor-pointer items-center justify-center rounded-3xl bg-transparent p-2  " onClick={toggleMenu}>
+      <div className="space-y-2">
+          <span className="block h-1 w-10 origin-center rounded-full bg-blue-500 transition-transform ease-in-out group-hover:translate-y-1.5 group-hover:rotate-45 "></span>
+          <span className="block h-1 w-8 origin-center rounded-full bg-purple-500 transition-transform ease-in-out group-hover:w-10 group-hover:-translate-y-1.5 group-hover:-rotate-45"></span>
+      </div>
+      </div>
 
         {isMenuOpen && (
-          <div className="absolute right-0 mt-2 bg-white dark:bg-gray-800 rounded-lg shadow-lg p-4 flex flex-col gap-3 z-10">
+          <div className="absolute right-0 mt-2 bg-white dark:bg-gray-800 rounded-lg shadow-lg p-4 flex flex-col gap-3 z-10 select-none">
             <Link href={`/${currentLang}/CreateArt`}>
-              <button className="btn-custom">{translations.createart}</button>
+              <button className="btn-3">{translations.createart}</button>
             </Link>
             <Link href={`/${currentLang}/pricing`}>
-              <button className="btn-custom">{translations.pricing}</button>
+              <button className="btn-3">{translations.pricing}</button>
             </Link>
             <Link href={`/${currentLang}/profile`}>
-              <button className="btn-custom">{translations.profile}</button>
+              <button className="btn-3">{translations.profile}</button>
             </Link>
             <Logout />
             <LanguageSelector />
