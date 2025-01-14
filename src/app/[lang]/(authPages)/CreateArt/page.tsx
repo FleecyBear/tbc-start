@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 
 export default function CreateArtPage() {
   const [gridSize, setGridSize] = useState<number | null>(null)
@@ -20,6 +20,9 @@ export default function CreateArtPage() {
     '#FFFFFF', // White
     '#000000', // Black
   ])
+  const [selectedColor, setSelectedColor] = useState<string>('#FFFFFF') 
+  const [isDragging, setIsDragging] = useState(false) 
+  const gridRef = useRef<HTMLDivElement>(null) 
 
   const handleGridSizeChange = (size: number) => {
     setGridSize(size)
@@ -42,15 +45,44 @@ export default function CreateArtPage() {
     setRightCubeSize((prevSize) => Math.max(prevSize + change, 10))
   }
 
+  const handleColorChange = (color: string) => {
+    setSelectedColor(color) 
+  }
+
+  const handleLeftCubeClick = (rowIndex: number, colIndex: number) => {
+    const newCubes = [...cubes]
+    newCubes[rowIndex][colIndex] = selectedColor 
+    setCubes(newCubes)
+    console.log('Updated cubes array:', newCubes)
+  }
+
+  const handleMouseDown = () => {
+    setIsDragging(true) 
+  }
+
+  const handleMouseUp = () => {
+    setIsDragging(false) 
+  }
+
+  const handleMouseEnter = (rowIndex: number, colIndex: number) => {
+    if (isDragging) {
+      const newCubes = [...cubes]
+      newCubes[rowIndex][colIndex] = selectedColor 
+      setCubes(newCubes)
+      console.log('Updated cubes array:', newCubes)
+    }
+  }
+
   const containerStyle = {
     display: 'grid',
     gridTemplateColumns: `repeat(${gridSize}, ${cubeSize}px)`,
     gridTemplateRows: `repeat(${gridSize}, ${cubeSize}px)`,
-    gap: '4px',
+    gap: '0px', 
     height: '500px',
     width: '500px',
     overflow: 'auto',
     marginRight: '20px',
+    cursor: 'pointer', 
   }
 
   useEffect(() => {
@@ -81,7 +113,13 @@ export default function CreateArtPage() {
 
           {isGridVisible && (
             <div className="flex">
-              <div className="bg-gray-200" style={containerStyle}>
+              <div
+                className="bg-gray-200"
+                style={containerStyle}
+                ref={gridRef}
+                onMouseDown={handleMouseDown}
+                onMouseUp={handleMouseUp}
+              >
                 {cubes.map((row, rowIndex) =>
                   row.map((color, colIndex) => (
                     <div
@@ -90,8 +128,9 @@ export default function CreateArtPage() {
                         width: `${cubeSize}px`,
                         height: `${cubeSize}px`,
                         backgroundColor: color,
-                        border: '1px solid #2980b9',
                       }}
+                      onClick={() => handleLeftCubeClick(rowIndex, colIndex)} 
+                      onMouseEnter={() => handleMouseEnter(rowIndex, colIndex)} 
                     ></div>
                   ))
                 )}
@@ -110,7 +149,9 @@ export default function CreateArtPage() {
                         backgroundColor: color,
                         border: '1px solid #c0392b',
                         marginBottom: '10px',
+                        cursor: 'pointer', 
                       }}
+                      onClick={() => handleColorChange(color)} 
                     ></div>
                   ))}
                 </div>
