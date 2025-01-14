@@ -1,8 +1,6 @@
 'use client'
 import { useEffect, useState } from 'react';
-
 import { createClient } from '../../../utils/supabase/client'
-
 
 interface Art {
   timestampz: string;
@@ -14,8 +12,7 @@ interface Art {
 
 const ArtsPage = () => {
   const [arts, setArts] = useState<Art[]>([]);
-  const supabase = createClient()
-
+  const supabase = createClient();
 
   useEffect(() => {
     const fetchArts = async () => {
@@ -32,17 +29,13 @@ const ArtsPage = () => {
 
   const renderArtGrid = (artArray: string[][]) => {
     return (
-      <div style={{ display: 'flex', flexWrap: 'wrap', width: `${artArray[0].length * 30}px` }}>
+      <div className="flex flex-wrap" style={{ width: `${artArray[0].length * 30}px` }}>
         {artArray.map((row, rowIndex) =>
           row.map((color, colIndex) => (
             <div
               key={`${rowIndex}-${colIndex}`}
-              style={{
-                width: '30px',
-                height: '30px',
-                backgroundColor: color,
-                boxSizing: 'border-box', 
-              }}
+              className="w-[30px] h-[30px]"
+              style={{ backgroundColor: color }}
             ></div>
           ))
         )}
@@ -51,16 +44,28 @@ const ArtsPage = () => {
   };
 
   return (
-    <div>
-      <h1>Arts Page</h1>
-      {arts.map((art, index) => (
-        <div key={index} style={{ marginBottom: '30px' }}>
-          <h2>{art.art_name}</h2>
-          <p>Creator: {art.creator}</p>
-          <p>Price: ${art.price}</p>
-          <div>{renderArtGrid(art.art)}</div>
-        </div>
-      ))}
+    <div className="section-1">
+      <h1 className=" h2-1 ">Arts Page</h1>
+      <div className="space-y-8"> 
+        {arts.map((art, index) => (
+          <div
+            key={index}
+            className="bg-white border border-gray-300 rounded-xl p-6 shadow-lg text-center dark:bg-gray-800 dark:border-gray-700 dark:text-gray-300"
+          >
+            <h2 className="h2-1">{art.art_name}</h2>
+            <p className="p-1">Creator: {art.creator}</p>
+            <p className="text-green-500 font-semibold dark:text-green-400 mb-4">${art.price}</p>
+            <div className="flex flex-col items-center">
+              <div className="border-2 border-gray-700 mb-4 inline-block dark:border-gray-400">
+                {renderArtGrid(art.art)}
+              </div>
+              <button className="w-96 btn-2">
+                Buy
+              </button>
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 };
