@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClient } from '../../../utils/supabase/client'
+import { createStripeProduct } from '../../../utils/stripeClient'
 import GridSizeSelector from './GridSizeSelector'
 import Grid from './Grid'
 import ColorPalette from './ColorPalette'
@@ -12,6 +13,7 @@ const supabase = createClient()
 const CreateArtPage: React.FC = (): React.ReactElement => {
   const [gridSize, setGridSize] = useState<number | null>(null)
   const [cubeSize, setCubeSize] = useState<number>(50)
+  const [rightCubeSize] = useState<number>(40)
   const [isGridVisible, setIsGridVisible] = useState<boolean>(false)
   const [cubes, setCubes] = useState<string[][]>([])
   const [rightCubes, setRightCubes] = useState<string[]>([
@@ -106,6 +108,8 @@ const CreateArtPage: React.FC = (): React.ReactElement => {
     if (creator) {
       setIsSubmitting(true)
       try {
+        const stripeProductId = await createStripeProduct(artName, parseFloat(price))
+
         const { data, error } = await supabase
           .from('arts')
           .insert([{
@@ -113,6 +117,7 @@ const CreateArtPage: React.FC = (): React.ReactElement => {
             price: parseFloat(price),
             art: cubes,
             art_name: artName,
+            stripe_id: stripeProductId,
           }])
         if (error) {
           console.error('Error inserting art:', error)
