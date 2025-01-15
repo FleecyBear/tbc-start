@@ -29,7 +29,7 @@ export default async function ResultPage({
 
     if (authError) {
       console.error("Error retrieving user from Supabase:", authError);
-    } 
+    }
 
     const checkoutSession: Stripe.Checkout.Session =
       await stripe.checkout.sessions.retrieve(sessionId, {
@@ -40,26 +40,34 @@ export default async function ResultPage({
     const currency = checkoutSession.currency?.toUpperCase() ?? "USD";
 
     if (checkoutSession.line_items) {
-      checkoutSession.line_items.data.forEach(async (item) => {
-
+      for (const item of checkoutSession.line_items.data) {
         if (item.price?.product) {
-
           const productType = item.price?.recurring ? "Subscription" : "Product";
 
           const { data, error } = await supabase
             .from("Transactions")
-            .insert([
-              {
-                user_id: user?.id,
-                product_id: item.price.product,
-                product_type: productType,
-                stripe_session_id: checkoutSession.id,
-                price: amountTotal,
-              },
-            ]);
+            .insert([{
+              user_id: user?.id,
+              product_id: item.price.product,
+              product_type: productType,
+              stripe_session_id: checkoutSession.id,
+              price: amountTotal,
+            }]);
 
+          if (productType === "Subscription" && item.description) {
+            const { data: profileData, error: profileError } = await supabase
+              .from("profiles")
+              .update({
+                subscription: item.description,
+                stripe_subscription_id: checkoutSession.subscription,
+              })
+              .eq("user_id", user?.id); 
+            if (profileError) {
+              console.error("Error updating subscription in profiles:", profileError);
+            }
+          }
         }
-      });
+      }
     }
 
     return (
