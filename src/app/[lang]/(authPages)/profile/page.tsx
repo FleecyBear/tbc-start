@@ -9,6 +9,8 @@ type ProfileData = {
   nickname: string
   coins: number
   email: string
+  stripe_subscription_id?: string
+  subscription: string 
 }
 
 export default function ProfilePage() {
@@ -21,6 +23,7 @@ export default function ProfilePage() {
     nickname: '',
     coins: 0,
     email: '',
+    subscription: 'none', 
   })
   const [nicknameError, setNicknameError] = useState<string | null>(null)
 
@@ -57,7 +60,40 @@ export default function ProfilePage() {
             nickname: data.nickname || '',
             coins: data.coins || 0,
             email: user.email || '',
+            subscription: data.subscription || 'none', 
           })
+
+          if (data.subscription !== 'none' && data.stripe_subscription_id) {
+            try {
+              const response = await fetch(`/api/subscription-status?subscriptionId=${data.stripe_subscription_id}`)
+              const subscriptionData = await response.json()
+
+              if (subscriptionData.active) {
+                console.log('Subscription is active.')
+              } else {
+                console.log('Subscription is not active.')
+                const { error: updateError } = await supabase
+                  .from('profiles')
+                  .upsert({
+                    user_id: user.id,
+                    subscription: 'none',
+                    stripe_subscription_id: '',
+                  })
+
+                if (updateError) {
+                  console.error('Error updating profile:', updateError)
+                } else {
+                  setProfileData(prevData => ({
+                    ...prevData!,
+                    subscription: 'none',
+                    stripe_subscription_id: '',
+                  }))
+                }
+              }
+            } catch (error) {
+              console.error('Error retrieving subscription status:', error)
+            }
+          }
         }
       } catch (err) {
         setError('An unexpected error occurred.')
@@ -246,6 +282,10 @@ export default function ProfilePage() {
         <li>
           <span className="p-1">Coins:</span>
           <span className="text-gray-500">{profileData?.coins || 'Not set up'}</span>
+        </li>
+        <li>
+          <span className="p-1">Subscription:</span>
+          <span className="text-gray-500">{profileData?.subscription || 'None'}</span>
         </li>
       </ul>
     </div>
