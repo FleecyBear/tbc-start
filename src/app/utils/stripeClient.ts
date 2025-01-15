@@ -13,17 +13,14 @@ export const createStripeProduct = async (name: string, price: number) => {
         throw new Error(errorText || 'Something went wrong')
       }
   
-      const responseData = await response.text()
-      const data = responseData ? JSON.parse(responseData) : null
-  
-      if (!data) {
-        throw new Error('Invalid response data')
+      const responseData = await response.json() 
+      if (!responseData.productId) {
+        throw new Error('Product ID not returned')
       }
   
-      return data.productId
+      return responseData.productId 
     } catch (error) {
       console.error('Error in createStripeProduct:', error)
       throw error
     }
-  }
-  
+}
