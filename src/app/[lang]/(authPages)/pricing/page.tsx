@@ -51,16 +51,16 @@ export default function PricingPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 py-10">
+    <div className="section-1">
       <div className="max-w-4xl mx-auto px-4">
-        <h1 className="text-3xl font-bold text-center text-gray-800 mb-8">
+        <h1 className="h2-1">
           Pricing Plans
         </h1>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {subscriptions.map((subscription) => (
+        <div className="grid grid-cols-3  gap-6 justify-items-center">
+        {subscriptions.map((subscription) => (
             <div
               key={subscription.stripe_id}
-              className="bg-white shadow-md rounded-lg p-6 flex flex-col justify-between"
+              className="bg-slate-100 shadow-md rounded-lg p-6 flex flex-col justify-between"
             >
               <div>
                 <h2 className="text-xl font-semibold text-gray-800 mb-2">
@@ -73,7 +73,7 @@ export default function PricingPage() {
               </div>
               <button
                 onClick={() => handleCheckout(subscription.stripe_id)}
-                className="mt-6 bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring focus:ring-blue-300"
+                className="btn-2 mt-4"
                 disabled={loading}
               >
                 {loading ? "Processing..." : "Subscribe"}
