@@ -1,34 +1,28 @@
 'use client'
-
-import { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClient } from '../../../utils/supabase/client'
+import GridSizeSelector from './GridSizeSelector'
+import Grid from './Grid'
+import ColorPalette from './ColorPalette'
+import ArtForm from './ArtForm'
 
 const supabase = createClient()
 
-export default function CreateArtPage() {
+const CreateArtPage: React.FC = (): React.ReactElement => {
   const [gridSize, setGridSize] = useState<number | null>(null)
-  const [cubeSize, setCubeSize] = useState(50)
-  const [rightCubeSize] = useState(40) 
-  const [isGridVisible, setIsGridVisible] = useState(false)
+  const [cubeSize, setCubeSize] = useState<number>(50)
+  const [isGridVisible, setIsGridVisible] = useState<boolean>(false)
   const [cubes, setCubes] = useState<string[][]>([])
   const [rightCubes, setRightCubes] = useState<string[]>([
-    '#FF0000', // red 
-    '#00FF00', // green
-    '#0000FF', // blue
-    '#FFFF00', // yellow
-    '#FFFFFF', // #white
-    '#000000', // #black
+    '#FF0000', '#00FF00', '#0000FF', '#FFFF00', '#FFFFFF', '#000000'
   ])
-  
   const [selectedColor, setSelectedColor] = useState<string>('#FFFFFF')
-  const [isDragging, setIsDragging] = useState(false)
-  const [artName, setArtName] = useState('')
-  const [price, setPrice] = useState('')
+  const [isDragging, setIsDragging] = useState<boolean>(false)
+  const [artName, setArtName] = useState<string>('')
+  const [price, setPrice] = useState<string>('')
   const [creator, setCreator] = useState<string | null>(null)
-  const [isSubmitting, setIsSubmitting] = useState(false)
-
-  const gridRef = useRef<HTMLDivElement>(null)
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false)
   const router = useRouter()
 
   useEffect(() => {
@@ -38,9 +32,8 @@ export default function CreateArtPage() {
         const { data, error } = await supabase
           .from('profiles')
           .select('*')
-          .eq('user_id', user.id) 
+          .eq('user_id', user.id)
           .single()
-
         if (data) {
           setCreator(data.nickname)
         } else {
@@ -50,46 +43,45 @@ export default function CreateArtPage() {
         console.error('Error fetching user:', authError)
       }
     }
-
     fetchCreator()
   }, [])
 
-  const handleGridSizeChange = (size: number) => {
+  const handleGridSizeChange = (size: number): void => {
     setGridSize(size)
     generateGrid(size)
     setIsGridVisible(true)
   }
 
-  const generateGrid = (size: number) => {
+  const generateGrid = (size: number): void => {
     const grid = Array(size)
       .fill(null)
-      .map(() => Array(size).fill('#FFFFFF')) 
+      .map(() => Array(size).fill('#FFFFFF'))
     setCubes(grid)
   }
 
-  const handleCubeSizeChange = (change: number) => {
+  const handleCubeSizeChange = (change: number): void => {
     setCubeSize((prevSize) => Math.max(prevSize + change, 10))
   }
 
-  const handleColorChange = (color: string) => {
+  const handleColorChange = (color: string): void => {
     setSelectedColor(color)
   }
 
-  const handleLeftCubeClick = (rowIndex: number, colIndex: number) => {
+  const handleLeftCubeClick = (rowIndex: number, colIndex: number): void => {
     const newCubes = [...cubes]
     newCubes[rowIndex][colIndex] = selectedColor
     setCubes(newCubes)
   }
 
-  const handleMouseDown = () => {
+  const handleMouseDown = (): void => {
     setIsDragging(true)
   }
 
-  const handleMouseUp = () => {
+  const handleMouseUp = (): void => {
     setIsDragging(false)
   }
 
-  const handleMouseEnter = (rowIndex: number, colIndex: number) => {
+  const handleMouseEnter = (rowIndex: number, colIndex: number): void => {
     if (isDragging) {
       const newCubes = [...cubes]
       newCubes[rowIndex][colIndex] = selectedColor
@@ -97,15 +89,15 @@ export default function CreateArtPage() {
     }
   }
 
-  const handleArtNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleArtNameChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
     setArtName(event.target.value)
   }
 
-  const handlePriceChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handlePriceChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
     setPrice(event.target.value)
   }
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (): Promise<void> => {
     if (!artName || !price) {
       alert('Art Name and Price cannot be empty')
       return
@@ -113,7 +105,6 @@ export default function CreateArtPage() {
 
     if (creator) {
       setIsSubmitting(true)
-
       try {
         const { data, error } = await supabase
           .from('arts')
@@ -123,12 +114,11 @@ export default function CreateArtPage() {
             art: cubes,
             art_name: artName,
           }])
-
         if (error) {
           console.error('Error inserting art:', error)
         } else {
           console.log('Art inserted:', data)
-          router.push('/') 
+          router.push('/')
         }
       } catch (err) {
         console.error('Error during submission:', err)
@@ -138,122 +128,36 @@ export default function CreateArtPage() {
     }
   }
 
-  const containerStyle = {
-    display: 'grid',
-    gridTemplateColumns: `repeat(${gridSize}, ${cubeSize}px)`,
-    gridTemplateRows: `repeat(${gridSize}, ${cubeSize}px)`,
-    gap: '0px',
-    height: '500px',
-    width: '500px',
-    overflow: 'auto',
-    marginRight: '20px',
-    cursor: 'pointer',
-  }
-
   return (
     <div className="flex items-center justify-center">
       <div className="flex flex-col items-center">
-        <h1 className="text-2xl mb-4 h2-1">Create Art</h1>
+        <h1 className="text-2xl mb-4">Create Art</h1>
 
-        {!isGridVisible && (
-        <div className="mb-4 flex flex-col items-center">
-          <p className="text-lg font-medium mb-4 p-1">Choose size:</p>
-          <div className="flex gap-4">
-            <button
-              onClick={() => handleGridSizeChange(5)}
-              className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none transition-all duration-300"
-            >
-              5x5
-            </button>
-            <button
-              onClick={() => handleGridSizeChange(10)}
-              className="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 focus:outline-none transition-all duration-300"
-            >
-              10x10
-            </button>
-            <button
-              onClick={() => handleGridSizeChange(20)}
-              className="px-4 py-2 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600 focus:outline-none transition-all duration-300"
-            >
-              20x20
-            </button>
-          </div>
-        </div>
-      )}
-
+        {!isGridVisible && <GridSizeSelector onSelectSize={handleGridSizeChange} />}
 
         {isGridVisible && (
           <>
-            <div className="mb-4">
-              <input
-                type="text"
-                placeholder="Art Name"
-                value={artName}
-                onChange={handleArtNameChange}
-                className="mb-2 p-2 border"
-              />
-              <input
-                type="number"
-                placeholder="Price ($)"
-                value={price}
-                onChange={handlePriceChange}
-                className="mb-2 p-2 border"
-              />
-            </div>
-
-            <div className="flex mb-4">
-              <button
-                onClick={handleSubmit}
-                className="btn-2"
-                disabled={isSubmitting}
-              >
-                {isSubmitting ? 'Submitting...' : 'Submit'}
-              </button>
-            </div>
+            <ArtForm
+              artName={artName}
+              price={price}
+              isSubmitting={isSubmitting}
+              onArtNameChange={handleArtNameChange}
+              onPriceChange={handlePriceChange}
+              onSubmit={handleSubmit}
+            />
 
             <div className="flex">
-              <div
-                className="bg-gray-500"
-                style={containerStyle}
-                ref={gridRef}
+              <Grid
+                gridSize={gridSize!}
+                cubeSize={cubeSize}
+                cubes={cubes}
+                selectedColor={selectedColor}
+                onCubeClick={handleLeftCubeClick}
+                onMouseEnter={handleMouseEnter}
                 onMouseDown={handleMouseDown}
                 onMouseUp={handleMouseUp}
-              >
-                {cubes.map((row, rowIndex) =>
-                  row.map((color, colIndex) => (
-                    <div
-                      key={`${rowIndex}-${colIndex}`}
-                      style={{
-                        width: `${cubeSize}px`,
-                        height: `${cubeSize}px`,
-                        backgroundColor: color,
-                      }}
-                      onClick={() => handleLeftCubeClick(rowIndex, colIndex)}
-                      onMouseEnter={() => handleMouseEnter(rowIndex, colIndex)}
-                    ></div>
-                  ))
-                )}
-              </div>
-
-              <div className="ml-8 flex flex-col items-center">
-                <h2 className="text-xl mb-4 p-1">Color Pallete</h2>
-                <div className="flex flex-col items-center">
-                  {rightCubes.map((color, index) => (
-                    <div
-                      key={index}
-                      style={{
-                        width: `${rightCubeSize}px`,
-                        height: `${rightCubeSize}px`,
-                        backgroundColor: color,
-                        border: '1px solid #c0392b',
-                        marginBottom: '10px',
-                        cursor: 'pointer',
-                      }}
-                      onClick={() => handleColorChange(color)}
-                    ></div>
-                  ))}
-                </div>
-              </div>
+              />
+              <ColorPalette colors={rightCubes} onColorChange={handleColorChange} />
             </div>
 
             <div className="mt-4">
@@ -276,3 +180,5 @@ export default function CreateArtPage() {
     </div>
   )
 }
+
+export default CreateArtPage
