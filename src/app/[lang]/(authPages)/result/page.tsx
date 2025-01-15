@@ -1,5 +1,6 @@
 import type { Stripe } from "stripe";
 import { stripe } from "../../../lib/stripe";
+import { createClient } from "../../../utils/supabase/server";
 
 export default async function ResultPage({
   searchParams,
@@ -23,6 +24,13 @@ export default async function ResultPage({
   }
 
   try {
+    const supabase = await createClient();
+    const { data: { user }, error: authError } = await supabase.auth.getUser();
+
+    if (authError) {
+      console.error("Error retrieving user from Supabase:", authError);
+    } 
+
     const checkoutSession: Stripe.Checkout.Session =
       await stripe.checkout.sessions.retrieve(sessionId, {
         expand: ["line_items"],
@@ -31,11 +39,32 @@ export default async function ResultPage({
     const amountTotal = (checkoutSession.amount_total ?? 0) / 100;
     const currency = checkoutSession.currency?.toUpperCase() ?? "USD";
 
+    if (checkoutSession.line_items) {
+      checkoutSession.line_items.data.forEach(async (item) => {
+
+        if (item.price?.product) {
+
+          const productType = item.price?.recurring ? "Subscription" : "Product";
+
+          const { data, error } = await supabase
+            .from("Transactions")
+            .insert([
+              {
+                user_id: user?.id,
+                product_id: item.price.product,
+                product_type: productType,
+                stripe_session_id: checkoutSession.id,
+                price: amountTotal,
+              },
+            ]);
+
+        }
+      });
+    }
+
     return (
       <div className="container mx-auto px-4 py-6">
-        <h2 className="h2-1">
-          Thank you for your purchase!
-        </h2>
+        <h2 className="h2-1">Thank you for your purchase!</h2>
         <p className="p-1 mt-4">
           Your payment was successful. Below are the details of your
           transaction.
