@@ -45,8 +45,8 @@ export async function createCheckoutSession(
           price: price.id, 
         },
       ],
-      success_url: `${origin}/${lang}/pricing/result?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${origin}/${lang}/pricing`,
+      success_url: `${origin}/${lang}/result?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${origin}/${lang}/`,
     });
 
     console.log("Checkout session created:", checkoutSession);
