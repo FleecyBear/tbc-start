@@ -3,7 +3,6 @@ import { login, signup } from './actions';
 import { useState } from 'react';
 import { FcHighPriority } from "react-icons/fc";
 import { createClient } from '../../../utils/supabase/client';
-
 export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -43,25 +42,18 @@ export default function LoginPage() {
     await signup(formData);
   };
 
-  const handleGitHubLogin = async () => {
-    const supabase = createClient(); 
-    const { data, error } = await supabase.auth.signInWithOAuth({
+   const handleGitHubLogin = async () => {
+    const supabase = createClient();
+    await supabase.auth.signInWithOAuth({
       provider: 'github',
+      options: {
+        redirectTo: `${window.location.origin}/auth/callback`, 
+        queryParams: {
+          access_type: 'offline', 
+          prompt: 'consent',      
+        },
+      },
     });
-  
-    if (error) {
-      console.error('GitHub login error:', error.message);
-      return;
-    }
-  
-    const { data: sessionData } = await supabase.auth.getSession();
-  
-    if (sessionData?.session?.user) {
-      console.log('Logged in user:', sessionData.session.user);
-      window.location.href = '/dashboard'; 
-    } else {
-      console.log('User is not authenticated');
-    }
   };
   
   
