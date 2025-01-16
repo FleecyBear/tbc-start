@@ -10,16 +10,19 @@ export async function updateSession(request: NextRequest) {
     {
       cookies: {
         getAll() {
-          return request.cookies.getAll()
+          return request.cookies.getAll();
         },
         setAll(cookiesToSet) {
-          cookiesToSet.forEach(({ name, value, options }) => request.cookies.set(name, value))
-          supabaseResponse = NextResponse.next({
-            request,
-          })
-          cookiesToSet.forEach(({ name, value, options }) =>
-            supabaseResponse.cookies.set(name, value, options)
-          )
+          cookiesToSet.forEach(({ name, value }) => {
+            // Set cookies on the request object
+            request.cookies.set(name, value);
+
+            // Update the supabase response
+            supabaseResponse = NextResponse.next({ request });
+
+            // Set cookies on the response object
+            supabaseResponse.cookies.set(name, value);
+          });
         },
       },
     }
@@ -31,13 +34,13 @@ export async function updateSession(request: NextRequest) {
 
   if (!user && !request.nextUrl.pathname.includes('/login')) {
     const url = request.nextUrl.clone();
-    url.pathname = '/login'; 
+    url.pathname = '/login';
     return NextResponse.redirect(url);
   }
 
   if (user && request.nextUrl.pathname.includes('/login')) {
     const url = request.nextUrl.clone();
-    url.pathname = '/home'; 
+    url.pathname = '/home';
     return NextResponse.redirect(url);
   }
 
