@@ -42,12 +42,16 @@ export default function LoginPage() {
     await signup(formData);
   };
 
-   const handleGitHubLogin = async () => {
+  const handleGitHubLogin = async () => {
     const supabase = createClient();
+    const redirectUrl = process.env.NODE_ENV === 'development'
+      ? `${window.location.origin}/auth/callback`  
+      : `${window.location.origin}/auth/callback`;  
+    
     await supabase.auth.signInWithOAuth({
       provider: 'github',
       options: {
-        redirectTo: `${window.location.origin}/auth/callback`, 
+        redirectTo: redirectUrl, 
         queryParams: {
           access_type: 'offline', 
           prompt: 'consent',      
