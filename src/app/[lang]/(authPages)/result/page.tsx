@@ -2,12 +2,17 @@ import type { Stripe } from "stripe";
 import { stripe } from "../../../lib/stripe";
 import { createClient } from "../../../utils/supabase/server";
 
+interface ResultPageProps {
+  searchParams: Promise<{
+    session_id?: string;
+  }>;
+}
+
 export default async function ResultPage({
   searchParams,
-}: {
-  searchParams: { session_id?: string };
-}): Promise<JSX.Element> {
-  const sessionId = searchParams.session_id;
+}: ResultPageProps): Promise<JSX.Element> {
+  const params = await searchParams;
+  const sessionId = params.session_id;
 
   if (!sessionId) {
     return (
@@ -61,7 +66,7 @@ export default async function ResultPage({
                 subscription: item.description,
                 stripe_subscription_id: checkoutSession.subscription,
               })
-              .eq("user_id", user?.id); 
+              .eq("user_id", user?.id);
             if (profileError) {
               console.error("Error updating subscription in profiles:", profileError);
             }
