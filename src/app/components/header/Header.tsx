@@ -22,12 +22,6 @@ export default function Header() {
         <Link href={`/${currentLang}/home`}>
           <button className="btn-custom">{translations.home}</button>
         </Link>
-        <Link href={`/${currentLang}/productsPage`}>
-          <button className="btn-custom">{translations.products}</button>
-        </Link>
-        <Link href={`/${currentLang}/BlogsPage`}>
-          <button className="btn-custom">{translations.blogs}</button>
-        </Link>
         <Link href={`/${currentLang}/arts`}>
           <button className="btn-custom">{translations.arts}</button>
         </Link>

@@ -2,6 +2,8 @@
 import { login, signup } from './actions';
 import { useState } from 'react';
 import { FcHighPriority } from "react-icons/fc";
+import { createClient } from '../../../utils/supabase/client';
+
 export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -40,6 +42,29 @@ export default function LoginPage() {
     formData.append('password', password);
     await signup(formData);
   };
+
+  const handleGitHubLogin = async () => {
+    const supabase = createClient(); 
+    const { data, error } = await supabase.auth.signInWithOAuth({
+      provider: 'github',
+    });
+  
+    if (error) {
+      console.error('GitHub login error:', error.message);
+      return;
+    }
+  
+    const { data: sessionData } = await supabase.auth.getSession();
+  
+    if (sessionData?.session?.user) {
+      console.log('Logged in user:', sessionData.session.user);
+      window.location.href = '/dashboard'; 
+    } else {
+      console.log('User is not authenticated');
+    }
+  };
+  
+  
 
   return (
     <div className="flex justify-center items-center h-screen bg-gradient-to-r from-indigo-500 to-blue-500">
@@ -125,6 +150,15 @@ export default function LoginPage() {
             >
               {isSignup ? 'Sign Up' : 'Log In'}
             </button>
+
+            <button 
+              type="button"
+              onClick={handleGitHubLogin}
+              className="w-full py-2 px-4 bg-gray-600 text-white font-semibold rounded-lg hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500"
+            >
+              Log In with GitHub
+            </button>
+
             <button 
               type="button"
               onClick={() => setIsSignup(!isSignup)} 

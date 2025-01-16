@@ -1,13 +1,14 @@
-'use client'
-import { useEffect, useState } from 'react';
-import { createClient } from '../../../utils/supabase/client'
-
+'use client';
+import { useState, useEffect } from 'react';
+import { createClient } from '../../../utils/supabase/client';
+import { createCheckoutSession } from '../../../actions/stripe';
 interface Art {
   timestampz: string;
   art_name: string;
   creator: string;
   price: number;
-  art: string[][]; 
+  art: string[][];
+  stripe_id: string | null; 
 }
 
 const ArtsPage = () => {
@@ -43,10 +44,30 @@ const ArtsPage = () => {
     );
   };
 
+  const handleBuyClick = async (stripeId: string | null) => {
+    if (!stripeId) {
+      console.log('No Stripe ID found for this art.');
+      return; 
+    }
+
+    try {
+      const { url } = await createCheckoutSession(stripeId, 1);
+
+      if (url) {
+    
+        window.location.href = url;
+      } else {
+        console.error('Failed to create checkout session');
+      }
+    } catch (error) {
+      console.error('Error during checkout session creation:', error);
+    }
+  };
+
   return (
     <div className="section-1">
-      <h1 className=" h2-1 ">Arts Page</h1>
-      <div className="space-y-8"> 
+      <h1 className="h2-1">Arts Page</h1>
+      <div className="space-y-8">
         {arts.map((art, index) => (
           <div
             key={index}
@@ -59,7 +80,10 @@ const ArtsPage = () => {
               <div className="border-2 border-gray-700 mb-4 inline-block dark:border-gray-400">
                 {renderArtGrid(art.art)}
               </div>
-              <button className="w-96 btn-2">
+              <button
+                className="w-96 btn-2"
+                onClick={() => handleBuyClick(art.stripe_id)} 
+              >
                 Buy
               </button>
             </div>
