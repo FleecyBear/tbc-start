@@ -45,9 +45,9 @@ export default function LoginPage() {
   const handleGitHubLogin = async () => {
     const supabase = createClient();
     const redirectUrl = process.env.NODE_ENV === 'development'
-      ? `${window.location.origin}/auth/callback`  
-      : `${window.location.origin}/auth/callback`;  
-    
+          ? 'http://localhost:3000/auth/callback'  
+          : 'https://tbc-start.vercel.app/auth/callback';
+          
     await supabase.auth.signInWithOAuth({
       provider: 'github',
       options: {
