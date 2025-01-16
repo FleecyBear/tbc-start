@@ -44,21 +44,18 @@ export default function LoginPage() {
 
   const handleGitHubLogin = async () => {
     const supabase = createClient();
-    const redirectUrl = process.env.NODE_ENV === 'development'
-          ? 'http://localhost:3000/auth/callback'  
-          : 'https://tbc-start.vercel.app/auth/callback';
-          
     await supabase.auth.signInWithOAuth({
       provider: 'github',
       options: {
-        redirectTo: redirectUrl, 
+        redirectTo: process.env.NEXT_PUBLIC_REDIRECT_URL,
         queryParams: {
           access_type: 'offline', 
-          prompt: 'consent',      
+          prompt: 'consent',
         },
       },
     });
   };
+  
   
   
 
