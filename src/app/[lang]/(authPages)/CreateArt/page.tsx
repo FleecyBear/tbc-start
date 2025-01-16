@@ -1,4 +1,5 @@
 'use client'
+
 import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClient } from '../../../utils/supabase/client'
@@ -7,6 +8,7 @@ import GridSizeSelector from './GridSizeSelector'
 import Grid from './Grid'
 import ColorPalette from './ColorPalette'
 import ArtForm from './ArtForm'
+import { checkSubscriptionStatus } from '../../../utils/subscription'
 
 const supabase = createClient()
 
@@ -17,7 +19,12 @@ const CreateArtPage: React.FC = (): React.ReactElement => {
   const [isGridVisible, setIsGridVisible] = useState<boolean>(false)
   const [cubes, setCubes] = useState<string[][]>([])
   const [rightCubes, setRightCubes] = useState<string[]>([
-    '#FF0000', '#00FF00', '#0000FF', '#FFFF00', '#FFFFFF', '#000000'
+    '#FF0000', // Red
+    '#00FF00', // Lime
+    '#0000FF', // Blue
+    '#FFFF00', // Yellow
+    '#FFFFFF', // White
+    '#000000', // Black
   ])
   const [selectedColor, setSelectedColor] = useState<string>('#FFFFFF')
   const [isDragging, setIsDragging] = useState<boolean>(false)
@@ -25,6 +32,8 @@ const CreateArtPage: React.FC = (): React.ReactElement => {
   const [price, setPrice] = useState<string>('')
   const [creator, setCreator] = useState<string | null>(null)
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false)
+  const [stripeSubscriptionId, setStripeSubscriptionId] = useState<string | null>(null)
+  const [subscription, setSubscription] = useState<string>('none') 
   const router = useRouter()
 
   useEffect(() => {
@@ -38,6 +47,8 @@ const CreateArtPage: React.FC = (): React.ReactElement => {
           .single()
         if (data) {
           setCreator(data.nickname)
+          setStripeSubscriptionId(data.stripe_subscription_id || null)
+          setSubscription(data.subscription || 'none') 
         } else {
           console.error('Error fetching profile:', error)
         }
@@ -45,8 +56,47 @@ const CreateArtPage: React.FC = (): React.ReactElement => {
         console.error('Error fetching user:', authError)
       }
     }
+
     fetchCreator()
   }, [])
+
+useEffect(() => {
+  const loadExtraColors = async () => {
+    if (stripeSubscriptionId) {
+      const subscriptionStatus = await checkSubscriptionStatus(stripeSubscriptionId);
+
+      if (subscriptionStatus.active) {
+        if (subscription === 'Basic Plan') {
+          setRightCubes((prevColors) => [
+            ...prevColors,
+            '#FF6347', // Tomato
+            '#FFD700', // Gold
+            '#8A2BE2', // BlueViolet
+            '#A52A2A', // Brown
+            '#D2691E', // Chocolate
+          ]); 
+        } else if (subscription === 'Premium Plan') {
+          setRightCubes((prevColors) => [
+            ...prevColors,
+            '#FF6347', // Tomato
+            '#FFD700', // Gold
+            '#8A2BE2', // BlueViolet
+            '#A52A2A', // Brown
+            '#D2691E', // Chocolate
+            '#00FFFF', // Aqua
+            '#8B0000', // DarkRed
+            '#FF1493', // DeepPink
+            '#800080', // Purple
+            '#008080' // Teal
+          ]); 
+        }
+      }
+    }
+  };
+
+  loadExtraColors();
+}, [stripeSubscriptionId, subscription]); 
+
 
   const handleGridSizeChange = (size: number): void => {
     setGridSize(size)
